@@ -114,21 +114,7 @@ export function MultiStepForm() {
       const emailResponseData = await emailResponse.json();
       console.log("Email API response:", emailResponseData);
   
-      // Then save form data
-      const formResponse = await fetch('/api/form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-  
-      const responseData = await formResponse.json();
-      console.log("Form API response:", responseData);
-  
-      if (!formResponse.ok) {
-        throw new Error(responseData.message || 'Failed to save form data');
-      }
-  
-      toast.success('Application data saved successfully!', { id: submitToast });
+
   
       // Finally create checkout session
       const checkoutToast = toast.loading('Creating checkout session...');
