@@ -14,7 +14,7 @@ export default function CancelPage() {
           </div>
           
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Payment Cancelled</h1>
-          <p className="text-lg text-gray-600 mb-6 foont-arial">
+          <p className="text-lg text-gray-600 mb-6 font-arial">
             Your payment was cancelled. Don't worry, your application information has been saved and you can complete the payment process at any time.
           </p>
           
@@ -22,7 +22,7 @@ export default function CancelPage() {
             <h2 className="text-xl font-semibold text-gray-900">What you can do:</h2>
             <div className="text-left space-y-3 text-gray-600">
               <div className="flex items-start">
-                <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">1</span>
+                <span className="w-6 h-6 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">1</span>
                 <span>Return to the application form to review your information</span>
               </div>
               <div className="flex items-start">
@@ -30,7 +30,7 @@ export default function CancelPage() {
                 <span>Complete the payment process when you're ready</span>
               </div>
               <div className="flex items-start">
-                <span className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">3</span>
+                <span className="w-6 h-6 bg-blue-100 text-red-600 rounded-full flex items-center justify-center text-sm font-medium mr-3 mt-0.5">3</span>
                 <span>Contact us if you need assistance</span>
               </div>
             </div>
@@ -43,7 +43,7 @@ export default function CancelPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/"
-                className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                className="inline-block bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
               >
                 Return to Application
               </Link>

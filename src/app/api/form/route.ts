@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     console.log(body);
     const form = await Form.create(body);
     return NextResponse.json(form, { status: 201 });
-  } catch (err) {
+  } catch (err: any) {
     return NextResponse.json({ error: "Error saving form" }, { status: 500 });
   }
 }
@@ -21,7 +21,7 @@ export async function GET() {
     await dbConnect();
     const forms = await Form.find({});
     return NextResponse.json(forms, { status: 200 });
-  } catch (err) {
+  } catch (err: any) {
     return NextResponse.json({ error: "Error fetching forms" }, { status: 500 });
   }
 }
@@ -35,7 +35,7 @@ export async function PATCH(req: Request) {
 
     const updated = await Form.findByIdAndUpdate(id, updateData, { new: true });
     return NextResponse.json(updated, { status: 200 });
-  } catch (err) {
+  } catch (err: any) {
     return NextResponse.json({ error: "Error updating form" }, { status: 500 });
   }
 }
