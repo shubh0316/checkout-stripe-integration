@@ -75,9 +75,7 @@ export function MultiStepForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError('');
-    
-    const submitToast = toast.loading('Submitting your application...');
-    
+        
     try {
       console.log("Data being sent to API:", formData);
       
