@@ -1,7 +1,7 @@
 //@ts-nocheck
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URL || "mongodb+srv://shubhankersaxena5_db_user:BlSyNoVODv5o0NfN@checkout.xipptam.mongodb.net/";
+const MONGODB_URI = "mongodb+srv://shubhankersaxena5_db_user:BlSyNoVODv5o0NfN@checkout.xipptam.mongodb.net/";
 
 let hasLoggedConnected = false;
 
