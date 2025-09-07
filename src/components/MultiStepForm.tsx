@@ -152,7 +152,6 @@ export function MultiStepForm() {
       console.error('Error:', error);
       const errorMessage = error instanceof Error ? error.message : 'An error occurred. Please try again.';
       
-      toast.error(errorMessage, { id: submitToast });
       setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
