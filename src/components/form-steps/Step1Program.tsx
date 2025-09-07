@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { useState, useEffect } from "react";
 import { FormData } from '@/types/form';
-import { Check, Crown, Star, Calendar, MapPin, Zap, AlertCircle, Users, Moon } from "lucide-react";
+import { Check, Crown, Star, Calendar, MapPin, Zap, AlertCircle, Users, Moon, ChevronRight, ChevronLeft, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -18,10 +18,13 @@ interface Step1ProgramProps {
 
 const countries = ['Morocco'];
 
-const moduleOptions = [
-  { id: "module1", name: "Module 1", description: "Cultural & Adventure activities" },
-  { id: "module2", name: "Module 2", description: "Culinary & Historical experiences" },
-  { id: "module3", name: "Module 3", description: "Complete program with all modules" }
+const allModules = [
+  { id: "module1", name: "Module 1", title: "Sport, Ernährung und Gesundheit", description: "Focus on physical health and wellness" },
+  { id: "module2", name: "Module 2", title: "Mentale Gesundheit und Stärke", description: "Develop mental resilience and strength" },
+  { id: "module3", name: "Module 3", title: "Wie baue ich ein Unternehmen auf?", description: "Entrepreneurship fundamentals" },
+  { id: "module4", name: "Module 4", title: "Steuern, Finanzen und Recht", description: "Financial and legal knowledge" },
+  { id: "module5", name: "Module 5", title: "Teamwork & Soziales Projekt", description: "Collaboration and social impact" },
+  { id: "module6", name: "Module 6", title: "Coaching: Was ist dein way of living?", description: "Personal development coaching" }
 ];
 
 const pricingPlans = [
@@ -30,66 +33,67 @@ const pricingPlans = [
     price: 2800,
     features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation'],
     popular: false,
-    includedModule: "module1", // Default for 15-day
   },
   {
     duration: 30,
     price: 4200,
     features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation', 'Extended Support', 'Certificate'],
     popular: true,
-    includedModule: "module3", // Fixed for 30-day
   },
 ];
 
 export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramProps) {
   const [selectionError, setSelectionError] = useState("");
+  const [selectedModuleGroup, setSelectedModuleGroup] = useState<"first" | "second">("first");
   const selectedPlan = pricingPlans.find(plan => plan.duration === formData.duration);
   
   useEffect(() => {
     console.log("Current formData:", formData);
-    console.log("Module value:", formData.module);
   }, [formData]);
   
   // Handle duration changes
   const handleDurationChange = (duration: number) => {
-    const plan = pricingPlans.find(p => p.duration === duration);
-    if (plan) {
-      if (duration === 30) {
-        // For 30-day plan, automatically set to module 3
-        updateFormData({ 
-          duration,
-          module: plan.includedModule
-        });
-        setSelectionError("");
-      } else {
-        // For 15-day plan, set to default module but allow change
-        updateFormData({ 
-          duration,
-          module: plan.includedModule
-        });
-        setSelectionError("");
-      }
+    if (duration === 30) {
+      // For 30-day plan, include all modules
+      updateFormData({ 
+        duration,
+        modules: allModules.map(m => m.id)
+      });
+    } else {
+      // For 15-day plan, set default to first 3 modules
+      updateFormData({ 
+        duration,
+        modules: allModules.slice(0, 3).map(m => m.id)
+      });
     }
+    setSelectionError("");
   };
 
-  // Handle module selection change
-  const handleModuleChange = (moduleId: string) => {
-    if (formData.duration === 30) {
-      toast.info('Module 3 is automatically included with the 30-day program');
-      return; // Can't change modules for 30-day plan
-    }
+  // Handle module group selection for 15-day program
+  const handleModuleGroupSelection = (group: "first" | "second") => {
+    if (formData.duration !== 15) return;
     
-    updateFormData({ module: moduleId });
-    setSelectionError("");
-    toast.success(`Module ${moduleId.replace('module', '')} selected`);
+    if (group === "first") {
+      // Select all modules from first group (1-3)
+      updateFormData({ 
+        modules: allModules.slice(0, 3).map(m => m.id)
+      });
+      setSelectedModuleGroup("first");
+    } else {
+      // Select all modules from second group (4-6)
+      updateFormData({ 
+        modules: allModules.slice(3, 6).map(m => m.id)
+      });
+      setSelectedModuleGroup("second");
+    }
   };
 
   const canProceed = formData.duration > 0 && formData.country && 
                     (formData.duration === 30 || 
-                    (formData.duration === 15 && formData.module));
+                    (formData.duration === 15 && formData.modules && formData.modules.length === 3));
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-8 max-w-5xl mx-auto p-4">
       <div className="text-center">
         <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
           <Crown className="w-8 h-8" /> Choose Your Program
@@ -190,8 +194,8 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                 </CardTitle>
                 <CardDescription className="text-red-700 text-lg">
                   {plan.duration === 30 
-                    ? "Module 3: Complete Experience" 
-                    : `Module: ${plan.includedModule === "module1" ? "Cultural & Adventure" : "Culinary & History"}`}
+                    ? "Complete program with all 6 modules" 
+                    : "Custom program with 3 modules of your choice"}
                 </CardDescription>
               </CardHeader>
               <CardContent className="pb-4">
@@ -214,10 +218,10 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         <Card className="border-red-200 bg-red-50">
           <CardHeader>
             <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
-              <Zap className="w-6 h-6" /> Program Module
+              <Zap className="w-6 h-6" /> Program Modules
             </CardTitle>
             <CardDescription className="text-red-700 text-lg">
-              Select your preferred module for the 15-day program
+              Select a module group for your 15-day program
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -228,27 +232,74 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
               </Alert>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="module" className="text-red-800 text-lg">Select Module *</Label>
-              <Select
-                value={formData.module}
-                onValueChange={(value) => handleModuleChange(value)}
-              >
-                <SelectTrigger id="module" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                  <SelectValue placeholder="Select a module" className="font-faculty" />
-                </SelectTrigger>
-                <SelectContent className="text-lg">
-                  {moduleOptions
-                    .filter(module => module.id !== "module3") // Exclude module 3 for 15-day plans
-                    .map((module) => (
-                    <SelectItem key={module.id} value={module.id} className="focus:bg-red-50 text-lg font-faculty">
-                      <div className="flex flex-col">
-                        <span className="font-medium">{module.name}{" "}{module.description}</span>                        
+            <div className="flex justify-center mb-6">
+              <div className="flex bg-red-100 rounded-lg p-1">
+                <Button
+                  variant={selectedModuleGroup === "first" ? "default" : "ghost"}
+                  className={`px-4 ${selectedModuleGroup === "first" ? "bg-white hover:bg-white shadow text-red-800" : "text-red-600"}`}
+                  onClick={() => handleModuleGroupSelection("first")}
+                >
+                  Modules 1-3
+                </Button>
+                <Button
+                  variant={selectedModuleGroup === "second" ? "default" : "ghost"}
+                  className={`px-4 ${selectedModuleGroup === "second" ? "bg-white hover:bg-white shadow text-red-800" : "text-red-600"}`}
+                  onClick={() => handleModuleGroupSelection("second")}
+                >
+                  Modules 4-6
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {allModules
+                .filter(module => {
+                  const moduleIndex = allModules.findIndex(m => m.id === module.id);
+                  return selectedModuleGroup === "first" ? moduleIndex < 3 : moduleIndex >= 3;
+                })
+                .map((module) => {
+                  const isSelected = formData.modules && formData.modules.includes(module.id);
+                  return (
+                    <div
+                      key={module.id}
+                      className={`border-2 rounded-lg p-4 transition-all ${
+                        isSelected
+                          ? 'border-red-600 bg-red-100 shadow-md cursor-default'
+                          : 'border-red-200 bg-white cursor-default opacity-80'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <Badge 
+                          className={
+                            isSelected 
+                              ? "bg-red-600 text-white" 
+                              : "bg-red-100 text-red-800"
+                          }
+                        >
+                          {module.name}
+                        </Badge>
+                        {isSelected ? (
+                          <Check className="w-5 h-5 text-red-600" />
+                        ) : (
+                          <Lock className="w-4 h-4 text-red-400" />
+                        )}
                       </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                      <h3 className="font-semibold text-red-900 mb-1 text-lg">{module.title}</h3>
+                      <p className="text-red-700">{module.description}</p>
+                      {isSelected && (
+                        <div className="mt-3 text-sm text-red-600 flex items-center">
+                          <Check className="w-4 h-4 mr-1" /> Included in selected group
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div className="mt-6 text-center text-red-700 text-lg">
+              {selectedModuleGroup === "first" 
+                ? "Modules 1-3 are selected as a complete group" 
+                : "Modules 4-6 are selected as a complete group"}
             </div>
           </CardContent>
         </Card>
@@ -259,26 +310,29 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         <Card className="border-red-200 bg-red-50">
           <CardHeader>
             <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
-              <Zap className="w-6 h-6" /> Program Module
+              <Zap className="w-6 h-6" /> Program Modules
             </CardTitle>
             <CardDescription className="text-red-700 text-lg">
-              Included module for the 30-day program
+              All 6 modules are included in the 30-day program
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="p-4 rounded-lg border-2 border-red-600 bg-red-100">
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-red-600 border-red-600 flex items-center justify-center mt-0.5">
-                  <Check className="w-3 h-3 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {allModules.map((module) => (
+                <div
+                  key={module.id}
+                  className="border-2 border-red-300 rounded-lg p-4 bg-red-100"
+                >
+                  <Badge className="bg-red-600 text-white mb-2">
+                    {module.name}
+                  </Badge>
+                  <h3 className="font-semibold text-red-900 mb-1 text-lg">{module.title}</h3>
+                  <p className="text-red-700">{module.description}</p>
+                  <div className="flex items-center mt-3 text-red-600">
+                    <Check className="w-5 h-5 mr-1" /> Included
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-red-900 text-lg">{moduleOptions[2].name}</h3>
-                  <p className="text-red-700 mt-1 text-lg">{moduleOptions[2].description}</p>
-                  <p className="text-md text-red-600 mt-2 italic">
-                    This module is automatically included with the 30-day program and cannot be changed.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </CardContent>
         </Card>

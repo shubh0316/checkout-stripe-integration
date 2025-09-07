@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "/api/forms",
+  baseURL: "/api/form",
 });
 
 // CREATE form

@@ -215,7 +215,7 @@ export function MultiStepForm() {
   };
 
   return (
-    <div className="bg-white rounded-xl md:rounded-2xl shadow-lg md:shadow-xl p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
+    <div className="p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
       {/* Mobile step indicator (simplified for mobile) */}
       <div className="md:hidden mb-6">
         <div className="flex items-center justify-between">
