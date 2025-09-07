@@ -128,7 +128,7 @@ export function MultiStepForm() {
         throw new Error(responseData.message || 'Failed to save form data');
       }
   
-      toast.success('Application data saved successfully!', { id: submitToast });
+      toast.success('Application data saved successfully!');
   
       // Finally create checkout session
       const checkoutToast = toast.loading('Creating checkout session...');
