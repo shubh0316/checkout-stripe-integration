@@ -75,7 +75,9 @@ export function MultiStepForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError('');
-        
+    
+    const submitToast = toast.loading('Submitting your application...');
+    
     try {
       console.log("Data being sent to API:", formData);
       
@@ -126,7 +128,7 @@ export function MultiStepForm() {
         throw new Error(responseData.message || 'Failed to save form data');
       }
   
-      toast.success('Application data saved successfully!');
+      toast.success('Application data saved successfully!', { id: submitToast });
   
       // Finally create checkout session
       const checkoutToast = toast.loading('Creating checkout session...');
@@ -152,6 +154,7 @@ export function MultiStepForm() {
       console.error('Error:', error);
       const errorMessage = error instanceof Error ? error.message : 'An error occurred. Please try again.';
       
+      toast.error(errorMessage, { id: submitToast });
       setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -212,7 +215,7 @@ export function MultiStepForm() {
   };
 
   return (
-    <div className="p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
+    <div className="bg-white rounded-xl md:rounded-2xl shadow-lg md:shadow-xl p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
       {/* Mobile step indicator (simplified for mobile) */}
       <div className="md:hidden mb-6">
         <div className="flex items-center justify-between">
