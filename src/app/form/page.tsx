@@ -1,7 +1,7 @@
 // components/TimelifeApplicationForm.jsx
 //@ts-nocheck
 "use client"
-import React, { useState } from "react";
+import React, {useEffect, useState  } from "react";
 import { Crown, User, Mail, Phone, MapPin, Calendar, Shield, Star, Moon, Zap, Users, ArrowRight, ArrowLeft, Check, Lock, AlertCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,10 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const TimelifeApplicationForm = () => {
+
+
+  // Re-protect on state changes
+
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedModuleGroup, setSelectedModuleGroup] = useState("first");
@@ -120,18 +124,50 @@ const TimelifeApplicationForm = () => {
   };
 
   // Program data
-  const countries = ['Morocco'];
-  const salutations = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof.'];
-  const genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+  const countries = ['Marokko']; // German name
+  const salutations = ['Herr', 'Frau', 'Dr.', 'Prof.']; // German salutations
+  const genders = ['Männlich', 'Weiblich', 'Andere', 'Keine Angabe']; // German genders
+  
   
   const allModules = [
-    { id: "module1", name: "Module 1", title: "Sport, Ernährung und Gesundheit", description: "Focus on physical health and wellness" },
-    { id: "module2", name: "Module 2", title: "Mentale Gesundheit und Stärke", description: "Develop mental resilience and strength" },
-    { id: "module3", name: "Module 3", title: "Wie baue ich ein Unternehmen auf?", description: "Entrepreneurship fundamentals" },
-    { id: "module4", name: "Module 4", title: "Steuern, Finanzen und Recht", description: "Financial and legal knowledge" },
-    { id: "module5", name: "Module 5", title: "Teamwork & Soziales Projekt", description: "Collaboration and social impact" },
-    { id: "module6", name: "Module 6", title: "Coaching: Was ist dein way of living?", description: "Personal development coaching" }
+    { 
+      id: "module1", 
+      name: "Modul 1", 
+      title: "Sport, Ernährung und Gesundheit", 
+      description: "Fokus auf körperliche Gesundheit und Wohlbefinden" 
+    },
+    { 
+      id: "module2", 
+      name: "Modul 2", 
+      title: "Mentale Gesundheit und Stärke", 
+      description: "Entwicklung mentaler Widerstandsfähigkeit und Stärke" 
+    },
+    { 
+      id: "module3", 
+      name: "Modul 3", 
+      title: "Wie baue ich ein Unternehmen auf?", 
+      description: "Grundlagen der Unternehmensgründung" 
+    },
+    { 
+      id: "module4", 
+      name: "Modul 4", 
+      title: "Steuern, Finanzen und Recht", 
+      description: "Finanz- und Rechtswissen" 
+    },
+    { 
+      id: "module5", 
+      name: "Modul 5", 
+      title: "Teamwork & Soziales Projekt", 
+      description: "Zusammenarbeit und gesellschaftliche Wirkung" 
+    },
+    { 
+      id: "module6", 
+      name: "Modul 6", 
+      title: "Coaching: Was ist dein way of living?", 
+      description: "Persönlichkeitsentwicklung und Coaching" 
+    }
   ];
+  
 
   const pricingPlans = [
     {
@@ -212,11 +248,13 @@ const TimelifeApplicationForm = () => {
                 <Label htmlFor="country" className="text-red-800 text-lg z-[9999]">Destination Country *</Label>
                 <Select
                   className="z-[9999] font-faculty"
-                  value={formData.country}
+                  value={formData.country || ""}
                   onValueChange={(value) => handleChange("country", value)}
                 >
                   <SelectTrigger id="country" className="border-red-300 font-faculty focus:ring-red-500 bg-white h-12 text-lg">
-                    <SelectValue placeholder="Select a country" />
+                    <SelectValue placeholder="Select a country">
+                      {formData.country || ""}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent position="popper" className="text-lg font-faculty">
                     {countries.map((country) => (
@@ -271,7 +309,7 @@ const TimelifeApplicationForm = () => {
                               <span>{plan.duration - 1} Nights</span>
                             </div>
                           </div>
-                          <span className="text-red-700 font-faculty">${plan.price}</span>
+                          <span className="text-red-700 font-faculty">{plan.price}</span>
                         </CardTitle>
                         <CardDescription className="text-red-700 text-lg">
                           {plan.duration === 30 
@@ -315,20 +353,28 @@ const TimelifeApplicationForm = () => {
 
                     <div className="flex justify-center mb-6">
                       <div className="flex bg-red-100 rounded-lg p-1">
-                        <Button
-                          variant={selectedModuleGroup === "first" ? "default" : "ghost"}
-                          className={`px-4 ${selectedModuleGroup === "first" ? "bg-white hover:bg-white shadow text-red-800" : "text-red-600"}`}
+                        <button
+                          type="button" // This prevents form submission
+                          className={`px-4 py-2 rounded-md transition-all ${
+                            selectedModuleGroup === "first" 
+                              ? "bg-white text-red-800 shadow" 
+                              : "text-red-600 hover:bg-red-200"
+                          }`}
                           onClick={() => handleModuleGroupSelection("first")}
                         >
                           Modules 1-3
-                        </Button>
-                        <Button
-                          variant={selectedModuleGroup === "second" ? "default" : "ghost"}
-                          className={`px-4 ${selectedModuleGroup === "second" ? "bg-white hover:bg-white shadow text-red-800" : "text-red-600"}`}
+                        </button>
+                        <button
+                          type="button" // This prevents form submission
+                          className={`px-4 py-2 rounded-md transition-all ${
+                            selectedModuleGroup === "second" 
+                              ? "bg-white text-red-800 shadow" 
+                              : "text-red-600 hover:bg-red-200"
+                          }`}
                           onClick={() => handleModuleGroupSelection("second")}
                         >
                           Modules 4-6
-                        </Button>
+                        </button>
                       </div>
                     </div>
 
@@ -421,6 +467,139 @@ const TimelifeApplicationForm = () => {
             </CardContent>
           </Card>
 
+          {/* Application Questions Section */}
+          <Card className="border-red-200 bg-red-50">
+            <CardHeader>
+              <CardTitle className="text-red-900 text-2xl">Application Questions</CardTitle>
+              <CardDescription className="text-red-700 text-lg">
+                Please answer the following questions thoughtfully
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Question 1: Expectations */}
+              <div className="space-y-2">
+                <Label htmlFor="expectations" className="text-red-900 text-xl">
+                  1. Expectations *
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Was erhoffst du dir ganz persönlich von den 30 Tagen im Timelife Club?
+                </p>
+                <Textarea
+                  id="expectations"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Share your personal expectations..."
+                  value={formData.expectations}
+                  onChange={(e) => handleChange('expectations', e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Question 2: Current Situation */}
+              <div className="space-y-2">
+                <Label htmlFor="currentSituation" className="text-red-900 text-xl">
+                  2. Aktuelle Situation *
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Wie würdest du deine aktuelle Lebenssituation beschreiben – wo stehst du gerade, was beschäftigt dich?
+                </p>
+                <Textarea
+                  id="currentSituation"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Describe your current life situation..."
+                  value={formData.currentSituation}
+                  onChange={(e) => handleChange('currentSituation', e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Question 3: Motivation */}
+              <div className="space-y-2">
+                <Label htmlFor="motivation" className="text-red-900 text-xl">
+                  3. Motivation *
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Warum möchtest du genau jetzt Teil des Timelife Clubs werden?
+                </p>
+                <Textarea
+                  id="motivation"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Explain your motivation for joining now..."
+                  value={formData.motivation}
+                  onChange={(e) => handleChange('motivation', e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Question 4: Theme Focus */}
+              <div className="space-y-2">
+                <Label htmlFor="themeFocus" className="text-red-900 text-xl">
+                  4. Themenschwerpunkt
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Welches der sechs Module spricht dich am meisten an – und warum?
+                </p>
+                <Textarea
+                  id="themeFocus"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Which module appeals to you most and why?"
+                  value={formData.themeFocus}
+                  onChange={(e) => handleChange('themeFocus', e.target.value)}
+                />
+              </div>
+
+              {/* Question 5: Community & Team */}
+              <div className="space-y-2">
+                <Label htmlFor="communityTeam" className="text-red-900 text-xl">
+                  5. Community & Team
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Was bedeutet für dich Gemeinschaft, und wie bringst du dich normalerweise in eine Gruppe ein?
+                </p>
+                <Textarea
+                  id="communityTeam"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Share your thoughts on community and how you contribute..."
+                  value={formData.communityTeam}
+                  onChange={(e) => handleChange('communityTeam', e.target.value)}
+                />
+              </div>
+
+              {/* Question 6: School & Study Time */}
+              <div className="space-y-2">
+                <Label htmlFor="schoolStudyTime" className="text-red-900 text-xl">
+                  6. Deine Schul- & Studienzeit
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Wie hast du deine Schul- oder Studienzeit erlebt? Was hat dir besonders gefallen – und was hat dir gefehlt?
+                </p>
+                <Textarea
+                  id="schoolStudyTime"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Reflect on your school or study experiences..."
+                  value={formData.schoolStudyTime}
+                  onChange={(e) => handleChange('schoolStudyTime', e.target.value)}
+                />
+              </div>
+
+              {/* Question 7: Openness */}
+              <div className="space-y-2">
+                <Label htmlFor="openness" className="text-red-900 text-xl">
+                  7. Offenheit
+                </Label>
+                <p className="text-red-700 text-lg">
+                  Gibt es einen Bereich in deinem Leben, in dem du dir schon lange Veränderung wünschst – und glaubst du, dass der Timelife Club dir dabei helfen kann?
+                </p>
+                <Textarea
+                  id="openness"
+                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
+                  placeholder="Share areas where you desire change and how the club might help..."
+                  value={formData.openness}
+                  onChange={(e) => handleChange('openness', e.target.value)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Personal Information Section */}
           <Card className="border-red-200 bg-red-50">
             <CardHeader>
@@ -434,7 +613,7 @@ const TimelifeApplicationForm = () => {
                 <div className="space-y-2">
                   <Label htmlFor="salutation" className="text-red-800 text-lg">Salutation *</Label>
                   <Select
-                    value={formData.salutation}
+                    value={formData.salutation || ""}
                     onValueChange={(value) => handleChange('salutation', value)}
                   >
                     <SelectTrigger id="salutation" className="border-red-300 font-faculty focus:ring-red-500 bg-white h-12 text-lg">
@@ -455,7 +634,7 @@ const TimelifeApplicationForm = () => {
                 <div className="space-y-2">
                   <Label htmlFor="gender" className="text-red-800 text-lg">Gender *</Label>
                   <Select
-                    value={formData.gender}
+                    value={formData.gender || ""}
                     onValueChange={(value) => handleChange('gender', value)}
                   >
                     <SelectTrigger id="gender" className="border-red-300 focus:ring-red-500 font-faculty bg-white h-12 text-lg">
@@ -597,139 +776,6 @@ const TimelifeApplicationForm = () => {
                     placeholder="Enter your country of residence"
                   />
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Application Questions Section */}
-          <Card className="border-red-200 bg-red-50">
-            <CardHeader>
-              <CardTitle className="text-red-900 text-2xl">Application Questions</CardTitle>
-              <CardDescription className="text-red-700 text-lg">
-                Please answer the following questions thoughtfully
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Question 1: Expectations */}
-              <div className="space-y-2">
-                <Label htmlFor="expectations" className="text-red-900 text-xl">
-                  1. Erwartungen *
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Was erhoffst du dir ganz persönlich von den 30 Tagen im Timelife Club?
-                </p>
-                <Textarea
-                  id="expectations"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Share your personal expectations..."
-                  value={formData.expectations}
-                  onChange={(e) => handleChange('expectations', e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Question 2: Current Situation */}
-              <div className="space-y-2">
-                <Label htmlFor="currentSituation" className="text-red-900 text-xl">
-                  2. Aktuelle Situation *
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Wie würdest du deine aktuelle Lebenssituation beschreiben – wo stehst du gerade, was beschäftigt dich?
-                </p>
-                <Textarea
-                  id="currentSituation"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Describe your current life situation..."
-                  value={formData.currentSituation}
-                  onChange={(e) => handleChange('currentSituation', e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Question 3: Motivation */}
-              <div className="space-y-2">
-                <Label htmlFor="motivation" className="text-red-900 text-xl">
-                  3. Motivation *
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Warum möchtest du genau jetzt Teil des Timelife Clubs werden?
-                </p>
-                <Textarea
-                  id="motivation"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Explain your motivation for joining now..."
-                  value={formData.motivation}
-                  onChange={(e) => handleChange('motivation', e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Question 4: Theme Focus */}
-              <div className="space-y-2">
-                <Label htmlFor="themeFocus" className="text-red-900 text-xl">
-                  4. Themenschwerpunkt
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Welches der sechs Module spricht dich am meisten an – und warum?
-                </p>
-                <Textarea
-                  id="themeFocus"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Which module appeals to you most and why?"
-                  value={formData.themeFocus}
-                  onChange={(e) => handleChange('themeFocus', e.target.value)}
-                />
-              </div>
-
-              {/* Question 5: Community & Team */}
-              <div className="space-y-2">
-                <Label htmlFor="communityTeam" className="text-red-900 text-xl">
-                  5. Community & Team
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Was bedeutet für dich Gemeinschaft, und wie bringst du dich normalerweise in eine Gruppe ein?
-                </p>
-                <Textarea
-                  id="communityTeam"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Share your thoughts on community and how you contribute..."
-                  value={formData.communityTeam}
-                  onChange={(e) => handleChange('communityTeam', e.target.value)}
-                />
-              </div>
-
-              {/* Question 6: School & Study Time */}
-              <div className="space-y-2">
-                <Label htmlFor="schoolStudyTime" className="text-red-900 text-xl">
-                  6. Deine Schul- & Studienzeit
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Wie hast du deine Schul- oder Studienzeit erlebt? Was hat dir besonders gefallen – und was hat dir gefehlt?
-                </p>
-                <Textarea
-                  id="schoolStudyTime"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Reflect on your school or study experiences..."
-                  value={formData.schoolStudyTime}
-                  onChange={(e) => handleChange('schoolStudyTime', e.target.value)}
-                />
-              </div>
-
-              {/* Question 7: Openness */}
-              <div className="space-y-2">
-                <Label htmlFor="openness" className="text-red-900 text-xl">
-                  7. Offenheit
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Gibt es einen Bereich in deinem Leben, in dem du dir schon lange Veränderung wünschst – und glaubst du, dass der Timelife Club dir dabei helfen kann?
-                </p>
-                <Textarea
-                  id="openness"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white font-faculty"
-                  placeholder="Share areas where you desire change and how the club might help..."
-                  value={formData.openness}
-                  onChange={(e) => handleChange('openness', e.target.value)}
-                />
               </div>
             </CardContent>
           </Card>

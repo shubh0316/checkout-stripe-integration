@@ -16,7 +16,8 @@ interface Step1ProgramProps {
   onNext: () => void;
 }
 
-const countries = ['Morocco'];
+  // Program data
+  const countries = ['Marokko']; // German name
 
 const allModules = [
   { id: "module1", name: "Module 1", title: "Sport, Ernährung und Gesundheit", description: "Focus on physical health and wellness" },
@@ -37,7 +38,7 @@ const pricingPlans = [
   {
     duration: 30,
     price: 4200,
-    features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation', 'Extended Support', 'Certificate'],
+    features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation', 'Extended Support'],
     popular: true,
   },
 ];
@@ -46,7 +47,9 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
   const [selectionError, setSelectionError] = useState("");
   const [selectedModuleGroup, setSelectedModuleGroup] = useState<"first" | "second">("first");
   const selectedPlan = pricingPlans.find(plan => plan.duration === formData.duration);
-  
+// Replace your current useEffect with this minimal version:
+
+
   useEffect(() => {
     console.log("Current formData:", formData);
   }, [formData]);
@@ -115,18 +118,19 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
           <div className="space-y-2">
             <Label htmlFor="country" className="text-red-800 text-lg">Select Country *</Label>
             <Select
-              value={formData.country}
+              value={formData.country || ""}
               onValueChange={(value) => {
                 updateFormData({ country: value });
               }}
             >
               <SelectTrigger id="country" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                <SelectValue placeholder="Select a country" className="font-faculty" />
-              </SelectTrigger>
+              <SelectValue placeholder="Land auswählen">
+        {formData.country || "Land auswählen"}
+      </SelectValue>              </SelectTrigger>
               <SelectContent className="text-lg">
                 {countries.map((country) => (
                   <SelectItem key={country} value={country} className="focus:bg-red-50 text-lg font-faculty">
-                    {country}
+                    {country || ""}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -190,7 +194,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                       <span className="font-faculty">{plan.duration - 1} Nights</span>
                     </div>
                   </div>
-                  <span className="text-red-700 font-faculty">${plan.price}</span>
+                  <span className="text-red-700 font-faculty">{plan.price}</span>
                 </CardTitle>
                 <CardDescription className="text-red-700 text-lg">
                   {plan.duration === 30 

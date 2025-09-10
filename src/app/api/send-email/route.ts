@@ -78,8 +78,7 @@ export async function POST(request: NextRequest) {
     // Email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: "shubhankersaxena5@gmail.com",
-      replyTo: email,
+      to: "info@timelifeclub.com",
       subject: `New Application Submission from ${formData.firstName || 'Unknown'} ${formData.lastName || ''}`,
       html: `
         <!DOCTYPE html>

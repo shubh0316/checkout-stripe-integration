@@ -77,11 +77,13 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
           <div className="space-y-2">
             <Label htmlFor="accommodation" className="text-red-800 text-lg">Accommodation Preference *</Label>
             <Select
-              value={formData.accommodation}
+              value={formData.accommodation || ""}
               onValueChange={(value) => updateFormData({ accommodation: value })}
             >
               <SelectTrigger id="accommodation" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                <SelectValue placeholder="Select accommodation type" className="font-faculty" />
+                <SelectValue placeholder="Select accommodation type" className="font-faculty">
+                  {formData.accommodation || ""}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent className="text-lg">
                 {accommodationOptions.map((option) => (
@@ -109,11 +111,13 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
           <div className="space-y-2">
             <Label htmlFor="diet" className="text-red-800 text-lg">Dietary Requirements *</Label>
             <Select
-              value={formData.diet}
+              value={formData.diet || ""}
               onValueChange={(value) => updateFormData({ diet: value })}
             >
               <SelectTrigger id="diet" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                <SelectValue placeholder="Select dietary preference" className="font-faculty" />
+                <SelectValue placeholder="Select dietary preference" className="font-faculty">
+                   { formData.diet || ""}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent className="text-lg">
                 {dietOptions.map((option) => (

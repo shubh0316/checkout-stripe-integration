@@ -51,7 +51,45 @@ export default function RootLayout({
         className={`${customFont.variable} ${secondFont.variable} ${arial.variable} antialiased`}
         style={{ fontFamily: "var(--font-custom)" }}
       >
-        {/* Google Translate Script */}
+        <Script id="dom-protection" strategy="beforeInteractive">
+          {`
+            // Patch DOM methods to prevent removeChild errors
+            (function() {
+              if (typeof Node !== 'undefined' && Node.prototype && !window.__domProtectionApplied) {
+                const originalRemoveChild = Node.prototype.removeChild;
+                const originalInsertBefore = Node.prototype.insertBefore;
+                
+                Node.prototype.removeChild = function(child) {
+                  try {
+                    if (child && child.parentNode === this) {
+                      return originalRemoveChild.call(this, child);
+                    }
+                    return child;
+                  } catch (error) {
+                    console.warn('removeChild prevented crash:', error.message);
+                    return child;
+                  }
+                };
+                
+                Node.prototype.insertBefore = function(newNode, referenceNode) {
+                  try {
+                    return originalInsertBefore.call(this, newNode, referenceNode);
+                  } catch (error) {
+                    console.warn('insertBefore prevented crash:', error.message);
+                    try {
+                      return this.appendChild(newNode);
+                    } catch (e) {
+                      return newNode;
+                    }
+                  }
+                };
+                
+                window.__domProtectionApplied = true;
+              }
+            })();
+          `}
+        </Script>
+        {/* Safe Google Translate Implementation */}
         <Script id="google-translate" strategy="afterInteractive">
           {`
             function googleTranslateElementInit() {
@@ -59,35 +97,93 @@ export default function RootLayout({
                 {
                   pageLanguage: 'en',
                   includedLanguages: 'de,en',
-                  autoDisplay: false
+                  autoDisplay: false,
+                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE
                 },
                 'google_translate_element'
               );
 
-              // Auto switch to German
-              const interval = setInterval(() => {
-                const frame = document.querySelector('iframe.goog-te-menu-frame');
-                if (frame) {
-                  const innerDoc = frame.contentDocument || frame.contentWindow.document;
-                  if (innerDoc) {
-                    const germanOption = [...innerDoc.querySelectorAll("span")]
-                      .find(el => el.innerText.includes("Deutsch"));
-                    if (germanOption) {
-                      germanOption.click();
-                      clearInterval(interval);
-                    }
+              // Set German cookie immediately
+              setCookie('googtrans', '/en/de', 365);
+              
+              // Force German translation
+              setTimeout(forceGermanTranslation, 1500);
+            }
+
+            function forceGermanTranslation() {
+              try {
+                const iframe = document.querySelector('iframe.goog-te-menu-frame');
+                if (iframe?.contentDocument) {
+                  const germanOption = [...iframe.contentDocument.querySelectorAll("span")]
+                    .find(el => el.innerText?.includes("Deutsch"));
+                  if (germanOption) {
+                    germanOption.click();
                   }
                 }
-              }, 500);
+              } catch (e) {
+                // Fallback: Reload with German cookie
+                if (!window.location.hash.includes('googtrans')) {
+                  window.location.hash = '#googtrans(en|de)';
+                  setTimeout(() => window.location.reload(), 500);
+                }
+              }
             }
+
+            function setCookie(name, value, days) {
+              const expires = new Date();
+              expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+              document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=/';
+            }
+
+            // Minimal protection - only when absolutely necessary
+            function protectCriticalElements() {
+              // Only protect elements that are actively causing errors
+              document.querySelectorAll('[data-radix-select-content]').forEach(element => {
+                if (!element.hasAttribute('data-protected')) {
+                  element.style.isolation = 'isolate';
+                  element.style.transform = 'translateZ(0)';
+                  element.setAttribute('data-protected', 'true');
+                }
+              });
+            }
+
+            // Smart observer - only protect when dropdowns are opening
+            const observer = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutation) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                  mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && node.hasAttribute && 
+                        node.hasAttribute('data-radix-select-content')) {
+                      setTimeout(protectCriticalElements, 0);
+                    }
+                  });
+                }
+              });
+            });
+
+            // Initialize everything
+            document.addEventListener('DOMContentLoaded', function() {
+              observer.observe(document.body, {
+                childList: true,
+                subtree: true
+              });
+            });
+
+            // Check for existing German cookie
+            window.addEventListener('load', function() {
+              const cookie = document.cookie.split(';').find(c => c.trim().startsWith('googtrans='));
+              if (!cookie || !cookie.includes('/en/de')) {
+                setCookie('googtrans', '/en/de', 365);
+              }
+            });
           `}
         </Script>
+        
         <Script
           src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
 
-        {/* Hidden Google Translate widget (dropdown rahega fallback ke liye) */}
         <div id="google_translate_element" style={{ display: "none" }}></div>
 
         {children}

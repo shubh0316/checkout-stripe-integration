@@ -60,7 +60,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
           <div className="space-y-4">
             <div className="flex justify-between items-center p-4 bg-red-100 rounded-lg">
               <span className="text-red-800 font-medium text-lg">Program Fee</span>
-              <span className="text-red-700 font-bold text-xl font-faculty">${getPrice()}</span>
+              <span className="text-red-700 font-bold text-xl font-faculty">{getPrice()}</span>
             </div>
             
             {submitError && (
@@ -102,7 +102,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
                 disabled={isSubmitting || !canSubmit}
                 className="w-full bg-red-700 hover:bg-red-800 text-white py-3 text-lg font-medium h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Processing...' : `Submit Application & Pay $${getPrice()}`}
+                {isSubmitting ? 'Processing...' : `Submit & Pay ${getPrice()}`}
               </Button>
             </div>
           </div>

@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-myfont: var(--font-custom); /* Map to your font variable */ 
-  --font-arial: Arial, sans-serif; /* Add Arial font variable */
+  --font-myfont: var(--font-custom);
+  --font-arial: Arial, sans-serif;
   --font-faculty: var(--font-second);
   --radius: 0.625rem; 
   --background: oklch(1 0 0); 
@@ -47,7 +47,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-custom: var(--font-custom);
-  --font-arial: var(--font-arial); /* Add Arial to theme */
+  --font-arial: var(--font-arial);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -87,14 +87,14 @@ body {
   font-family: var(--font-custom), sans-serif;
 }
 
-/* Add Arial utility class */
 .font-arial {
   font-family: Arial, sans-serif;
 }
-.font-faculty{
+
+.font-faculty {
   font-family: var(--font-second), sans-serif;
 }
-/* Optional: Add as CSS variable usage */
+
 [style*="--font:arial"] {
   font-family: Arial, sans-serif;
 }
@@ -140,4 +140,80 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* ===== GOOGLE TRANSLATE OPTIMIZATION ===== */
+
+/* Hide Google Translate UI completely */
+.skiptranslate,
+.goog-te-banner-frame,
+.goog-te-menu-value,
+.goog-te-gadget,
+.goog-te-combo {
+  display: none !important;
+}
+
+/* Fix body positioning */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+/* Smart Select Protection - Only when needed */
+[data-radix-select-content][data-protected] {
+  isolation: isolate !important;
+  transform: translateZ(0) !important;
+  z-index: 50 !important;
+  contain: layout style paint !important;
+  will-change: transform !important;
+  backface-visibility: hidden !important;
+}
+
+/* Ensure dropdown positioning works */
+[data-radix-select-trigger] {
+  position: relative !important;
+}
+
+[data-radix-select-content] {
+  position: absolute !important;
+  z-index: 50 !important;
+}
+
+/* Clean up Google Translate font styling */
+font[style*="background-color"] {
+  background: transparent !important;
+  color: inherit !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  text-decoration: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Preserve custom fonts during translation */
+.translated-ltr,
+.translated-rtl {
+  font-family: var(--font-custom) !important;
+}
+
+.translated-ltr .font-faculty,
+.translated-rtl .font-faculty {
+  font-family: var(--font-second) !important;
+}
+
+/* Additional protection for form elements */
+input, textarea, button {
+  position: relative !important;
+}
+
+/* Smooth translation transitions */
+body.translating {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Prevent layout shifts during translation */
+html {
+  scroll-behavior: smooth;
 }

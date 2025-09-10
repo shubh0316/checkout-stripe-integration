@@ -1,3 +1,6 @@
+//@ts-nocheck
+"use client"
+import React, { useEffect } from 'react';
 import { FormData } from '@/types/form';
 import { User, Mail, Phone, MapPin, Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,11 +15,17 @@ interface Step2PersonalInfoProps {
   onNext: () => void;
   onPrev: () => void;
 }
-
-const salutations = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Prof.'];
-const genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
+  const salutations = ['Herr', 'Frau', 'Dr.', 'Prof.']; // German salutations
+  const genders = ['Männlich', 'Weiblich', 'Andere', 'Keine Angabe']; // German genders
 
 export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: Step2PersonalInfoProps) {
+
+
+// Replace your existing useEffect with this enhanced version:
+
+
+
+
   const canProceed = formData.salutation && formData.firstName && formData.lastName && 
                     formData.gender && formData.birthDate && formData.nationality && 
                     formData.address && formData.postalCode && formData.city && 
@@ -40,33 +49,38 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div className="space-y-2">
-              <Label htmlFor="salutation" className="text-red-800 text-lg md:text-xl">Salutation *</Label>
-              <Select
-                value={formData.salutation}
-                onValueChange={(value) => updateFormData({ salutation: value })}
-              >
-                <SelectTrigger id="salutation" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                  <SelectValue placeholder="Select salutation" className="font-faculty" />
-                </SelectTrigger>
-                <SelectContent className="text-lg">
-                  {salutations.map((sal) => (
-                    <SelectItem key={sal} value={sal} className="focus:bg-red-50 text-lg font-faculty">
-                      {sal}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="salutation" className="text-red-800 text-lg">Select salutation *</Label>
+            <Select
+              value={formData.salutation || ""}
+              onValueChange={(value) => {
+                updateFormData({ salutation: value });
+              }}
+            >
+              <SelectTrigger id="salutation" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
+              <SelectValue placeholder="Anrede auswählen">
+        {formData.salutation || "Anrede auswählen"}
+      </SelectValue>             </SelectTrigger>
+              <SelectContent className="text-lg">
+                {salutations.map((salutation) => (
+                  <SelectItem key={salutation} value={salutation} className="focus:bg-red-50 text-lg font-faculty">
+                    {salutation}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
             <div className="space-y-2">
               <Label htmlFor="gender" className="text-red-800 text-lg md:text-xl">Gender *</Label>
               <Select
-                value={formData.gender}
+                value={formData.gender || ""}
                 onValueChange={(value) => updateFormData({ gender: value })}
               >
                 <SelectTrigger id="gender" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                  <SelectValue placeholder="Select gender" className="font-faculty" />
+                <SelectValue placeholder="Geschlecht auswählen">
+        {formData.gender || "Geschlecht auswählen"}
+      </SelectValue>
                 </SelectTrigger>
                 <SelectContent className="text-lg">
                   {genders.map((gender) => (

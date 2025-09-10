@@ -1,3 +1,5 @@
+//@ts-nocheck
+import { useEffect } from 'react';
 import { FormData } from '@/types/form';
 import { Star, Target, ArrowLeft, ArrowRight, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,6 +18,10 @@ interface Step3SkillsProps {
 const experienceLevels = ['No experience', 'Some experience', 'Moderate experience', 'Experienced', 'Very experienced'];
 
 export function Step3Skills({ formData, updateFormData, onNext, onPrev }: Step3SkillsProps) {
+  // Replace your existing useEffect with this enhanced version:
+// Replace your current useEffect with this minimal version:
+
+
   const canProceed = formData.insurance && formData.experience && formData.motivation;
 
   return (
@@ -40,22 +46,37 @@ export function Step3Skills({ formData, updateFormData, onNext, onPrev }: Step3S
         <CardContent>
           <div className="space-y-2">
             <Label htmlFor="insurance" className="text-red-800 text-lg">Do you require insurance? *</Label>
-            <Select
-              value={formData.insurance}
-              onValueChange={(value) => updateFormData({ insurance: value })}
-            >
-              <SelectTrigger id="insurance" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                <SelectValue placeholder="Select insurance option" className="font-faculty" />
-              </SelectTrigger>
-              <SelectContent className="text-lg">
-                <SelectItem value="yes" className="focus:bg-red-50 text-lg font-faculty">
-                  Yes, I require insurance
-                </SelectItem>
-                <SelectItem value="no" className="focus:bg-red-50 text-lg font-faculty">
-                  No, I have my own insurance
-                </SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="space-y-2">
+  <Label htmlFor="insurance" className="text-red-800 text-lg">Versicherung *</Label>
+  <Select
+    value={formData.insurance || ""}
+    onValueChange={(value) => updateFormData({ insurance: value })}
+  >
+    <SelectTrigger 
+      id="insurance" 
+      className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
+    >
+      <SelectValue placeholder="Versicherungsoption auswählen">
+        {formData.insurance || ""}
+      </SelectValue>
+    </SelectTrigger>
+    <SelectContent className="text-lg">
+      <SelectItem 
+        value="yes" 
+        className="focus:bg-red-50 text-lg font-faculty"
+      >
+        Ja, ich benötige eine Versicherung
+      </SelectItem>
+      <SelectItem 
+        value="no" 
+        className="focus:bg-red-50 text-lg font-faculty"
+      >
+        Nein, ich habe eine eigene Versicherung
+      </SelectItem>
+    </SelectContent>
+  </Select>
+</div>
+
           </div>
         </CardContent>
       </Card>
@@ -74,11 +95,13 @@ export function Step3Skills({ formData, updateFormData, onNext, onPrev }: Step3S
           <div className="space-y-2">
             <Label htmlFor="experience" className="text-red-800 text-lg">Travel/Program Experience *</Label>
             <Select
-              value={formData.experience}
+              value={formData.experience || ""}
               onValueChange={(value) => updateFormData({ experience: value })}
             >
               <SelectTrigger id="experience" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-                <SelectValue placeholder="Select your experience level" className="font-faculty" />
+                <SelectValue placeholder="Select your experience level" className="font-faculty">
+                  {formData.experience || ""}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent className="text-lg">
                 {experienceLevels.map((level) => (
