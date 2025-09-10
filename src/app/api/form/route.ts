@@ -1,11 +1,9 @@
-import dbConnect from "../../../lib/dbConnect";
 import Form from "../../../models/form";
 import { NextResponse } from "next/server";
 
 // CREATE (POST)
 export async function POST(req: Request) {
   try {
-    await dbConnect();
     const body = await req.json();
     console.log(body);
     const form = await Form.create(body);
@@ -18,7 +16,6 @@ export async function POST(req: Request) {
 // READ (GET all forms)
 export async function GET() {
   try {
-    await dbConnect();
     const forms = await Form.find({});
     return NextResponse.json(forms, { status: 200 });
   } catch (err: any) {
@@ -29,7 +26,6 @@ export async function GET() {
 // UPDATE (PATCH)
 export async function PATCH(req: Request) {
   try {
-    await dbConnect();
     const body = await req.json();
     const { id, ...updateData } = body;
 
