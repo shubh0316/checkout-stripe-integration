@@ -6,7 +6,6 @@ import { Crown, User, Mail, Phone, MapPin, Calendar, Shield, Star, Moon, Zap, Us
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,7 +14,6 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const TimelifeApplicationForm = () => {
-
 
   // Re-protect on state changes
 
@@ -27,20 +25,18 @@ const TimelifeApplicationForm = () => {
   const [formData, setFormData] = useState({
     // Program Selection
     duration: 0,
-    country: "",
     modules: [],
+    moduleTitles: [],
     
     // Personal Questions
     expectations: "",
     currentSituation: "",
-    motivation: "",
     themeFocus: "",
     communityTeam: "",
     schoolStudyTime: "",
     openness: "",
     
     // Personal Info
-    salutation: "",
     firstName: "",
     lastName: "",
     gender: "",
@@ -49,7 +45,6 @@ const TimelifeApplicationForm = () => {
     address: "",
     postalCode: "",
     city: "",
-    countryOfResidence: "",
     phone: "",
     email: ""
   });
@@ -75,23 +70,21 @@ const TimelifeApplicationForm = () => {
     
     // Validate all required fields
     const requiredFields = [
-      'duration', 'country', 'salutation', 'firstName', 'lastName', 
-      'gender', 'birthDate', 'nationality', 'address', 'postalCode', 
-      'city', 'countryOfResidence', 'phone', 'email',
-      'expectations', 'currentSituation', 'motivation'
+      'duration', 'firstName', 'lastName', 
+       'birthDate', 'nationality', 'address', 'postalCode', 
+      'city', 'phone', 'email',
+      'expectations', 'currentSituation'
     ];
     
     const emptyFields = requiredFields.filter(field => !formData[field]);
     
     if (emptyFields.length > 0) {
-      toast.error('Please fill out all required fields');
       setIsSubmitting(false);
       return;
     }
     
     // Validate modules for 15-day program
     if (formData.duration === 15 && formData.modules.length !== 3) {
-      toast.error('Please select a module group for the 15-day program');
       setIsSubmitting(false);
       return;
     }
@@ -111,75 +104,86 @@ const TimelifeApplicationForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success('Application submitted successfully!');
         router.push("/meeting");
       } else {
-        toast.error(data.message || 'Error submitting application');
+        // Handle error silently or with inline error display
       }
     } catch (error) {
       console.error('Error:', error);
-      toast.error('Error submitting application');
+      // Handle error silently or with inline error display
     }
     setIsSubmitting(false);
   };
 
   // Program data
   const countries = ['Marokko']; // German name
-  const salutations = ['Herr', 'Frau', 'Dr.', 'Prof.']; // German salutations
   const genders = ['Männlich', 'Weiblich', 'Andere', 'Keine Angabe']; // German genders
-  
   
   const allModules = [
     { 
       id: "module1", 
       name: "Modul 1", 
-      title: "Sport, Ernährung und Gesundheit", 
+      title: "SSport und Ernährung", 
       description: "Fokus auf körperliche Gesundheit und Wohlbefinden" 
     },
     { 
       id: "module2", 
       name: "Modul 2", 
-      title: "Mentale Gesundheit und Stärke", 
+      title: "Mentale Stärke", 
       description: "Entwicklung mentaler Widerstandsfähigkeit und Stärke" 
     },
     { 
       id: "module3", 
       name: "Modul 3", 
-      title: "Wie baue ich ein Unternehmen auf?", 
-      description: "Grundlagen der Unternehmensgründung" 
+      title: "Teamwork", 
+      description: "Zusammenarbeit und gesellschaftliche Wirkung" 
     },
     { 
       id: "module4", 
       name: "Modul 4", 
-      title: "Steuern, Finanzen und Recht", 
-      description: "Finanz- und Rechtswissen" 
+      title: "Wie baue ich ein Unternehmen auf?", 
+      description: "Grundlagen für erfolgreiche Projekte"
     },
     { 
       id: "module5", 
       name: "Modul 5", 
-      title: "Teamwork & Soziales Projekt", 
-      description: "Zusammenarbeit und gesellschaftliche Wirkung" 
+      title: "Steuern und Finanzen", 
+      description: "Finanz- und Steuerwissen" 
     },
+
     { 
-      id: "module6", 
-      name: "Modul 6", 
-      title: "Coaching: Was ist dein way of living?", 
+      id: "module5", 
+      name: "Modul 5", 
+      title: "Coaching: Was ist der weg der zu mir passt?", 
       description: "Persönlichkeitsentwicklung und Coaching" 
     }
   ];
-  
 
   const pricingPlans = [
     {
       duration: 15,
-      price: 2800,
-      features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation'],
+      price: "2800€",
+      features: [
+        "15 Teaching-Tage (3 Module)",
+        "Täglicher Brunch & Abendessen",
+        "Zimmer im 2–3er Bungalow",
+        "Eigenes Bett",
+        "Transfer vom Flughafen zum Resort",
+        "Abendprogramm"
+      ],
       popular: false,
     },
     {
       duration: 30,
-      price: 4200,
-      features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation', 'Extended Support'],
+      price: "4200€",
+      features: [
+        "30 Teaching-Tage (6 Module)",
+        "Täglicher Brunch & Abendessen",
+        "Zimmer im 2–3er Bungalow",
+        "Eigenes Bett",
+        "Transfer vom Flughafen zum Resort",
+        "Abendprogramm"
+      ],
       popular: true,
     },
   ];
@@ -190,14 +194,16 @@ const TimelifeApplicationForm = () => {
       // For 30-day plan, include all modules
       updateFormData({ 
         duration,
-        modules: allModules.map(m => m.id)
+        modules: allModules.map(m => m.id),
+        moduleTitles: allModules.map(m => m.title)
       });
       setSelectedModuleGroup("");
     } else {
       // For 15-day plan, set default to first 3 modules
       updateFormData({ 
         duration,
-        modules: allModules.slice(0, 3).map(m => m.id)
+        modules: allModules.slice(0, 3).map(m => m.id),
+        moduleTitles: allModules.slice(0, 3).map(m => m.title)
       });
       setSelectedModuleGroup("first");
     }
@@ -211,13 +217,15 @@ const TimelifeApplicationForm = () => {
     if (group === "first") {
       // Select all modules from first group (1-3)
       updateFormData({ 
-        modules: allModules.slice(0, 3).map(m => m.id)
+        modules: allModules.slice(0, 3).map(m => m.id),
+        moduleTitles: allModules.slice(0, 3).map(m => m.title)
       });
       setSelectedModuleGroup("first");
     } else {
       // Select all modules from second group (4-6)
       updateFormData({ 
-        modules: allModules.slice(3, 6).map(m => m.id)
+        modules: allModules.slice(3, 6).map(m => m.id),
+        moduleTitles: allModules.slice(3, 6).map(m => m.title)
       });
       setSelectedModuleGroup("second");
     }
@@ -228,9 +236,9 @@ const TimelifeApplicationForm = () => {
       <div className="max-w-5xl mx-auto p-4">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
-            <Crown className="w-8 h-8" /> Timelife Club Application
+            <Crown className="w-8 h-8" /> Deine Bewerbung für die TimeLife Club Reise
           </h1>
-          <p className="text-red-600 text-xl">Complete your application in one simple form</p>
+          <p className="text-red-600 text-xl">Vervollständige deine Bewerbung ganz easy im Online-Formular.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -239,43 +247,20 @@ const TimelifeApplicationForm = () => {
             <CardHeader>
               <CardTitle className="text-red-900 text-2xl">Program Selection</CardTitle>
               <CardDescription className="text-red-700 text-lg">
-                Choose your preferred program options
+                Wähle deine bevorzugte Editionsdauer 
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* Country Selection */}
-              <div className="space-y-2">
-                <Label htmlFor="country" className="text-red-800 text-lg z-[9999]">Destination Country *</Label>
-                <Select
-                  className="z-[9999] font-faculty"
-                  value={formData.country || ""}
-                  onValueChange={(value) => handleChange("country", value)}
-                >
-                  <SelectTrigger id="country" className="border-red-300 font-faculty focus:ring-red-500 bg-white h-12 text-lg">
-                    <SelectValue placeholder="Select a country">
-                      {formData.country || ""}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent position="popper" className="text-lg font-faculty">
-                    {countries.map((country) => (
-                      <SelectItem key={country} value={country} className="focus:bg-red-50 font-faculty text-lg">
-                        {country}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
 
               {/* Group Size Information */}
               <div className="bg-red-100 p-4 rounded-lg border border-red-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-red-800 font-medium text-xl">Maximum Group Size:</span>
+                    <span className="text-red-800 font-medium text-xl">Eine Kliene Info:</span>
                   </div>
-                  <Badge className="bg-red-600 text-white px-3 py-1 text-md font-faculty">40 People</Badge>
                 </div>
                 <p className="text-red-700 mt-2 text-lg">
-                  Our programs are designed for intimate group experiences with a maximum of 40 participants.
+                  Keine Sorge: Mit der Bewerbung gehst du noch keine Buchung ein. Die Bewerbung ist wichtig, damit wir dich schon vor der Buchung kennenlernen können. Nach dem Durchsehen deiner Bewerbung erhältst du den Booking-Link
                 </p>
               </div>
 
@@ -313,8 +298,8 @@ const TimelifeApplicationForm = () => {
                         </CardTitle>
                         <CardDescription className="text-red-700 text-lg">
                           {plan.duration === 30 
-                            ? "Complete program with all 6 modules" 
-                            : "Custom program with 3 modules of your choice"}
+                            ? "(Unsere Empfehlung)" 
+                            : "(MODUL 1 BIS 3 ODER MODUL 4 BIS 6)"}
                         </CardDescription>
                       </CardHeader>
                       <CardContent className="pb-4">
@@ -337,10 +322,10 @@ const TimelifeApplicationForm = () => {
                 <Card className="border-red-200 bg-red-50">
                   <CardHeader>
                     <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
-                      <Zap className="w-6 h-6" /> Program Modules
+                      <Zap className="w-6 h-6" /> Modulauswahi
                     </CardTitle>
                     <CardDescription className="text-red-700 text-lg">
-                      Select a module group for your 15-day program
+                      "Wähle deine Module und Reisezeit für dein 15-Tage-Programm"
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -422,12 +407,6 @@ const TimelifeApplicationForm = () => {
                           );
                         })}
                     </div>
-
-                    <div className="mt-6 text-center text-red-700 text-lg">
-                      {selectedModuleGroup === "first" 
-                        ? "Modules 1-3 are selected as a complete group" 
-                        : "Modules 4-6 are selected as a complete group"}
-                    </div>
                   </CardContent>
                 </Card>
               )}
@@ -470,9 +449,9 @@ const TimelifeApplicationForm = () => {
           {/* Application Questions Section */}
           <Card className="border-red-200 bg-red-50">
             <CardHeader>
-              <CardTitle className="text-red-900 text-2xl">Application Questions</CardTitle>
+              <CardTitle className="text-red-900 text-2xl">Ein paar Fragen an dich</CardTitle>
               <CardDescription className="text-red-700 text-lg">
-                Please answer the following questions thoughtfully
+                Bitte beantworte die folgenden Fragen sorgfältig.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -487,7 +466,6 @@ const TimelifeApplicationForm = () => {
                 <Textarea
                   id="expectations"
                   className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Share your personal expectations..."
                   value={formData.expectations}
                   onChange={(e) => handleChange('expectations', e.target.value)}
                   required
@@ -505,35 +483,16 @@ const TimelifeApplicationForm = () => {
                 <Textarea
                   id="currentSituation"
                   className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Describe your current life situation..."
                   value={formData.currentSituation}
                   onChange={(e) => handleChange('currentSituation', e.target.value)}
                   required
                 />
               </div>
 
-              {/* Question 3: Motivation */}
-              <div className="space-y-2">
-                <Label htmlFor="motivation" className="text-red-900 text-xl">
-                  3. Motivation *
-                </Label>
-                <p className="text-red-700 text-lg">
-                  Warum möchtest du genau jetzt Teil des Timelife Clubs werden?
-                </p>
-                <Textarea
-                  id="motivation"
-                  className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Explain your motivation for joining now..."
-                  value={formData.motivation}
-                  onChange={(e) => handleChange('motivation', e.target.value)}
-                  required
-                />
-              </div>
-
-              {/* Question 4: Theme Focus */}
+              {/* Question 3: Theme Focus */}
               <div className="space-y-2">
                 <Label htmlFor="themeFocus" className="text-red-900 text-xl">
-                  4. Themenschwerpunkt
+                  3. Themenschwerpunkt
                 </Label>
                 <p className="text-red-700 text-lg">
                   Welches der sechs Module spricht dich am meisten an – und warum?
@@ -541,16 +500,15 @@ const TimelifeApplicationForm = () => {
                 <Textarea
                   id="themeFocus"
                   className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Which module appeals to you most and why?"
                   value={formData.themeFocus}
                   onChange={(e) => handleChange('themeFocus', e.target.value)}
                 />
               </div>
 
-              {/* Question 5: Community & Team */}
+              {/* Question 4: Community & Team */}
               <div className="space-y-2">
                 <Label htmlFor="communityTeam" className="text-red-900 text-xl">
-                  5. Community & Team
+                  4. Community & Team
                 </Label>
                 <p className="text-red-700 text-lg">
                   Was bedeutet für dich Gemeinschaft, und wie bringst du dich normalerweise in eine Gruppe ein?
@@ -558,16 +516,15 @@ const TimelifeApplicationForm = () => {
                 <Textarea
                   id="communityTeam"
                   className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Share your thoughts on community and how you contribute..."
                   value={formData.communityTeam}
                   onChange={(e) => handleChange('communityTeam', e.target.value)}
                 />
               </div>
 
-              {/* Question 6: School & Study Time */}
+              {/* Question 5: School & Study Time */}
               <div className="space-y-2">
                 <Label htmlFor="schoolStudyTime" className="text-red-900 text-xl">
-                  6. Deine Schul- & Studienzeit
+                  5. Deine Schul- & Studienzeit
                 </Label>
                 <p className="text-red-700 text-lg">
                   Wie hast du deine Schul- oder Studienzeit erlebt? Was hat dir besonders gefallen – und was hat dir gefehlt?
@@ -575,16 +532,15 @@ const TimelifeApplicationForm = () => {
                 <Textarea
                   id="schoolStudyTime"
                   className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Reflect on your school or study experiences..."
                   value={formData.schoolStudyTime}
                   onChange={(e) => handleChange('schoolStudyTime', e.target.value)}
                 />
               </div>
 
-              {/* Question 7: Openness */}
+              {/* Question 6: Openness */}
               <div className="space-y-2">
                 <Label htmlFor="openness" className="text-red-900 text-xl">
-                  7. Offenheit
+                  6. Veränderung
                 </Label>
                 <p className="text-red-700 text-lg">
                   Gibt es einen Bereich in deinem Leben, in dem du dir schon lange Veränderung wünschst – und glaubst du, dass der Timelife Club dir dabei helfen kann?
@@ -592,7 +548,6 @@ const TimelifeApplicationForm = () => {
                 <Textarea
                   id="openness"
                   className="min-h-32 text-lg border-red-300 focus:ring-red-500 bg-white"
-                  placeholder="Share areas where you desire change and how the club might help..."
                   value={formData.openness}
                   onChange={(e) => handleChange('openness', e.target.value)}
                 />
@@ -605,53 +560,11 @@ const TimelifeApplicationForm = () => {
             <CardHeader>
               <CardTitle className="text-red-900 text-2xl">Personal Information</CardTitle>
               <CardDescription className="text-red-700 text-lg">
-                Please provide your personal details
+                Trage hier deine persönlichen Daten ein.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <Label htmlFor="salutation" className="text-red-800 text-lg">Salutation *</Label>
-                  <Select
-                    value={formData.salutation || ""}
-                    onValueChange={(value) => handleChange('salutation', value)}
-                  >
-                    <SelectTrigger id="salutation" className="border-red-300 font-faculty focus:ring-red-500 bg-white h-12 text-lg">
-                      <SelectValue placeholder="Select salutation">
-                        {formData.salutation || "Select salutation"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent className="text-lg font-faculty">
-                      {salutations.map((sal) => (
-                        <SelectItem key={sal} value={sal} className="focus:bg-red-50 text-lg">
-                          {sal}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="gender" className="text-red-800 text-lg">Gender *</Label>
-                  <Select
-                    value={formData.gender || ""}
-                    onValueChange={(value) => handleChange('gender', value)}
-                  >
-                    <SelectTrigger id="gender" className="border-red-300 focus:ring-red-500 font-faculty bg-white h-12 text-lg">
-                      <SelectValue placeholder="Select gender">
-                        {formData.gender || "Select gender"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent className="text-lg">
-                      {genders.map((gender) => (
-                        <SelectItem key={gender} value={gender} className="focus:bg-red-50 font-faculty text-lg">
-                          {gender}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="firstName" className="text-red-800 text-lg">First Name *</Label>
                   <Input
@@ -660,7 +573,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.firstName}
                     onChange={(e) => handleChange('firstName', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your first name"
+                    placeholder="Gebe deinen Vornamen ein"
                   />
                 </div>
 
@@ -672,7 +585,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.lastName}
                     onChange={(e) => handleChange('lastName', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your last name"
+                    placeholder="Gebe deinen Nachnamen ein"
                   />
                 </div>
 
@@ -683,9 +596,11 @@ const TimelifeApplicationForm = () => {
                   <Input
                     id="birthDate"
                     type="date"
+                    placeholder="tt/mm/jjjj"
                     value={formData.birthDate}
                     onChange={(e) => handleChange('birthDate', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
+                    pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
                   />
                 </div>
 
@@ -697,7 +612,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.nationality}
                     onChange={(e) => handleChange('nationality', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your nationality"
+                    placeholder="Gebe deinen Nationalität ein"
                   />
                 </div>
 
@@ -711,7 +626,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.phone}
                     onChange={(e) => handleChange('phone', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your phone number"
+                    placeholder="Gebe deinen Handynummer ein"
                   />
                 </div>
 
@@ -725,7 +640,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.email}
                     onChange={(e) => handleChange('email', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your email address"
+                    placeholder="Gebe deinen E-Mail Adresse ein"
                   />
                 </div>
 
@@ -737,7 +652,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.address}
                     onChange={(e) => handleChange('address', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your street address"
+                    placeholder="Gebe deinen Adresse ein"
                   />
                 </div>
 
@@ -749,7 +664,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.city}
                     onChange={(e) => handleChange('city', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your city"
+                    placeholder="Gebe deinen Stadt ein"
                   />
                 </div>
 
@@ -761,19 +676,7 @@ const TimelifeApplicationForm = () => {
                     value={formData.postalCode}
                     onChange={(e) => handleChange('postalCode', e.target.value)}
                     className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your postal code"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="countryOfResidence" className="text-red-800 text-lg">Country of Residence *</Label>
-                  <Input
-                    id="countryOfResidence"
-                    type="text"
-                    value={formData.countryOfResidence}
-                    onChange={(e) => handleChange('countryOfResidence', e.target.value)}
-                    className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg font-faculty"
-                    placeholder="Enter your country of residence"
+                    placeholder="Gebe deinen Postleitzahl ein"
                   />
                 </div>
               </div>
@@ -781,7 +684,7 @@ const TimelifeApplicationForm = () => {
           </Card>
 
           {/* Submit Button */}
-          <div className="flex justify-center pt-6">
+          <div className="flex flex-col justify-center pt-6">
             <Button
               type="submit"
               disabled={isSubmitting}
@@ -789,6 +692,7 @@ const TimelifeApplicationForm = () => {
             >
               {isSubmitting ? 'Submitting...' : 'Submit Application'}
             </Button>
+            <p className="text-center text-red-800 mt-2">Mit dem Absenden der Bewerbung gehst du noch keine Buchung ein.</p>
           </div>
         </form>
       </div>

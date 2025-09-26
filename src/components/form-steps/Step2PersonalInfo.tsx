@@ -15,7 +15,6 @@ interface Step2PersonalInfoProps {
   onNext: () => void;
   onPrev: () => void;
 }
-  const salutations = ['Herr', 'Frau', 'Dr.', 'Prof.']; // German salutations
   const genders = ['Männlich', 'Weiblich', 'Andere', 'Keine Angabe']; // German genders
 
 export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: Step2PersonalInfoProps) {
@@ -26,10 +25,10 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
 
 
 
-  const canProceed = formData.salutation && formData.firstName && formData.lastName && 
+  const canProceed = formData.firstName && formData.lastName && 
                     formData.gender && formData.birthDate && formData.nationality && 
                     formData.address && formData.postalCode && formData.city && 
-                    formData.countryOfResidence && formData.phone && formData.email;
+                    formData.phone && formData.email;
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
@@ -49,27 +48,6 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="space-y-2">
-            <Label htmlFor="salutation" className="text-red-800 text-lg">Select salutation *</Label>
-            <Select
-              value={formData.salutation || ""}
-              onValueChange={(value) => {
-                updateFormData({ salutation: value });
-              }}
-            >
-              <SelectTrigger id="salutation" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-              <SelectValue placeholder="Anrede auswählen">
-        {formData.salutation || "Anrede auswählen"}
-      </SelectValue>             </SelectTrigger>
-              <SelectContent className="text-lg">
-                {salutations.map((salutation) => (
-                  <SelectItem key={salutation} value={salutation} className="focus:bg-red-50 text-lg font-faculty">
-                    {salutation}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
 
             <div className="space-y-2">
               <Label htmlFor="gender" className="text-red-800 text-lg md:text-xl">Gender *</Label>
@@ -126,6 +104,8 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
                 value={formData.birthDate}
                 onChange={(e) => updateFormData({ birthDate: e.target.value })}
                 className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg font-faculty"
+                placeholder="tt/mm/jjjj"
+                pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
               />
             </div>
 
@@ -233,17 +213,6 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
               />
             </div>
 
-            <div className="md:col-span-2 space-y-2">
-              <Label htmlFor="countryOfResidence" className="text-red-800 text-lg md:text-xl">Country of Residence *</Label>
-              <Input
-                id="countryOfResidence"
-                type="text"
-                value={formData.countryOfResidence}
-                onChange={(e) => updateFormData({ countryOfResidence: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your country of residence"
-              />
-            </div>
           </div>
         </CardContent>
       </Card>
@@ -262,7 +231,7 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
           disabled={!canProceed}
           className="bg-red-700 hover:bg-red-800 text-white px-8 py-3 text-lg font-medium h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
         >
-          Continue to Skills & Experience <ArrowRight className="w-5 h-5 ml-2" />
+          Continue to Preferences <ArrowRight className="w-5 h-5 ml-2" />
         </Button>
       </div>
     </div>

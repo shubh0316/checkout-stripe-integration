@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { Step1Program } from './form-steps/Step1Program';
 import { Step2PersonalInfo } from './form-steps/Step2PersonalInfo';
-import { Step3Skills } from './form-steps/Step3Skills';
 import { Step4Preferences } from './form-steps/Step4Preferences';
 import { StepIndicator } from './StepIndicator';
 import { FormData } from '@/types/form';
@@ -13,9 +12,8 @@ import { toast } from 'sonner';
 const steps = [
   { id: 1, title: 'step1', description: 'Select your program and dates' },
   { id: 2, title: 'step2', description: 'Fill in your details' },
-  { id: 3, title: 'step3', description: 'Tell us about your background' },
-  { id: 4, title: 'step4', description: 'Choose accommodation and dietary needs' },
-  { id: 5, title: 'step5', description: 'Review and submit' },
+  { id: 3, title: 'step3', description: 'Choose accommodation and dietary needs' },
+  { id: 4, title: 'step4', description: 'Review and submit' },
 ];
 
 export function MultiStepForm() {
@@ -23,11 +21,10 @@ export function MultiStepForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const [formData, setFormData] = useState<FormData>({
-    country: '',
     duration: 0,
-    module: '',
+    modules: [],
+    moduleTitles: [],
     
-    salutation: '',
     firstName: '',
     lastName: '',
     gender: '',
@@ -36,12 +33,9 @@ export function MultiStepForm() {
     address: '',
     postalCode: '',
     city: '',
-    countryOfResidence: '',
     phone: '',
     email: '',
     insurance: '',
-    experience: '',
-    motivation: '',
     
     accommodation: '',
     diet: '',
@@ -62,21 +56,18 @@ export function MultiStepForm() {
   const nextStep = () => {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
-      toast.success(`Moving to step ${currentStep + 1}`);
     }
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
-      toast.info(`Returning to step ${currentStep - 1}`);
     }
   };
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setSubmitError('');
     
-    const submitToast = toast.loading('Submitting your application...');
     
     try {
       console.log("Data being sent to API:", formData);
@@ -132,13 +123,12 @@ export function MultiStepForm() {
   
       const result = await checkoutResponse.json();
       
-      toast.success('Checkout link sent to your email!', { id: checkoutToast });
+      toast.success('Zahlungslink wurde an deine E-Mail gesendet!', { id: checkoutToast });
       
     } catch (error) {
       console.error('Error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'An error occurred. Please try again.';
+      const errorMessage = error instanceof Error ? error.message : 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.';
       
-      toast.error(errorMessage, { id: submitToast });
       setSubmitError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -166,15 +156,6 @@ export function MultiStepForm() {
         );
       case 3:
         return (
-          <Step3Skills
-            formData={formData}
-            updateFormData={updateFormData}
-            onNext={nextStep}
-            onPrev={prevStep}
-          />
-        );
-      case 4:
-        return (
           <Step4Preferences
             formData={formData}
             updateFormData={updateFormData}
@@ -182,7 +163,7 @@ export function MultiStepForm() {
             onNext={nextStep}
           />
         );
-      case 5:
+      case 4:
         return (
           <Step5Summary 
           formData={formData}
@@ -206,9 +187,6 @@ export function MultiStepForm() {
           <span className="text-sm font-medium text-red-800">
             Step {currentStep} of {steps.length}
           </span>
-          <span className="text-xs text-red-600">
-            {steps[currentStep - 1]?.description}
-          </span>
         </div>
         <div className="w-full bg-red-100 rounded-full h-2 mt-2">
           <div 
@@ -226,17 +204,11 @@ export function MultiStepForm() {
           onStepChange={(stepId) => {
             if (stepId < currentStep) {
               setCurrentStep(stepId);
-              toast.info(`Returning to step ${stepId}`);
             } else if (stepId === currentStep + 1) {
               const canProceed = validateCurrentStep(currentStep, formData);
               if (canProceed) {
                 setCurrentStep(stepId);
-                toast.success(`Moving to step ${stepId}`);
-              } else {
-                toast.error('Please complete all required fields before proceeding');
               }
-            } else if (stepId > currentStep + 1) {
-              toast.error('Please complete the current step first');
             }
           }} 
         />
@@ -253,13 +225,11 @@ export function MultiStepForm() {
 function validateCurrentStep(step: number, formData: FormData): boolean {
   switch (step) {
     case 1:
-      return !!(formData.country && formData.duration > 0);
+      return !!(formData.duration > 0);
     case 2:
       return !!(formData.firstName && formData.lastName && formData.email && formData.phone);
     case 3:
-      return !!(formData.experience && formData.motivation);
-    case 4:
-      return !!(formData.accommodation && formData.diet && 
+      return !!(formData.insurance && formData.accommodation && formData.diet && 
                 formData.emergencyContact.name && formData.emergencyContact.relation && 
                 formData.emergencyContact.phone && formData.emergencyContact.email);
     default:

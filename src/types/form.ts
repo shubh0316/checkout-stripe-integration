@@ -1,11 +1,10 @@
 export interface FormData {
   // Step 1
-  country: string;
   duration: number;
-  module: string;
+  modules: string[];
+  moduleTitles: string[];
   
   // Step 2
-  salutation: string;
   firstName: string;
   lastName: string;
   gender: string;
@@ -14,7 +13,6 @@ export interface FormData {
   address: string;
   postalCode: string;
   city: string;
-  countryOfResidence: string;
   phone: string;
   email: string;
   
@@ -27,8 +25,6 @@ export interface FormData {
   //   other: string;
   // };
 
-  experience: string;
-  motivation: string;
   insurance: string;
   
   // Step 4

@@ -23,6 +23,10 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
     return formData.duration === 15 ? 2800 : 4200;
   };
 
+  const formatPrice = (amount: number) => {
+    return `€${amount.toLocaleString('de-DE')}`;
+  };
+
   const canSubmit = formData.termsAccepted;
 
   // Safe handler for checkbox changes
@@ -38,9 +42,9 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
     <div className="space-y-6 max-w-4xl mx-auto">
       <div className="text-center">
         <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
-          <CheckCircle className="w-8 h-8" /> Review & Submit
+          <CheckCircle className="w-8 h-8" /> Überprüfung deiner Angaben
         </h2>
-        <p className="text-red-600 text-xl">Review your application and proceed to payment</p>
+        <p className="text-red-600 text-xl">Überprüfe deineN Angaben und Buche den Trip</p>
       </div>
 
       {/* Application Summary */}
@@ -50,7 +54,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
       <Card className="border-red-200 bg-red-50">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
-            <CreditCard className="w-6 h-6" /> Payment Information
+            <CreditCard className="w-6 h-6" /> Kosten
           </CardTitle>
           <CardDescription className="text-red-700 text-lg">
             Complete your application with payment
@@ -58,10 +62,10 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="flex justify-between items-center p-4 bg-red-100 rounded-lg">
+            {/* <div className="flex justify-between items-center p-4 bg-red-100 rounded-lg">
               <span className="text-red-800 font-medium text-lg">Program Fee</span>
               <span className="text-red-700 font-bold text-xl font-faculty">{getPrice()}</span>
-            </div>
+            </div> */}
             
             {submitError && (
               <div className="p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-lg">
@@ -80,29 +84,26 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
                 />
                 <div className="space-y-2">
                   <Label htmlFor="terms" className="text-red-800 text-lg cursor-pointer">
-                    I accept the terms and conditions *
+                   ich akzeptiere die allgemeinen <a href="https://timelifeclub.com/agb" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-600">Geschäftsbedingungen</a> *
                   </Label>
                   <p className="text-red-700 text-sm">
-                    By checking this box, I confirm that I have read, understood, and agree to the 
-                    program terms and conditions, cancellation policy, and privacy policy. I understand 
-                    that my personal data will be processed in accordance with your privacy policy and 
-                    that program fees are subject to the cancellation terms outlined.
+                  Durch Ankreuzen dieses Kästchens bestätige ich, dass ich die AGBs, Stornierungsbedingungen und Datenschutzbestimmungen gelesen, verstanden und akzeptiert habe.
+Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung verarbeitet werden, dass die Programmgebühren den angegebenen Stornierungsbedingungen unterliegen und dass die Reise nur stattfindet, wenn die Mindestteilnehmerzahl erreicht wird.
+
                   </p>
                 </div>
               </div>
             </div>
             
             <div className="pt-4">
-              <p className="text-md text-red-600 mb-4">
-                Your payment will be processed securely through our payment gateway.
-              </p>
+           
               
               <Button
                 onClick={onSubmit}
                 disabled={isSubmitting || !canSubmit}
                 className="w-full bg-red-700 hover:bg-red-800 text-white py-3 text-lg font-medium h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Processing...' : `Submit & Pay ${getPrice()}`}
+                {isSubmitting ? 'Processing...' : `Submit & Pay ${formatPrice(getPrice())}`}
               </Button>
             </div>
           </div>
@@ -115,7 +116,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
           variant="outline"
           className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 px-7 py-3 text-lg h-12"
         >
-          <ArrowLeft className="w-5 h-5 mr-2" /> Back to Preferences
+          <ArrowLeft className="w-5 h-5 mr-2" /> Back 
         </Button>
       </div>
     </div>

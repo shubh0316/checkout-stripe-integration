@@ -27,21 +27,20 @@ const accommodationOptions = [
 ];
 
 const dietOptions = [
-  'No restrictions',
-  'Vegetarian',
-  'Vegan',
-  'Halal',
-  'Kosher',
-  'Gluten-free',
-  'Dairy-free',
-  'Other'
+  "Keine Besonderheiten", 
+  "Vegetarisch",
+   "Vegan",
+ "Glutenfrei",
+ "Laktosefrei",
+ "Halal",
+ "Koscher",
 ];
 
 export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: Step4PreferencesProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const canProceed = formData.accommodation && formData.diet && 
+  const canProceed = formData.insurance && formData.accommodation && formData.diet && 
                    formData.emergencyContact.name && formData.emergencyContact.relation && 
                    formData.emergencyContact.phone && formData.emergencyContact.email;
 
@@ -97,14 +96,52 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
         </CardContent>
       </Card>
 
+      {/* Insurance Information */}
+      <Card className="border-red-200 bg-red-50">
+        <CardHeader>
+          <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
+            <CheckCircle className="w-6 h-6" /> Insurance Information
+          </CardTitle>
+          <CardDescription className="text-red-700 text-lg">
+            Please confirm your insurance status
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <Label htmlFor="insurance" className="text-red-800 text-lg">Insurance Status *</Label>
+            <Select
+              value={formData.insurance || ""}
+              onValueChange={(value) => updateFormData({ insurance: value })}
+            >
+              <SelectTrigger id="insurance" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
+                <SelectValue placeholder="Select insurance status" className="font-faculty">
+                  {formData.insurance || ""}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent className="text-lg">
+                <SelectItem value="I have travel insurance" className="focus:bg-red-50 text-lg font-faculty">
+                  I have travel insurance
+                </SelectItem>
+                <SelectItem value="I need help finding insurance" className="focus:bg-red-50 text-lg font-faculty">
+                  I need help finding insurance
+                </SelectItem>
+                <SelectItem value="I will purchase insurance later" className="focus:bg-red-50 text-lg font-faculty">
+                  I will purchase insurance later
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Dietary Preferences */}
       <Card className="border-red-200 bg-red-50">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
-            <Utensils className="w-6 h-6" /> Dietary Requirements
+            <Utensils className="w-6 h-6" /> Emährung
           </CardTitle>
           <CardDescription className="text-red-700 text-lg">
-            Let us know about any dietary restrictions
+            Welche Ernährungsform evorzugst du?
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -138,7 +175,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
             <Heart className="w-6 h-6" /> Health Information
           </CardTitle>
           <CardDescription className="text-red-700 text-lg">
-            Important information for your safety and comfort
+          Wichtige Informationen für deine Sicherheit und deinen Komfort
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -150,11 +187,11 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
               onChange={(e) => updateFormData({ allergies: e.target.value })}
               rows={3}
               className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white resize-none text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-              placeholder="Please list any allergies, medical conditions, or special requirements we should be aware of..."
+              placeholder=""
             />
             <p className="text-md text-red-600">
-              This information helps us ensure your safety and comfort during the program.
-            </p>
+            Diese Informationen helfen uns, deine Sicherheit und deinen Komfort während des Programms zu gewährleisten.
+</p>
           </div>
         </CardContent>
       </Card>
@@ -166,7 +203,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
             <User className="w-6 h-6" /> Emergency Contact
           </CardTitle>
           <CardDescription className="text-red-700 text-lg">
-            Please provide details of someone we can contact in case of emergency
+          Bitte gebe Sie die Kontaktdaten einer Person an, die wir im Notfall kontaktieren können.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -179,7 +216,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
                 value={formData.emergencyContact.name}
                 onChange={(e) => updateEmergencyContact('name', e.target.value)}
                 className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter full name"
+                placeholder="Gebe den vollständigen Namen ein"
               />
             </div>
 
@@ -191,7 +228,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
                 value={formData.emergencyContact.relation}
                 onChange={(e) => updateEmergencyContact('relation', e.target.value)}
                 className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="e.g., Parent, Spouse, Friend"
+                placeholder="zB Eltern, Ehepartner, Freund, Freundin"
               />
             </div>
 
@@ -232,7 +269,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
           variant="outline"
           className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 px-7 py-3 text-lg h-12"
         >
-          <ArrowLeft className="w-5 h-5 mr-2" /> Back to Skills & Experience
+          <ArrowLeft className="w-5 h-5 mr-2" /> Back to Personal Info
         </Button>
         <Button
           onClick={onNext}

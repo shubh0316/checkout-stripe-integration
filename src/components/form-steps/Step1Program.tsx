@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { toast } from 'sonner';
 
 interface Step1ProgramProps {
   formData: FormData;
@@ -18,30 +17,76 @@ interface Step1ProgramProps {
 
   // Program data
   const countries = ['Marokko']; // German name
+  const allModules = [
+    { 
+      id: "module1", 
+      name: "Modul 1", 
+      title: "SSport und Ernährung", 
+      description: "Fokus auf körperliche Gesundheit und Wohlbefinden" 
+    },
+    { 
+      id: "module2", 
+      name: "Modul 2", 
+      title: "Mentale Stärke", 
+      description: "Entwicklung mentaler Widerstandsfähigkeit und Stärke" 
+    },
+    { 
+      id: "module3", 
+      name: "Modul 3", 
+      title: "Teamwork", 
+      description: "Zusammenarbeit und gesellschaftliche Wirkung" 
+    },
+    { 
+      id: "module4", 
+      name: "Modul 4", 
+      title: "Wie baue ich ein Unternehmen auf?", 
+      description: "Grundlagen für erfolgreiche Projekte"
+    },
+    { 
+      id: "module5", 
+      name: "Modul 5", 
+      title: "Steuern und Finanzen", 
+      description: "Finanz- und Steuerwissen" 
+    },
 
-const allModules = [
-  { id: "module1", name: "Module 1", title: "Sport, Ernährung und Gesundheit", description: "Focus on physical health and wellness" },
-  { id: "module2", name: "Module 2", title: "Mentale Gesundheit und Stärke", description: "Develop mental resilience and strength" },
-  { id: "module3", name: "Module 3", title: "Wie baue ich ein Unternehmen auf?", description: "Entrepreneurship fundamentals" },
-  { id: "module4", name: "Module 4", title: "Steuern, Finanzen und Recht", description: "Financial and legal knowledge" },
-  { id: "module5", name: "Module 5", title: "Teamwork & Soziales Projekt", description: "Collaboration and social impact" },
-  { id: "module6", name: "Module 6", title: "Coaching: Was ist dein way of living?", description: "Personal development coaching" }
-];
+    { 
+      id: "module5", 
+      name: "Modul 5", 
+      title: "Coaching: Was ist der weg der zu mir passt?", 
+      description: "Persönlichkeitsentwicklung und Coaching" 
+    }
+  ];
+  
 
-const pricingPlans = [
-  {
-    duration: 15,
-    price: 2800,
-    features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation'],
-    popular: false,
-  },
-  {
-    duration: 30,
-    price: 4200,
-    features: ['Accommodation', 'Meals', 'Activities', 'Local Guide', 'Transportation', 'Extended Support'],
-    popular: true,
-  },
-];
+  const pricingPlans = [
+    {
+      duration: 15,
+      price: "2800€",
+      features: [
+  "15 Teaching-Tage (3 Module)",
+  "Täglicher Brunch & Abendessen",
+  "Zimmer im 2–3er Bungalow",
+  "Eigenes Bett",
+  "Transfer vom Flughafen zum Resort",
+  "Abendprogramm"
+]
+,
+      popular: false,
+    },
+    {
+      duration: 30,
+      price: "4200€",
+      features: [
+  "30 Teaching-Tage (6 Module)",
+  "Täglicher Brunch & Abendessen",
+  "Zimmer im 2–3er Bungalow",
+  "Eigenes Bett",
+  "Transfer vom Flughafen zum Resort",
+  "Abendprogramm"
+],
+      popular: true,
+    },
+  ];
 
 export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramProps) {
   const [selectionError, setSelectionError] = useState("");
@@ -60,13 +105,15 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
       // For 30-day plan, include all modules
       updateFormData({ 
         duration,
-        modules: allModules.map(m => m.id)
+        modules: allModules.map(m => m.id),
+        moduleTitles: allModules.map(m => m.title)
       });
     } else {
       // For 15-day plan, set default to first 3 modules
       updateFormData({ 
         duration,
-        modules: allModules.slice(0, 3).map(m => m.id)
+        modules: allModules.slice(0, 3).map(m => m.id),
+        moduleTitles: allModules.slice(0, 3).map(m => m.title)
       });
     }
     setSelectionError("");
@@ -79,19 +126,21 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
     if (group === "first") {
       // Select all modules from first group (1-3)
       updateFormData({ 
-        modules: allModules.slice(0, 3).map(m => m.id)
+        modules: allModules.slice(0, 3).map(m => m.id),
+        moduleTitles: allModules.slice(0, 3).map(m => m.title)
       });
       setSelectedModuleGroup("first");
     } else {
       // Select all modules from second group (4-6)
       updateFormData({ 
-        modules: allModules.slice(3, 6).map(m => m.id)
+        modules: allModules.slice(3, 6).map(m => m.id),
+        moduleTitles: allModules.slice(3, 6).map(m => m.title)
       });
       setSelectedModuleGroup("second");
     }
   };
 
-  const canProceed = formData.duration > 0 && formData.country && 
+  const canProceed = formData.duration > 0 && 
                     (formData.duration === 30 || 
                     (formData.duration === 15 && formData.modules && formData.modules.length === 3));
 
@@ -101,68 +150,10 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
           <Crown className="w-8 h-8" /> Choose Your Program
         </h2>
-        <p className="text-red-600 text-xl">Select your preferred program, destination, and duration</p>
+        <p className="text-red-600 text-xl">Select your preferred program and duration</p>
       </div>
 
-      {/* Country Selection */}
-      <Card className="border-red-200 bg-red-50">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
-            <MapPin className="w-6 h-6" /> Destination Country
-          </CardTitle>
-          <CardDescription className="text-red-700 text-lg">
-            Where would you like to experience your program?
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <Label htmlFor="country" className="text-red-800 text-lg">Select Country *</Label>
-            <Select
-              value={formData.country || ""}
-              onValueChange={(value) => {
-                updateFormData({ country: value });
-              }}
-            >
-              <SelectTrigger id="country" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
-              <SelectValue placeholder="Land auswählen">
-        {formData.country || "Land auswählen"}
-      </SelectValue>              </SelectTrigger>
-              <SelectContent className="text-lg">
-                {countries.map((country) => (
-                  <SelectItem key={country} value={country} className="focus:bg-red-50 text-lg font-faculty">
-                    {country || ""}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* Group Size Information */}
-      <Card className="border-red-200 bg-red-50">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
-            <Users className="w-6 h-6" /> Group Size
-          </CardTitle>
-          <CardDescription className="text-red-700 text-lg">
-            Information about your travel group
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-red-100 p-4 rounded-lg border border-red-200">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-red-800 font-medium text-xl">Maximum Group Size:</span>
-              </div>
-              <Badge className="bg-red-600 text-white px-3 py-1 text-md">40 People</Badge>
-            </div>
-            <p className="text-red-700 mt-2 text-lg">
-              Our programs are designed for intimate group experiences with a maximum of 40 participants to ensure personalized attention.
-            </p>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Duration Selection */}
       <div className="space-y-4">
@@ -217,15 +208,27 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         </div>
       </div>
 
+      {/* Date Information - Show for selected duration */}
+      {formData.duration > 0 && (
+        <div className="text-center mb-6">
+          <div className="bg-white rounded-lg p-4 border border-red-200 max-w-md mx-auto">
+            <p className="text-red-800 text-lg font-medium">
+              {formData.duration === 15 ? "13 bis 28 August 2026" : "Vom 30 Juli bis zum 28 August 2026"}
+            </p>
+            <p className="text-red-600 text-sm mt-1">Reisedaten</p>
+          </div>
+        </div>
+      )}
+
       {/* Module Selection - Only show if 15-day duration is selected */}
       {formData.duration === 15 && (
         <Card className="border-red-200 bg-red-50">
           <CardHeader>
             <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
-              <Zap className="w-6 h-6" /> Program Modules
+              <Zap className="w-6 h-6" /> Modulauswahl
             </CardTitle>
             <CardDescription className="text-red-700 text-lg">
-              Select a module group for your 15-day program
+              Wähle deine Module und Reisezeit für dein 15-Tage-Programm
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -300,11 +303,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                 })}
             </div>
 
-            <div className="mt-6 text-center text-red-700 text-lg">
-              {selectedModuleGroup === "first" 
-                ? "Modules 1-3 are selected as a complete group" 
-                : "Modules 4-6 are selected as a complete group"}
-            </div>
+        
           </CardContent>
         </Card>
       )}
@@ -347,9 +346,6 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
           onClick={() => {
             if (canProceed) {
               onNext();
-              toast.success('Program selection completed!');
-            } else {
-              toast.error('Please complete all required fields');
             }
           }}
           disabled={!canProceed}

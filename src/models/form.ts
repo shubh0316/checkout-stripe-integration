@@ -2,13 +2,12 @@ import mongoose from "mongoose";
 
 const FormSchema = new mongoose.Schema({
   // Step 1
-  country: String,
   duration: Number,
-  module: String,
+  modules: [String],
+  moduleTitles: [String],
   
 
   // Step 2
-  salutation: String,
   firstName: String,
   lastName: String,
   gender: String,
@@ -17,7 +16,6 @@ const FormSchema = new mongoose.Schema({
   address: String,
   postalCode: String,
   city: String,
-  countryOfResidence: String,
   phone: String,
   email: String,
 
@@ -29,8 +27,6 @@ const FormSchema = new mongoose.Schema({
   //   french: String,
   //   other: String,
   // },
-  experience: String,
-  motivation: String,
   insurance: String,
 
   // Step 4
