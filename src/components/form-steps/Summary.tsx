@@ -9,7 +9,7 @@ interface SummaryProps {
 
 export function Summary({ formData }: SummaryProps) {
   return (
-    <Card className="border-red-200 bg-red-50">
+    <Card className="bg-white">
       <CardHeader>
         <CardTitle className="text-red-900 text-2xl">Summary</CardTitle>
         <CardDescription className="text-red-700 text-lg">

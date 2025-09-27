@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import Script from "next/script";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 // Local Custom Font
 const customFont = localFont({
@@ -46,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="de" className="translated-ltr">
       <body
         className={`${customFont.variable} ${secondFont.variable} ${arial.variable} antialiased`}
         style={{ fontFamily: "var(--font-custom)" }}
@@ -89,102 +90,111 @@ export default function RootLayout({
             })();
           `}
         </Script>
-        {/* Safe Google Translate Implementation */}
+        {/* Simplified Google Translate Implementation */}
         <Script id="google-translate" strategy="afterInteractive">
           {`
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement(
-                {
-                  pageLanguage: 'en',
-                  includedLanguages: 'de,en',
-                  autoDisplay: false,
-                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-                },
-                'google_translate_element'
-              );
-
-              // Set German cookie immediately
-              setCookie('googtrans', '/en/de', 365);
-              
-              // Force German translation
-              setTimeout(forceGermanTranslation, 1500);
-            }
-
-            function forceGermanTranslation() {
+            window.googleTranslateElementInit = function() {
               try {
-                const iframe = document.querySelector('iframe.goog-te-menu-frame');
-                if (iframe?.contentDocument) {
-                  const germanOption = [...iframe.contentDocument.querySelectorAll("span")]
-                    .find(el => el.innerText?.includes("Deutsch"));
-                  if (germanOption) {
-                    germanOption.click();
-                  }
+                new google.translate.TranslateElement(
+                  {
+                    pageLanguage: 'en',
+                    includedLanguages: 'de,en,fr,es,it,pt,ru,ja,ko,zh-cn,zh-tw,ar,hi',
+                    autoDisplay: false,
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+                  },
+                  'google_translate_element'
+                );
+                
+                // Set German translation cookie with proper domain
+                setCookie('googtrans', '/en/de', 365);
+                
+                // Apply translation after a short delay
+                setTimeout(applyGermanTranslation, 2000);
+                
+              } catch (error) {
+                console.warn('Google Translate initialization failed:', error);
+              }
+            };
+
+            function applyGermanTranslation() {
+              try {
+                // Check if already translated
+                if (document.body.classList.contains('translated-ltr')) {
+                  return;
                 }
-              } catch (e) {
-                // Fallback: Reload with German cookie
-                if (!window.location.hash.includes('googtrans')) {
-                  window.location.hash = '#googtrans(en|de)';
-                  setTimeout(() => window.location.reload(), 500);
+                
+                // Force translation using URL parameter
+                const url = new URL(window.location);
+                if (!url.searchParams.has('googtrans')) {
+                  url.searchParams.set('googtrans', '/en/de');
+                  window.history.replaceState({}, '', url);
+                  
+                  // Reload to apply translation
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 100);
                 }
+              } catch (error) {
+                console.warn('Translation application failed:', error);
               }
             }
 
             function setCookie(name, value, days) {
-              const expires = new Date();
-              expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
-              document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=/';
+              try {
+                const expires = new Date();
+                expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+                const domain = window.location.hostname === 'localhost' ? '' : '; domain=' + window.location.hostname;
+                document.cookie = name + '=' + value + '; expires=' + expires.toUTCString() + '; path=/' + domain;
+              } catch (error) {
+                console.warn('Cookie setting failed:', error);
+              }
             }
 
-            // Minimal protection - only when absolutely necessary
-            function protectCriticalElements() {
-              // Only protect elements that are actively causing errors
-              document.querySelectorAll('[data-radix-select-content]').forEach(element => {
-                if (!element.hasAttribute('data-protected')) {
-                  element.style.isolation = 'isolate';
-                  element.style.transform = 'translateZ(0)';
-                  element.setAttribute('data-protected', 'true');
-                }
-              });
-            }
-
-            // Smart observer - only protect when dropdowns are opening
-            const observer = new MutationObserver(function(mutations) {
-              mutations.forEach(function(mutation) {
-                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                  mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1 && node.hasAttribute && 
-                        node.hasAttribute('data-radix-select-content')) {
-                      setTimeout(protectCriticalElements, 0);
-                    }
-                  });
-                }
-              });
-            });
-
-            // Initialize everything
+            // Initialize on DOM ready
             document.addEventListener('DOMContentLoaded', function() {
-              observer.observe(document.body, {
-                childList: true,
-                subtree: true
-              });
-            });
-
-            // Check for existing German cookie
-            window.addEventListener('load', function() {
-              const cookie = document.cookie.split(';').find(c => c.trim().startsWith('googtrans='));
-              if (!cookie || !cookie.includes('/en/de')) {
+              // Check for existing translation
+              const urlParams = new URLSearchParams(window.location.search);
+              const googtrans = urlParams.get('googtrans');
+              
+              if (!googtrans) {
+                // Set initial German cookie
                 setCookie('googtrans', '/en/de', 365);
               }
             });
+
+            // Add error handling for script loading
+            window.addEventListener('error', function(e) {
+              if (e.message && e.message.includes('translate')) {
+                console.warn('Google Translate script failed to load');
+                const fallbackSelector = document.getElementById('language-selector');
+                if (fallbackSelector) {
+                  fallbackSelector.style.display = 'block';
+                }
+              }
+            });
+
+            // Fallback: If Google Translate fails to load, show language selector
+            setTimeout(function() {
+              if (typeof google === 'undefined' || !google.translate) {
+                console.warn('Google Translate failed to load, showing fallback selector');
+                const fallbackSelector = document.getElementById('language-selector');
+                if (fallbackSelector) {
+                  fallbackSelector.style.display = 'block';
+                }
+              }
+            }, 10000);
           `}
         </Script>
         
         <Script
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
           strategy="afterInteractive"
         />
 
         <div id="google_translate_element" style={{ display: "none" }}></div>
+        
+        {/* Fallback Language Selector */}
+        <LanguageSelector />
 
         {children}
 

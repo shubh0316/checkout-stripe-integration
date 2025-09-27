@@ -39,7 +39,7 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
         <p className="text-red-600 text-xl md:text-2xl">Please provide your personal details</p>
       </div>
 
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 text-2xl md:text-3xl">Basic Information</CardTitle>
           <CardDescription className="text-red-700 text-lg md:text-xl">
@@ -124,7 +124,7 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
         </CardContent>
       </Card>
 
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl md:text-3xl">
             <Phone className="w-6 h-6" /> Contact Information
@@ -166,7 +166,7 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
         </CardContent>
       </Card>
 
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl md:text-3xl">
             <MapPin className="w-6 h-6" /> Address Information

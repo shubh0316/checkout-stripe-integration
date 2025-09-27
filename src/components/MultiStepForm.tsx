@@ -180,7 +180,7 @@ export function MultiStepForm() {
   };
 
   return (
-    <div className="bg-white rounded-xl md:rounded-2xl shadow-lg md:shadow-xl p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
+    <div className="p-4 md:p-6 lg:p-8 mx-2 md:mx-0">
       {/* Mobile step indicator (simplified for mobile) */}
       <div className="md:hidden mb-6">
         <div className="flex items-center justify-between">
@@ -188,9 +188,9 @@ export function MultiStepForm() {
             Step {currentStep} of {steps.length}
           </span>
         </div>
-        <div className="w-full bg-red-100 rounded-full h-2 mt-2">
+        <div className="w-full bg-white rounded-full h-2 mt-2">
           <div 
-            className="bg-red-600 h-2 rounded-full transition-all duration-300"
+            className="bg-white h-2 rounded-full transition-all duration-300"
             style={{ width: `${(currentStep / steps.length) * 100}%` }}
           />
         </div>

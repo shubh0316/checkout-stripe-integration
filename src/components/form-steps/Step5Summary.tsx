@@ -51,7 +51,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
       <Summary formData={formData} />
 
       {/* Payment Information */}
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
             <CreditCard className="w-6 h-6" /> Kosten

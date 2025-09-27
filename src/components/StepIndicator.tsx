@@ -24,7 +24,7 @@ export function StepIndicator({ steps, currentStep, onStepChange }: StepIndicato
             className={`flex-1 text-center py-2 px-4 rounded-full font-medium transition-all duration-300 
               ${step.id === currentStep 
                 ? "bg-red-600 text-white shadow-md" 
-                : "bg-gray-200 text-gray-600 hover:bg-red-100"}`}
+                : "bg-white text-gray-600 hover:bg-red-100"}`}
           >
             {step.title}{" "}
           </button>
@@ -33,7 +33,7 @@ export function StepIndicator({ steps, currentStep, onStepChange }: StepIndicato
           {index < steps.length - 1 && (
             <div
               className={`flex-1 h-1 mx-2 transition-all duration-300 
-                ${step.id < currentStep ? "bg-red-600" : "bg-gray-300"}`}
+                ${step.id < currentStep ? "bg-red-600" : "bg-white"}`}
             />
           )}
         </div>

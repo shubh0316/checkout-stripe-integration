@@ -223,7 +223,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
 
       {/* Module Selection - Only show if 15-day duration is selected */}
       {formData.duration === 15 && (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="bg-white">
           <CardHeader>
             <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
               <Zap className="w-6 h-6" /> Modulauswahl
@@ -310,7 +310,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
 
       {/* Module Display for 30-day plan */}
       {formData.duration === 30 && (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="bg-white">
           <CardHeader>
             <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
               <Zap className="w-6 h-6" /> Program Modules

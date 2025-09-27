@@ -63,7 +63,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       </div>
 
       {/* Accommodation Preferences */}
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
             <Home className="w-6 h-6" /> Accommodation Preference
@@ -97,7 +97,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       </Card>
 
       {/* Insurance Information */}
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
             <CheckCircle className="w-6 h-6" /> Insurance Information
@@ -135,7 +135,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       </Card>
 
       {/* Dietary Preferences */}
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
             <Utensils className="w-6 h-6" /> Emährung
@@ -169,7 +169,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       </Card>
 
       {/* Allergies & Medical Conditions */}
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
             <Heart className="w-6 h-6" /> Health Information
@@ -197,7 +197,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       </Card>
 
       {/* Emergency Contact */}
-      <Card className="border-red-200 bg-red-50">
+      <Card className="bg-white">
         <CardHeader>
           <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
             <User className="w-6 h-6" /> Emergency Contact
