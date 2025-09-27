@@ -214,8 +214,13 @@ export function MultiStepForm() {
         />
       </div>
       
-      <div className="mt-4 md:mt-6 lg:mt-8">
-        {renderStep()}
+      <div className="mt-4 md:mt-6 lg:mt-8 overflow-hidden">
+        <div 
+          key={currentStep}
+          className="step-slide-in"
+        >
+          {renderStep()}
+        </div>
       </div>
     </div>
   );

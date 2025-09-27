@@ -48,10 +48,9 @@ interface Step1ProgramProps {
       title: "Steuern und Finanzen", 
       description: "Finanz- und Steuerwissen" 
     },
-
     { 
-      id: "module5", 
-      name: "Modul 5", 
+      id: "module6", 
+      name: "Modul 6", 
       title: "Coaching: Was ist der weg der zu mir passt?", 
       description: "Persönlichkeitsentwicklung und Coaching" 
     }
@@ -102,12 +101,13 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
   // Handle duration changes
   const handleDurationChange = (duration: number) => {
     if (duration === 30) {
-      // For 30-day plan, include all modules
+      // For 30-day plan, include all 6 modules
       updateFormData({ 
         duration,
         modules: allModules.map(m => m.id),
         moduleTitles: allModules.map(m => m.title)
       });
+      setSelectedModuleGroup("first"); // Reset module group selection
     } else {
       // For 15-day plan, set default to first 3 modules
       updateFormData({ 
@@ -115,6 +115,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         modules: allModules.slice(0, 3).map(m => m.id),
         moduleTitles: allModules.slice(0, 3).map(m => m.title)
       });
+      setSelectedModuleGroup("first"); // Set to first group by default
     }
     setSelectionError("");
   };
@@ -212,7 +213,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
       {formData.duration > 0 && (
         <div className="text-center mb-6">
           <div className="bg-white rounded-lg p-4 border border-red-200 max-w-md mx-auto">
-            <p className="text-red-800 text-lg font-medium">
+            <p className="text-red-800 text-lg font-medium font-faculty">
               {formData.duration === 15 ? "13 bis 28 August 2026" : "Vom 30 Juli bis zum 28 August 2026"}
             </p>
             <p className="text-red-600 text-sm mt-1">Reisedaten</p>
@@ -260,9 +261,8 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {allModules
-                .filter(module => {
-                  const moduleIndex = allModules.findIndex(m => m.id === module.id);
-                  return selectedModuleGroup === "first" ? moduleIndex < 3 : moduleIndex >= 3;
+                .filter((module, index) => {
+                  return selectedModuleGroup === "first" ? index < 3 : index >= 3;
                 })
                 .map((module) => {
                   const isSelected = formData.modules && formData.modules.includes(module.id);
