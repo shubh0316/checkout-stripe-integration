@@ -218,8 +218,10 @@ const userMailOptions = {
         <p><strong>Module:</strong> ${(formData.moduleTitles || []).join(', ') || 'Keine Angabe'}</p>
         <p><strong>Reisedaten:</strong> ${
           formData.duration === 30 
-            ? 'Vom 30. Juli bis zum 28. August 2026' 
-            : '13. bis 28. August 2026'
+            ? 'Vom 29. Juli bis zum 28. August 2026' 
+            : formData.modules && formData.modules.includes('module1') 
+              ? '29. Juli bis 13. August 2026'
+              : '13. bis 28. August 2026'
         }</p>
         <p><strong>Ort:</strong> Marrakesch, Marokko, Domaine Yakourt</p>
 

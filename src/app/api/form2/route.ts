@@ -178,17 +178,26 @@ export async function POST(request) {
         </html>
       `,
     };
-// if 15 dates program selected then start date will 13 august 2026 and end date will be 28 august 2026
-// if 30 dates program selected then start date will be 30 july 2026 and end date will be 28 august 2026
+// if 15 dates program selected with modules 1-3 then start date will be 29 july 2026 and end date will be 13 august 2026
+// if 15 dates program selected with modules 4-6 then start date will be 13 august 2026 and end date will be 28 august 2026
+// if 30 dates program selected then start date will be 29 july 2026 and end date will be 28 august 2026
     // Thank you email to applicant
   // Determine start and end dates based on duration
 let programStartDate, programEndDate;
 
 if (formData.duration == 15) {
-  programStartDate = '13 August 2026';
-  programEndDate = '28 August 2026';
+  // Check which modules are selected to determine dates
+  if (formData.modules && formData.modules.includes('module1')) {
+    // Modules 1-3: 29. Juli - 13. August
+    programStartDate = '29 Juli 2026';
+    programEndDate = '13 August 2026';
+  } else {
+    // Modules 4-6: 13. - 28. August
+    programStartDate = '13 August 2026';
+    programEndDate = '28 August 2026';
+  }
 } else if (formData.duration == 30) {
-  programStartDate = '30 July 2026';
+  programStartDate = '29 Juli 2026';
   programEndDate = '28 August 2026';
 } else {
   programStartDate = 'Not specified';

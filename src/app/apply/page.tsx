@@ -150,10 +150,9 @@ const TimelifeApplicationForm = () => {
       title: "Steuern und Finanzen", 
       description: "Finanz- und Steuerwissen" 
     },
-
     { 
-      id: "module5", 
-      name: "Modul 5", 
+      id: "module6", 
+      name: "Modul 6", 
       title: "Coaching: Was ist der weg der zu mir passt?", 
       description: "Persönlichkeitsentwicklung und Coaching" 
     }
@@ -317,15 +316,29 @@ const TimelifeApplicationForm = () => {
                 </div>
               </div>
 
+              {/* Date Information - Show for selected duration */}
+              {formData.duration > 0 && (
+                <div className="text-center mb-6">
+                  <div className="bg-white rounded-lg p-4 border border-red-200 max-w-md mx-auto">
+                    <p className="text-red-800 text-lg font-medium font-faculty">
+                      {formData.duration === 15 ? 
+                        (selectedModuleGroup === "first" ? "29. Juli bis 13. August 2026" : "13. bis 28. August 2026") 
+                        : "Vom 29. Juli bis zum 28. August 2026"}
+                    </p>
+                    <p className="text-red-600 text-sm mt-1">Reisedaten</p>
+                  </div>
+                </div>
+              )}
+
               {/* Module Selection - Only show if 15-day duration is selected */}
               {formData.duration === 15 && (
                 <Card className="border-red-200 bg-red-50">
                   <CardHeader>
                     <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
-                      <Zap className="w-6 h-6" /> Modulauswahi
+                      <Zap className="w-6 h-6" /> Modulauswahl
                     </CardTitle>
                     <CardDescription className="text-red-700 text-lg">
-                      "Wähle deine Module und Reisezeit für dein 15-Tage-Programm"
+                      Wähle deine Module und Reisezeit für dein 15-Tage-Programm
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -365,9 +378,8 @@ const TimelifeApplicationForm = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {allModules
-                        .filter(module => {
-                          const moduleIndex = allModules.findIndex(m => m.id === module.id);
-                          return selectedModuleGroup === "first" ? moduleIndex < 3 : moduleIndex >= 3;
+                        .filter((module, index) => {
+                          return selectedModuleGroup === "first" ? index < 3 : index >= 3;
                         })
                         .map((module) => {
                           const isSelected = formData.modules && formData.modules.includes(module.id);

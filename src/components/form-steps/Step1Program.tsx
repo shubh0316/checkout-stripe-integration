@@ -214,7 +214,9 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         <div className="text-center mb-6">
           <div className="bg-white rounded-lg p-4 border border-red-200 max-w-md mx-auto">
             <p className="text-red-800 text-lg font-medium font-faculty">
-              {formData.duration === 15 ? "13 bis 28 August 2026" : "Vom 30 Juli bis zum 28 August 2026"}
+              {formData.duration === 15 ? 
+                (selectedModuleGroup === "first" ? "29. Juli bis 13. August 2026" : "13. bis 28. August 2026") 
+                : "Vom 29. Juli bis zum 28. August 2026"}
             </p>
             <p className="text-red-600 text-sm mt-1">Reisedaten</p>
           </div>
