@@ -149,9 +149,9 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
     <div className="space-y-8 max-w-5xl mx-auto p-4">
       <div className="text-center">
         <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
-          <Crown className="w-8 h-8" /> Choose Your Program
+          <Crown className="w-8 h-8" /> Wähle hier dein Programm
         </h2>
-        <p className="text-red-600 text-xl">Select your preferred program and duration</p>
+        <p className="text-red-600 text-xl">Wähle hier dein bevorzugtes Programm wie auch die Dauer</p>
       </div>
 
 
@@ -172,10 +172,10 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
               }`}
               onClick={() => handleDurationChange(plan.duration)}
             >
-              <CardHeader className="pb-3 relative">
+              <CardHeader className={`pb-3 relative ${plan.popular ? 'pt-8 sm:pt-6' : ''}`}>
                 {plan.popular && (
-                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-3 py-1 flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-current" /> Most Popular
+                  <Badge className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2 bg-red-600 text-white px-2 sm:px-3 py-1 flex items-center gap-1 text-xs sm:text-sm whitespace-nowrap">
+                    <Star className="w-3 h-3 fill-current" /> Unsere Empfehlung
                   </Badge>
                 )}
                 <CardTitle className="text-red-900 text-xl flex justify-between items-start">
@@ -218,7 +218,6 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                 (selectedModuleGroup === "first" ? "29. Juli bis 13. August 2026" : "13. bis 28. August 2026") 
                 : "Vom 29. Juli bis zum 28. August 2026"}
             </p>
-            <p className="text-red-600 text-sm mt-1">Reisedaten</p>
           </div>
         </div>
       )}
@@ -353,7 +352,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
           disabled={!canProceed}
           className="bg-red-700 hover:bg-red-800 text-white px-8 py-3 text-lg font-medium h-12 transition-all shadow-lg hover:shadow-xl"
         >
-          Continue 
+         Weiter zu Schritt 2
         </Button>
       </div>
     </div>

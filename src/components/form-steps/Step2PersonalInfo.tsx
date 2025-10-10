@@ -31,38 +31,36 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
                     formData.phone && formData.email;
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto p-3 sm:p-0">
       <div className="text-center">
-        <h2 className="font-bold text-red-800 mb-3 flex items-center justify-center gap-2 text-4xl md:text-5xl">
-          <User className="w-8 h-8 md:w-9 md:h-9" /> Personal Information
+        <h2 className="font-bold text-red-800 mb-2 sm:mb-3 flex items-center justify-center gap-2 text-2xl sm:text-3xl md:text-4xl">
+          <User className="w-6 h-6 sm:w-8 sm:h-8" /> Personal Information
         </h2>
-        <p className="text-red-600 text-xl md:text-2xl">Please provide your personal details</p>
+        <p className="text-red-600 text-base sm:text-lg md:text-xl">Bitte gebe hier deine persönlichen Daten an</p>
       </div>
 
       <Card className="bg-white">
-        <CardHeader>
-          <CardTitle className="text-red-900 text-2xl md:text-3xl">Basic Information</CardTitle>
-          <CardDescription className="text-red-700 text-lg md:text-xl">
-            Tell us about yourself
-          </CardDescription>
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-red-900 text-lg sm:text-xl md:text-2xl">Deine Informationen</CardTitle>
+
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <CardContent className="px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
 
             <div className="space-y-2">
-              <Label htmlFor="gender" className="text-red-800 text-lg md:text-xl">Gender *</Label>
+              <Label htmlFor="gender" className="text-red-800 text-base sm:text-lg">Gender *</Label>
               <Select
                 value={formData.gender || ""}
                 onValueChange={(value) => updateFormData({ gender: value })}
               >
-                <SelectTrigger id="gender" className="border-red-300 focus:ring-red-500 bg-white h-12 text-lg placeholder:text-gray-500 font-faculty">
+                <SelectTrigger id="gender" className="border-red-300 focus:ring-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-gray-500 font-faculty">
                 <SelectValue placeholder="Geschlecht auswählen">
         {formData.gender || "Geschlecht auswählen"}
       </SelectValue>
                 </SelectTrigger>
-                <SelectContent className="text-lg">
+                <SelectContent className="text-base sm:text-lg">
                   {genders.map((gender) => (
-                    <SelectItem key={gender} value={gender} className="focus:bg-red-50 text-lg font-faculty">
+                    <SelectItem key={gender} value={gender} className="focus:bg-red-50 text-base sm:text-lg font-faculty">
                       {gender}
                     </SelectItem>
                   ))}
@@ -71,53 +69,53 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="firstName" className="text-red-800 text-lg md:text-xl">First Name *</Label>
+              <Label htmlFor="firstName" className="text-red-800 text-base sm:text-lg">First Name *</Label>
               <Input
                 id="firstName"
                 type="text"
                 value={formData.firstName}
                 onChange={(e) => updateFormData({ firstName: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your first name"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deinen Vornamen ein"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="lastName" className="text-red-800 text-lg md:text-xl">Last Name *</Label>
+              <Label htmlFor="lastName" className="text-red-800 text-base sm:text-lg">Last Name *</Label>
               <Input
                 id="lastName"
                 type="text"
                 value={formData.lastName}
                 onChange={(e) => updateFormData({ lastName: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your last name"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deinen Nachnamen ein"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="birthDate" className="text-red-800 flex items-center gap-2 text-lg md:text-xl">
-                <Calendar className="w-5 h-5" /> Date of Birth *
+              <Label htmlFor="birthDate" className="text-red-800 flex items-center gap-2 text-base sm:text-lg">
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5" /> Date of Birth *
               </Label>
               <Input
                 id="birthDate"
                 type="date"
                 value={formData.birthDate}
                 onChange={(e) => updateFormData({ birthDate: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg font-faculty"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg font-faculty"
                 placeholder="tt/mm/jjjj"
                 pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="nationality" className="text-red-800 text-lg md:text-xl">Nationality *</Label>
+              <Label htmlFor="nationality" className="text-red-800 text-base sm:text-lg">Nationality *</Label>
               <Input
                 id="nationality"
                 type="text"
                 value={formData.nationality}
                 onChange={(e) => updateFormData({ nationality: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your nationality"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deine Nationalität an"
               />
             </div>
           </div>
@@ -125,41 +123,41 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
       </Card>
 
       <Card className="bg-white">
-        <CardHeader>
-          <CardTitle className="text-red-900 flex items-center gap-2 text-2xl md:text-3xl">
-            <Phone className="w-6 h-6" /> Contact Information
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
+            <Phone className="w-5 h-5 sm:w-6 sm:h-6" /> Contact Information
           </CardTitle>
-          <CardDescription className="text-red-700 text-lg md:text-xl">
-            How can we reach you?
+          <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
+           Wie können wir dich am besten erreichen ?
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <CardContent className="px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-red-800 text-lg md:text-xl flex items-center gap-2">
-                <Phone className="w-5 h-5" /> Phone Number *
+              <Label htmlFor="phone" className="text-red-800 text-base sm:text-lg flex items-center gap-2">
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5" /> Phone Number *
               </Label>
               <Input
                 id="phone"
                 type="tel"
                 value={formData.phone}
                 onChange={(e) => updateFormData({ phone: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your phone number"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deine Telefonnummer ein"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-red-800 flex items-center gap-2 text-lg md:text-xl">
-                <Mail className="w-5 h-5" /> Email Address *
+              <Label htmlFor="email" className="text-red-800 flex items-center gap-2 text-base sm:text-lg">
+                <Mail className="w-4 h-4 sm:w-5 sm:h-5" /> Email Address *
               </Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => updateFormData({ email: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your email address"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deine E-Mail-Adresse ein"
               />
             </div>
           </div>
@@ -167,49 +165,49 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
       </Card>
 
       <Card className="bg-white">
-        <CardHeader>
-          <CardTitle className="text-red-900 flex items-center gap-2 text-2xl md:text-3xl">
-            <MapPin className="w-6 h-6" /> Address Information
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
+            <MapPin className="w-5 h-5 sm:w-6 sm:h-6" /> Address Information
           </CardTitle>
-          <CardDescription className="text-red-700 text-lg md:text-xl">
+          <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
             Where do you live?
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <CardContent className="px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             <div className="md:col-span-2 space-y-2">
-              <Label htmlFor="address" className="text-red-800 text-lg md:text-xl">Street Address *</Label>
+              <Label htmlFor="address" className="text-red-800 text-base sm:text-lg">Strasse *</Label>
               <Input
                 id="address"
                 type="text"
                 value={formData.address}
                 onChange={(e) => updateFormData({ address: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your street address"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deine Strasse & Hausnummer ein"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="city" className="text-red-800 text-lg md:text-xl">City *</Label>
+              <Label htmlFor="city" className="text-red-800 text-base sm:text-lg">City *</Label>
               <Input
                 id="city"
                 type="text"
                 value={formData.city}
                 onChange={(e) => updateFormData({ city: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your city"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deine Stadt ein"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="postalCode" className="text-red-800 text-lg md:text-xl">Postal Code *</Label>
+              <Label htmlFor="postalCode" className="text-red-800 text-base sm:text-lg">Postal Code *</Label>
               <Input
                 id="postalCode"
                 type="text"
                 value={formData.postalCode}
                 onChange={(e) => updateFormData({ postalCode: e.target.value })}
-                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-12 text-lg placeholder:text-lg placeholder:text-gray-500 font-faculty"
-                placeholder="Enter your postal code"
+                className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-11 sm:h-12 text-base sm:text-lg placeholder:text-base sm:placeholder:text-lg placeholder:text-gray-500 font-faculty"
+                placeholder="Gebe deine Postleitzahl ein"
               />
             </div>
 
@@ -218,20 +216,20 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
       </Card>
 
       {/* Navigation */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between pt-6">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-between pt-4 sm:pt-6">
         <Button
           onClick={onPrev}
           variant="outline"
-          className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 px-7 py-3 text-lg h-12"
+          className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 px-5 sm:px-7 py-2 sm:py-3 text-base sm:text-lg h-11 sm:h-12"
         >
-          <ArrowLeft className="w-5 h-5 mr-2" /> Back to Program Details
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Back to Program Details
         </Button>
         <Button
           onClick={onNext}
           disabled={!canProceed}
-          className="bg-red-700 hover:bg-red-800 text-white px-8 py-3 text-lg font-medium h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+          className="bg-red-700 hover:bg-red-800 text-white px-6 sm:px-8 py-2 sm:py-3 text-base sm:text-lg font-medium h-11 sm:h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
         >
-          Continue to Preferences <ArrowRight className="w-5 h-5 ml-2" />
+          Weiter zu Schritt 3 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2" />
         </Button>
       </div>
     </div>

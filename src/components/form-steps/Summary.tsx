@@ -30,7 +30,7 @@ export function Summary({ formData }: SummaryProps) {
             <div className="md:col-span-2"><b className="text-red-800">Selected Modules:</b> {formData.moduleTitles.join(', ')}</div>
           )}
           <div className="md:col-span-2"><b className="text-red-800">Insurance Status:</b>{formData.insurance}</div>
-          <div><b className="text-red-800">Accommodation:</b> {formData.accommodation}</div>
+          {/* <div><b className="text-red-800">Accommodation:</b> {formData.accommodation}</div> */}
           <div><b className="text-red-800">Diet:</b> {formData.diet}</div>
           {formData.allergies && (
             <div className="md:col-span-2"><b className="text-red-800">Allergies:</b> {formData.allergies}</div>

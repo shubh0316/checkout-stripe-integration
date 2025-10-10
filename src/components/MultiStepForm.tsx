@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Step1Program } from './form-steps/Step1Program';
 import { Step2PersonalInfo } from './form-steps/Step2PersonalInfo';
 import { Step4Preferences } from './form-steps/Step4Preferences';
@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 const steps = [
   { id: 1, title: 'step1', description: 'Select your program and dates' },
   { id: 2, title: 'step2', description: 'Fill in your details' },
-  { id: 3, title: 'step3', description: 'Choose accommodation and dietary needs' },
+  { id: 3, title: 'step3', description: 'Choose dietary needs and preferences' },
   { id: 4, title: 'step4', description: 'Review and submit' },
 ];
 
@@ -37,7 +37,7 @@ export function MultiStepForm() {
     email: '',
     insurance: '',
     
-    accommodation: '',
+    // accommodation: '', // COMMENTED OUT
     diet: '',
     allergies: '',
     emergencyContact: {
@@ -52,6 +52,14 @@ export function MultiStepForm() {
   const updateFormData = (data: Partial<FormData>) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
+
+  // Scroll to top whenever step changes
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }, [currentStep]);
 
   const nextStep = () => {
     if (currentStep < steps.length) {
@@ -234,7 +242,7 @@ function validateCurrentStep(step: number, formData: FormData): boolean {
     case 2:
       return !!(formData.firstName && formData.lastName && formData.email && formData.phone);
     case 3:
-      return !!(formData.insurance && formData.accommodation && formData.diet && 
+      return !!(formData.insurance && formData.diet && 
                 formData.emergencyContact.name && formData.emergencyContact.relation && 
                 formData.emergencyContact.phone && formData.emergencyContact.email);
     default:

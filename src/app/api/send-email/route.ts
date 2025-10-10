@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Insurance:</strong> ${data.insurance || 'Not provided'}</p>
         
         <h3>Preferences</h3>
-        <p><strong>Accommodation:</strong> ${data.accommodation || 'Not provided'}</p>
+        <!-- <p><strong>Accommodation:</strong> ${data.accommodation || 'Not provided'}</p> -->
         <p><strong>Diet:</strong> ${data.diet || 'Not provided'}</p>
         <p><strong>Allergies:</strong> ${data.allergies || 'Not provided'}</p>
         
@@ -213,10 +213,9 @@ const userMailOptions = {
         <p>Herzlichen Glückwunsch 🎉 – deine verbindliche Anmeldung für die <strong>Time Life Club Reise</strong> ist erfolgreich bei uns eingegangen!</p>
         <p>Wir freuen uns riesig, dich bald in Marokko begrüßen zu dürfen.</p>
 
-        <h2>Deine Reisedaten</h2>
         <p><strong>Programmdauer:</strong> ${formData.duration} Tage</p>
         <p><strong>Module:</strong> ${(formData.moduleTitles || []).join(', ') || 'Keine Angabe'}</p>
-        <p><strong>Reisedaten:</strong> ${
+        <p><strong>Reisezeitraum:</strong> ${
           formData.duration === 30 
             ? 'Vom 29. Juli bis zum 28. August 2026' 
             : formData.modules && formData.modules.includes('module1') 

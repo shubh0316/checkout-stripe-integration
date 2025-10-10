@@ -30,7 +30,7 @@ const FormSchema = new mongoose.Schema({
   insurance: String,
 
   // Step 4
-  accommodation: String,
+  // accommodation: String, // COMMENTED OUT
   diet: String,
   allergies: String,
   emergencyContact: {

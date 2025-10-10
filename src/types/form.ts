@@ -28,7 +28,7 @@ export interface FormData {
   insurance: string;
   
   // Step 4
-  accommodation: string;
+  // accommodation: string; // COMMENTED OUT
   diet: string;
   allergies: string;
   emergencyContact: {

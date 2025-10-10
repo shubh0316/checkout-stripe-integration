@@ -39,12 +39,12 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto p-3 sm:p-0">
       <div className="text-center">
-        <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
-          <CheckCircle className="w-8 h-8" /> Überprüfung deiner Angaben
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-800 mb-2 sm:mb-3 flex items-center justify-center gap-2">
+          <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" /> Überprüfung deiner Angaben
         </h2>
-        <p className="text-red-600 text-xl">Überprüfe deineN Angaben und Buche den Trip</p>
+        <p className="text-red-600 text-base sm:text-lg md:text-xl">Überprüfe deineN Angaben und Buche den Trip</p>
       </div>
 
       {/* Application Summary */}
@@ -52,41 +52,41 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
 
       {/* Payment Information */}
       <Card className="bg-white">
-        <CardHeader>
-          <CardTitle className="text-red-900 flex items-center gap-2 text-2xl">
-            <CreditCard className="w-6 h-6" /> Kosten
+        <CardHeader className="px-4 sm:px-6">
+          <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
+            <CreditCard className="w-5 h-5 sm:w-6 sm:h-6" /> Kosten
           </CardTitle>
-          <CardDescription className="text-red-700 text-lg">
+          <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
             Complete your application with payment
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
+        <CardContent className="px-4 sm:px-6">
+          <div className="space-y-3 sm:space-y-4">
             {/* <div className="flex justify-between items-center p-4 bg-red-100 rounded-lg">
               <span className="text-red-800 font-medium text-lg">Program Fee</span>
               <span className="text-red-700 font-bold text-xl font-faculty">{getPrice()}</span>
             </div> */}
             
             {submitError && (
-              <div className="p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-lg">
+              <div className="p-2 sm:p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg text-sm sm:text-base md:text-lg">
                 {submitError}
               </div>
             )}
 
             {/* Terms and Conditions */}
-            <div className="p-4 bg-white border border-red-200 rounded-lg">
-              <div className="flex items-start space-x-3">
+            <div className="p-3 sm:p-4 bg-white border border-red-200 rounded-lg">
+              <div className="flex items-start space-x-2 sm:space-x-3">
                 <Checkbox
                   id="terms"
                   checked={formData.termsAccepted || false}
                   onCheckedChange={(checked) => handleTermsChange(checked === true)}
-                  className="mt-1 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600"
+                  className="mt-1 data-[state=checked]:bg-red-600 data-[state=checked]:border-red-600 flex-shrink-0"
                 />
                 <div className="space-y-2">
-                  <Label htmlFor="terms" className="text-red-800 text-lg cursor-pointer">
+                  <Label htmlFor="terms" className="text-red-800 text-sm sm:text-base md:text-lg cursor-pointer">
                    ich akzeptiere die allgemeinen <a href="https://timelifeclub.com/agb" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-600">Geschäftsbedingungen</a> *
                   </Label>
-                  <p className="text-red-700 text-sm">
+                  <p className="text-red-700 text-xs sm:text-sm">
                   Durch Ankreuzen dieses Kästchens bestätige ich, dass ich die AGBs, Stornierungsbedingungen und Datenschutzbestimmungen gelesen, verstanden und akzeptiert habe.
 Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung verarbeitet werden, dass die Programmgebühren den angegebenen Stornierungsbedingungen unterliegen und dass die Reise nur stattfindet, wenn die Mindestteilnehmerzahl erreicht wird.
 
@@ -95,13 +95,13 @@ Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung 
               </div>
             </div>
             
-            <div className="pt-4">
+            <div className="pt-3 sm:pt-4">
            
               
               <Button
                 onClick={onSubmit}
                 disabled={isSubmitting || !canSubmit}
-                className="w-full bg-red-700 hover:bg-red-800 text-white py-3 text-lg font-medium h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="w-full bg-red-700 hover:bg-red-800 text-white py-2 sm:py-3 text-base sm:text-lg font-medium h-11 sm:h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Processing...' : `Submit & Pay ${formatPrice(getPrice())}`}
               </Button>
@@ -110,13 +110,13 @@ Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung 
         </CardContent>
       </Card>
 
-      <div className="flex sm:flex-row justify-between pt-6">
+      <div className="flex sm:flex-row justify-between pt-4 sm:pt-6">
         <Button
           onClick={onPrev}
           variant="outline"
-          className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 px-7 py-3 text-lg h-12"
+          className="border-red-300 text-red-700 hover:bg-red-50 hover:text-red-800 px-5 sm:px-7 py-2 sm:py-3 text-base sm:text-lg h-11 sm:h-12"
         >
-          <ArrowLeft className="w-5 h-5 mr-2" /> Back 
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" /> Back 
         </Button>
       </div>
     </div>

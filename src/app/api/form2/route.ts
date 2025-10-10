@@ -236,7 +236,6 @@ const userMailOptions = {
         <p>Vielen Dank, dass Sie sich für das <strong>Timelife Club ${formData.duration}-Tage-Programm</strong> beworben haben.</p>
         
         <div class="highlight">
-          <h3>📋 Ihre Reisedaten:</h3>
           <p><strong>Programm:</strong> ${formData.duration} Days</p>
           <p><strong>Modules:</strong> ${(formData.moduleTitles || []).join(', ') || 'Not specified'}</p>
           <p><strong>Start:</strong> ${programStartDate}</p>
