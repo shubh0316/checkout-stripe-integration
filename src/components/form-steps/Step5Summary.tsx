@@ -39,8 +39,8 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto p-3 sm:p-0">
-      <div className="text-center">
+    <div className="space-y-3 sm:space-y-6 max-w-4xl mx-auto">
+      <div className="text-center px-2 sm:px-0">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-800 mb-2 sm:mb-3 flex items-center justify-center gap-2">
           <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" /> Überprüfung deiner Angaben
         </h2>
@@ -52,7 +52,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
 
       {/* Payment Information */}
       <Card className="bg-white">
-        <CardHeader className="px-4 sm:px-6">
+        <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
           <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
             <CreditCard className="w-5 h-5 sm:w-6 sm:h-6" /> Kosten
           </CardTitle>
@@ -60,8 +60,8 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
             Complete your application with payment
           </CardDescription>
         </CardHeader>
-        <CardContent className="px-4 sm:px-6">
-          <div className="space-y-3 sm:space-y-4">
+        <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+          <div className="space-y-2 sm:space-y-4">
             {/* <div className="flex justify-between items-center p-4 bg-red-100 rounded-lg">
               <span className="text-red-800 font-medium text-lg">Program Fee</span>
               <span className="text-red-700 font-bold text-xl font-faculty">{getPrice()}</span>
@@ -74,7 +74,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
             )}
 
             {/* Terms and Conditions */}
-            <div className="p-3 sm:p-4 bg-white border border-red-200 rounded-lg">
+            <div className="p-2 sm:p-4 bg-white border border-red-200 rounded-lg">
               <div className="flex items-start space-x-2 sm:space-x-3">
                 <Checkbox
                   id="terms"
@@ -95,7 +95,7 @@ Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung 
               </div>
             </div>
             
-            <div className="pt-3 sm:pt-4">
+            <div className="pt-2 sm:pt-4">
            
               
               <Button
@@ -110,7 +110,7 @@ Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung 
         </CardContent>
       </Card>
 
-      <div className="flex sm:flex-row justify-between pt-4 sm:pt-6">
+      <div className="flex sm:flex-row justify-between pt-3 sm:pt-6 px-2 sm:px-0">
         <Button
           onClick={onPrev}
           variant="outline"

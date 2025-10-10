@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { generatePaymentLink, getProgramPrice, formatPrice } from '../../../lib/payment';
+import { generateBookingConfirmationEmail, generateBookingConfirmationPlainText } from '../../../lib/emailTemplates';
 
 export async function POST(request: NextRequest) {
   console.log('API endpoint hit at:', new Date().toISOString());
@@ -181,84 +182,50 @@ export async function POST(request: NextRequest) {
       `,
     };
 
-    // Thank you email to user
-  // Thank you email to user (Booking Confirmation Template)
-// Buchungsbestätigung an den User (Deutsch)
-const userMailOptions = {
-  from: `"Time Life Club" <${transporterToUse === transporter ? process.env.IONOS_EMAIL_USER : process.env.EMAIL_USER}>`,
-  to: formData.email || email,
-  subject: `Deine Buchungsbestätigung – Time Life Club Reise (${formData.duration}-Tage Programm)`,
-  html: `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #f9f9f9; }
-        .container { max-width: 650px; margin: 20px auto; background: white; padding: 25px; border-radius: 8px; border: 1px solid #e5e5e5; }
-        .header { background-color: #7f1d1d; color: white; padding: 15px; text-align: center; border-radius: 8px 8px 0 0; }
-        h1 { margin: 0; font-size: 22px; }
-        h2 { color: #7f1d1d; margin-top: 25px; }
-        h3 { color: #991b1b; margin-top: 20px; }
-        p { margin: 8px 0; }
-        a.button { display: inline-block; margin-top: 15px; padding: 12px 20px; background: #7f1d1d; color: white; text-decoration: none; border-radius: 5px; }
-        a.button:hover { background: #991b1b; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <h1>Buchungsbestätigung</h1>
-        </div>
-        <p>Hallo ${formData.firstName},</p>
-        <p>Herzlichen Glückwunsch 🎉 – deine verbindliche Anmeldung für die <strong>Time Life Club Reise</strong> ist erfolgreich bei uns eingegangen!</p>
-        <p>Wir freuen uns riesig, dich bald in Marokko begrüßen zu dürfen.</p>
+    // Helper function to calculate dates based on duration
+    const calculateDates = (duration: number, modules: string[]) => {
+      // Default dates for 2026 program
+      const fullProgramStart = '29. Juli 2026';
+      const fullProgramEnd = '28. August 2026';
+      const halfwayDate = '13. August 2026';
+      
+      if (duration === 30) {
+        return { startDate: fullProgramStart, endDate: fullProgramEnd };
+      } else if (duration === 15) {
+        // Check if first half or second half based on modules
+        const isFirstHalf = modules && modules.includes('module1');
+        return {
+          startDate: isFirstHalf ? fullProgramStart : halfwayDate,
+          endDate: isFirstHalf ? halfwayDate : fullProgramEnd
+        };
+      }
+      
+      return { startDate: fullProgramStart, endDate: fullProgramEnd };
+    };
 
-        <p><strong>Programmdauer:</strong> ${formData.duration} Tage</p>
-        <p><strong>Module:</strong> ${(formData.moduleTitles || []).join(', ') || 'Keine Angabe'}</p>
-        <p><strong>Reisezeitraum:</strong> ${
-          formData.duration === 30 
-            ? 'Vom 29. Juli bis zum 28. August 2026' 
-            : formData.modules && formData.modules.includes('module1') 
-              ? '29. Juli bis 13. August 2026'
-              : '13. bis 28. August 2026'
-        }</p>
-        <p><strong>Ort:</strong> Marrakesch, Marokko, Domaine Yakourt</p>
+    const dates = calculateDates(formData.duration, formData.modules || []);
+    const programPrice = getProgramPrice(formData.duration);
 
-        <h2>Deine nächsten Schritte</h2>
-        
-        <h3>1. Zahlung</h3>
-        <p>Hier ist dein persönlicher Zahlungslink:</p>
-        <p><strong>Programmgebühr:</strong> ${formatPrice(getProgramPrice(formData.duration))}</p>
-        <p><a class="button" href="${paymentLink}">Jetzt bezahlen</a></p>
-        <p>👉 Bitte beachte: Der gesamte Betrag muss innerhalb von <strong>15 Tagen</strong> ab heute beglichen sein.</p>
-        
-        <h3>2. Flugbuchung ✈</h3>
-        <p>Den Flug nach Marrakesch buchst du bitte selbst.</p>
-        <p>Wir empfehlen dir, spätestens am Anreisetag oder idealerweise einen Tag früher zu landen.</p>
-        <p>Bitte teile uns deine Flugdaten rechtzeitig per E-Mail oder WhatsApp mit – wir organisieren dann den Transfer und holen dich direkt am Flughafen ab.</p>
-        
-        <h3>3. WhatsApp-Gruppe</h3>
-        <p>Etwa 4–6 Wochen vor Reisebeginn laden wir dich in unsere exklusive WhatsApp-Gruppe ein.  
-        Dort lernst du alle anderen Teilnehmer:innen kennen und erhältst alle Updates gesammelt an einem Ort.</p>
-        <p><a class="button" href="https://wa.me/message/OHPC4XVQP537F1">WhatsApp beitreten</a></p>
-        
-        <h3>4. Vorbereitungs-Workshop (Online)</h3>
-        <p>Zwei Wochen vor Abreise findet unser Online-Workshop statt.  
-        Dort erfährst du alles zum Ablauf, zur Packliste und zu den Modulen. Außerdem kannst du direkt Fragen stellen.</p>
-        <p>👉 Den Zoom-Link erhältst du rechtzeitig per Mail.</p>
-        
-        <p>Falls du vorab Fragen hast, melde dich jederzeit bei uns per E-Mail oder WhatsApp.</p>
-        
-        <p>Wir freuen uns schon jetzt auf eine unvergessliche Zeit mit dir! 🌍✨</p>
-        
-        <p>Liebe Grüße,<br><strong>Dein Time Life Club Team</strong></p>
-        
-        <p><a href="https://timelifeclub.com/agb">Es gelten unsere AGB</a></p>
-      </div>
-    </body>
-    </html>
-  `,
-};
+    // Generate comprehensive booking confirmation email using the template
+    const bookingEmailData = {
+      firstName: formData.firstName || 'Teilnehmer',
+      duration: formData.duration || 30,
+      startDate: dates.startDate,
+      endDate: dates.endDate,
+      modules: formData.moduleTitles || [],
+      price: programPrice,
+      paymentLink: paymentLink,
+      whatsappLink: 'https://wa.me/message/OHPC4XVQP537F1',
+      termsLink: 'https://timelifeclub.com/agb'
+    };
+
+    const userMailOptions = {
+      from: `"Time Life Club" <${transporterToUse === transporter ? process.env.IONOS_EMAIL_USER : process.env.EMAIL_USER}>`,
+      to: formData.email || email,
+      subject: `🎉 Deine verbindliche Buchung für den Time Life Club ist bestätigt!`,
+      html: generateBookingConfirmationEmail(bookingEmailData),
+      text: generateBookingConfirmationPlainText(bookingEmailData),
+    };
 
 
 

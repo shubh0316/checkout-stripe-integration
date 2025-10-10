@@ -10,14 +10,14 @@ interface SummaryProps {
 export function Summary({ formData }: SummaryProps) {
   return (
     <Card className="bg-white">
-      <CardHeader>
-        <CardTitle className="text-red-900 text-2xl">Summary</CardTitle>
-        <CardDescription className="text-red-700 text-lg">
+      <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
+        <CardTitle className="text-red-900 text-xl sm:text-2xl">Summary</CardTitle>
+        <CardDescription className="text-red-700 text-base sm:text-lg">
           Überprüfe deinen Angaben vor der Buchen
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-lg text-red-700">
+      <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base md:text-lg text-red-700">
           <div><b className="text-red-800">Duration:</b> {formData.duration} days / {formData.duration - 1} nights</div>
           <div className="md:col-span-2"><b className="text-red-800"></b> {formData.firstName} {formData.lastName}</div>
           <div><b className="text-red-800">Gender:</b> {formData.gender}</div>
