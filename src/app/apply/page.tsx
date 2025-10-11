@@ -409,7 +409,7 @@ const TimelifeApplicationForm = () => {
                                   <Lock className="w-3 h-3 sm:w-4 sm:h-4 text-red-400 flex-shrink-0" />
                                 )}
                               </div>
-                              <h3 className="font-semibold text-red-900 mb-1 text-base sm:text-lg">{module.title}</h3>
+                              <h3 className="font-semibold text-red-900 mb-1 text-base sm:text-lg" translate="no">{module.title}</h3>
                               <p className="text-red-700 text-sm sm:text-base">{module.description}</p>
                               {isSelected && (
                                 <div className="mt-2 sm:mt-3 text-xs sm:text-sm text-red-600 flex items-center">
@@ -445,7 +445,7 @@ const TimelifeApplicationForm = () => {
                           <Badge className="bg-red-600 text-white mb-2">
                             {module.name}
                           </Badge>
-                          <h3 className="font-semibold text-red-900 mb-1 text-lg">{module.title}</h3>
+                          <h3 className="font-semibold text-red-900 mb-1 text-lg" translate="no">{module.title}</h3>
                           <p className="text-red-700">{module.description}</p>
                           <div className="flex items-center mt-3 text-red-600">
                             <Check className="w-5 h-5 mr-1" /> Included

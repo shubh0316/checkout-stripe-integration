@@ -292,7 +292,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                           <Lock className="w-4 h-4 text-red-400" />
                         )}
                       </div>
-                      <h3 className="font-semibold text-red-900 mb-1 text-lg">{module.title}</h3>
+                      <h3 className="font-semibold text-red-900 mb-1 text-lg" translate="no">{module.title}</h3>
                       <p className="text-red-700">{module.description}</p>
                       {isSelected && (
                         <div className="mt-3 text-sm text-red-600 flex items-center">
@@ -330,7 +330,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                   <Badge className="bg-red-600 text-white mb-2">
                     {module.name}
                   </Badge>
-                  <h3 className="font-semibold text-red-900 mb-1 text-lg">{module.title}</h3>
+                  <h3 className="font-semibold text-red-900 mb-1 text-lg" translate="no">{module.title}</h3>
                   <p className="text-red-700">{module.description}</p>
                   <div className="flex items-center mt-3 text-red-600">
                     <Check className="w-5 h-5 mr-1" /> Included
