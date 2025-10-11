@@ -9,21 +9,102 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, duration } = await req.json();
-    const priceMap: Record<number, string> = {
+    const { email, duration, modules } = await req.json();
+    
+    let priceId: string;
+    
+    if (duration === 15) {
+      // Extract module numbers from comma-separated string like "module1,module2,module3"
+      const moduleNumbers: number[] = [];
+      if (modules) {
+        const moduleStrings = modules.split(',');
+        for (const m of moduleStrings) {
+          const match = m.trim().match(/module(\d+)/);
+          if (match) {
+            moduleNumbers.push(parseInt(match[1]));
+          } else {
+            // Also support plain numbers like "1,2,3"
+            const num = parseInt(m.trim());
+            if (!isNaN(num)) {
+              moduleNumbers.push(num);
+            }
+          }
+        }
+      }
       
-      15: "price_1RzkFO1PENxTjNgb4p1Rogjn", 
-      30: "price_1RzkFx1PENxTjNgbvkswU0yF", 
-    };
-    const durationKey = Number(duration);
-    if (!priceMap[durationKey]) {
+      const hasModules1to3 = moduleNumbers.some((m: number) => m >= 1 && m <= 3);
+      const hasModules4to6 = moduleNumbers.some((m: number) => m >= 4 && m <= 6);
+      
+      if (hasModules1to3 && !hasModules4to6) {
+        // Only modules 1-3
+        priceId = "price_1SGze3KelalxvISGIsHmWIP1";
+      } else if (hasModules4to6 && !hasModules1to3) {
+        // Only modules 4-6
+        priceId = "price_1SGzyJKelalxvISGf3VXiZj5";
+      } else {
+        return NextResponse.json({ error: "Invalid modules for 15-day plan. Must select either modules 1-3 OR modules 4-6, not both." }, { status: 400 });
+      }
+    } else if (duration === 30) {
+      priceId = "price_1SH006KelalxvISGOY7UksrC";
+    } else {
       return NextResponse.json({ error: "Invalid plan duration" }, { status: 400 });
     }
+    
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: [
+        // Cards & Digital Wallets
+        "card",
+        "paypal",
+        "link",
+        "revolut_pay",
+        "amazon_pay",
+        
+        // Buy Now Pay Later (BNPL)
+        "klarna",
+        "affirm",
+        "afterpay_clearpay",
+        
+        // European Banking
+        "sepa_debit",
+        "giropay",          // Germany
+        "sofort",           // Germany & Austria
+        "bancontact",       // Belgium
+        "eps",              // Austria
+        "ideal",            // Netherlands
+        "p24",              // Poland (Przelewy24)
+        "blik",             // Poland
+        "multibanco",       // Portugal
+        "bacs_debit",       // UK Direct Debit
+        
+        // Nordic Banking
+        "mobilepay",        // Denmark
+        "swish",            // Sweden
+        "twint",            // Switzerland
+        
+        // Asian Payment Methods
+        "alipay",           // China
+        "wechat_pay",       // China
+        "grabpay",          // Southeast Asia
+        "paynow",           // Singapore
+        "promptpay",        // Thailand
+        "fpx",              // Malaysia
+        "konbini",          // Japan
+        
+        // Americas
+        "cashapp",          // US
+        "boleto",           // Brazil
+        "oxxo",             // Mexico
+        
+        // Oceania
+        "zip",              // Australia/NZ
+        
+        // US Bank Payments
+        "us_bank_account",
+        "acss_debit",       // Canada
+      ],
       line_items: [
         {
-          price: priceMap[durationKey], 
+          price: priceId, 
           quantity: 1,
         },
       ],

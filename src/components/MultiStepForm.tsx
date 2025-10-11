@@ -122,6 +122,7 @@ export function MultiStepForm() {
         body: JSON.stringify({
           email: formData.email,
           duration: formData.duration === 15 ? 15 : 30,
+          modules: formData.modules?.join(',') || '',
         }),
       });
   

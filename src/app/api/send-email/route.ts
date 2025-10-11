@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
         duration: formData.duration,
         firstName: formData.firstName,
         lastName: formData.lastName,
+        modules: formData.modules,
       });
       console.log('Payment link generated successfully');
     } catch (paymentError: any) {

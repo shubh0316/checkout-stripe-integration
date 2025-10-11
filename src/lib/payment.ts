@@ -10,25 +10,93 @@ export interface PaymentLinkData {
   duration: number;
   firstName?: string;
   lastName?: string;
+  modules?: string[];
 }
 
 export async function generatePaymentLink(data: PaymentLinkData): Promise<string> {
   try {
-    const priceMap: Record<number, string> = {
-      15: "price_1RzkFO1PENxTjNgb4p1Rogjn", 
-      30: "price_1RzkFx1PENxTjNgbvkswU0yF", 
-    };
-
-    const durationKey = Number(data.duration);
-    if (!priceMap[durationKey]) {
+    let priceId: string;
+    
+    if (data.duration === 15) {
+      // Extract module numbers from module strings like "module1", "module2"
+      const moduleNumbers = (data.modules || []).map(m => {
+        const match = m.match(/module(\d+)/);
+        return match ? parseInt(match[1]) : 0;
+      }).filter(n => n > 0);
+      
+      const hasModules1to3 = moduleNumbers.some(m => m >= 1 && m <= 3);
+      const hasModules4to6 = moduleNumbers.some(m => m >= 4 && m <= 6);
+      
+      if (hasModules1to3 && !hasModules4to6) {
+        // Only modules 1-3
+        priceId = "price_1SGze3KelalxvISGIsHmWIP1";
+      } else if (hasModules4to6 && !hasModules1to3) {
+        // Only modules 4-6
+        priceId = "price_1SGzyJKelalxvISGf3VXiZj5";
+      } else {
+        throw new Error("Invalid modules for 15-day plan. Must select either modules 1-3 OR modules 4-6, not both.");
+      }
+    } else if (data.duration === 30) {
+      priceId = "price_1SH006KelalxvISGOY7UksrC";
+    } else {
       throw new Error("Invalid plan duration");
     }
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: [
+        // Cards & Digital Wallets
+        "card",
+        "paypal",
+        "link",
+        "revolut_pay",
+        "amazon_pay",
+        
+        // Buy Now Pay Later (BNPL)
+        "klarna",
+        "affirm",
+        "afterpay_clearpay",
+        
+        // European Banking
+        "sepa_debit",
+        "giropay",          // Germany
+        "sofort",           // Germany & Austria
+        "bancontact",       // Belgium
+        "eps",              // Austria
+        "ideal",            // Netherlands
+        "p24",              // Poland (Przelewy24)
+        "blik",             // Poland
+        "multibanco",       // Portugal
+        "bacs_debit",       // UK Direct Debit
+        
+        // Nordic Banking
+        "mobilepay",        // Denmark
+        "swish",            // Sweden
+        "twint",            // Switzerland
+        
+        // Asian Payment Methods
+        "alipay",           // China
+        "wechat_pay",       // China
+        "grabpay",          // Southeast Asia
+        "paynow",           // Singapore
+        "promptpay",        // Thailand
+        "fpx",              // Malaysia
+        "konbini",          // Japan
+        
+        // Americas
+        "cashapp",          // US
+        "boleto",           // Brazil
+        "oxxo",             // Mexico
+        
+        // Oceania
+        "zip",              // Australia/NZ
+        
+        // US Bank Payments
+        "us_bank_account",
+        "acss_debit",       // Canada
+      ],
       line_items: [
         {
-          price: priceMap[durationKey], 
+          price: priceId, 
           quantity: 1,
         },
       ],
