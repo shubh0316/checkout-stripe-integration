@@ -36,7 +36,7 @@ export function Step2PersonalInfo({ formData, updateFormData, onNext, onPrev }: 
         <h2 className="font-bold text-red-800 mb-2 sm:mb-3 flex items-center justify-center gap-2 text-2xl sm:text-3xl md:text-4xl">
           <User className="w-6 h-6 sm:w-8 sm:h-8" /> Personal Information
         </h2>
-        <p className="text-red-600 text-base sm:text-lg md:text-xl">Bitte gebe hier deine persönlichen Daten an</p>
+        <p className="text-red-600 text-base sm:text-lg md:text-xl" translate='no'>Bitte gebe hier deine persönlichen Daten an</p>
       </div>
 
       <Card className="bg-white">

@@ -102,7 +102,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       <Card className="bg-white">
         <CardHeader className="px-4 sm:px-6">
           <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
-            <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" /> Insurance Information
+            <CheckCircle className="w-5 h-5 sm:w-4 sm:h-4" /> Insurance Information
           </CardTitle>
           <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
            Bitte treffe hier deine Auswahl
@@ -120,7 +120,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
                   <span className="line-clamp-2">{formData.insurance || ""}</span>
                 </SelectValue>
               </SelectTrigger>
-              <SelectContent className="max-w-[calc(100vw-2rem)] sm:max-w-md">
+              <SelectContent className="">
                 <SelectItem value="I have travel insurance" className="focus:bg-red-50 text-sm sm:text-base md:text-lg font-faculty whitespace-normal h-auto py-3 leading-relaxed">
                   I have travel insurance
                 </SelectItem>

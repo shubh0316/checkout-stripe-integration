@@ -151,7 +151,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
           <Crown className="w-8 h-8" /> Wähle hier dein Programm
         </h2>
-        <p className="text-red-600 text-xl">Wähle hier dein bevorzugtes Programm wie auch die Dauer</p>
+        <p className="text-red-600 text-xl" translate="no">Wähle hier dein bevorzugtes Programm wie auch die Dauer</p>
       </div>
 
 

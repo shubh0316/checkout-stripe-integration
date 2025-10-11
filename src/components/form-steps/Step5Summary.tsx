@@ -57,7 +57,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
             <CreditCard className="w-5 h-5 sm:w-6 sm:h-6" /> Kosten
           </CardTitle>
           <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
-            Complete your application with payment
+          Schließe deine Bewerbung mit der Zahlung ab
           </CardDescription>
         </CardHeader>
         <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">

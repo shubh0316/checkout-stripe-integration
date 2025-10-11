@@ -237,7 +237,7 @@ const TimelifeApplicationForm = () => {
           <h1 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
             <Crown className="w-8 h-8" /> Deine Bewerbung für die TimeLife Club Reise
           </h1>
-          <p className="text-red-600 text-xl">Vervollständige deine Bewerbung ganz easy im Formular.</p>
+          <p className="text-red-600 text-xl" translate="no">Vervollständige deine Bewerbung ganz easy im Formular.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -245,7 +245,7 @@ const TimelifeApplicationForm = () => {
           <Card className="border-red-200 bg-red-50">
             <CardHeader className="px-4 sm:px-6">
               <CardTitle className="text-red-900 text-lg sm:text-xl md:text-2xl">Auswahl</CardTitle>
-              <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
+              <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg" translate="no">
                 Wähle deine bevorzugte Editionsdauer 
               </CardDescription>
             </CardHeader>
@@ -258,7 +258,7 @@ const TimelifeApplicationForm = () => {
                     <span className="text-red-800 font-medium text-base sm:text-lg md:text-xl">Eine Kliene Info:</span>
                   </div>
                 </div>
-                <p className="text-red-700 mt-2 text-sm sm:text-base md:text-lg">
+                <p className="text-red-700 mt-2 text-sm sm:text-base md:text-lg" translate="no">
                   Keine Sorge: Mit der Bewerbung gehst du noch keine Buchung ein. Die Bewerbung ist wichtig, damit wir dich schon vor der Buchung kennenlernen können. Nachdem Durchsehen deiner Bewerbung erhältst du den Booking-Link
                 </p>
               </div>
@@ -463,7 +463,7 @@ const TimelifeApplicationForm = () => {
           <Card className="border-red-200 bg-red-50">
             <CardHeader className="px-4 sm:px-6">
               <CardTitle className="text-red-900 text-lg sm:text-xl md:text-2xl">Ein paar Fragen an dich</CardTitle>
-              <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
+              <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg" translate="no">
                 Bitte beantworte die folgenden Fragen sorgfältig.
               </CardDescription>
             </CardHeader>
