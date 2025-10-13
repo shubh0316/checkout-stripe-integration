@@ -283,6 +283,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                               ? "bg-red-600 text-white" 
                               : "bg-red-100 text-red-800"
                           }
+                          translate="no"
                         >
                           {module.name}
                         </Badge>
@@ -293,7 +294,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                         )}
                       </div>
                       <h3 className="font-semibold text-red-900 mb-1 text-lg" translate="no">{module.title}</h3>
-                      <p className="text-red-700">{module.description}</p>
+                      <p className="text-red-700" translate="no">{module.description}</p>
                       {isSelected && (
                         <div className="mt-3 text-sm text-red-600 flex items-center">
                           <Check className="w-4 h-4 mr-1" /> Included in selected group
@@ -327,11 +328,11 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                   key={module.id}
                   className="border-2 border-red-300 rounded-lg p-4 bg-red-100"
                 >
-                  <Badge className="bg-red-600 text-white mb-2">
+                  <Badge className="bg-red-600 text-white mb-2" translate="no">
                     {module.name}
                   </Badge>
                   <h3 className="font-semibold text-red-900 mb-1 text-lg" translate="no">{module.title}</h3>
-                  <p className="text-red-700">{module.description}</p>
+                  <p className="text-red-700" translate="no">{module.description}</p>
                   <div className="flex items-center mt-3 text-red-600">
                     <Check className="w-5 h-5 mr-1" /> Included
                   </div>

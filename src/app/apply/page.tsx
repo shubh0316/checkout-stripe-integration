@@ -400,6 +400,7 @@ const TimelifeApplicationForm = () => {
                                       ? "bg-red-600 text-white" 
                                       : "bg-red-100 text-red-800"
                                   }`}
+                                  translate="no"
                                 >
                                   {module.name}
                                 </Badge>
@@ -410,7 +411,7 @@ const TimelifeApplicationForm = () => {
                                 )}
                               </div>
                               <h3 className="font-semibold text-red-900 mb-1 text-base sm:text-lg" translate="no">{module.title}</h3>
-                              <p className="text-red-700 text-sm sm:text-base">{module.description}</p>
+                              <p className="text-red-700 text-sm sm:text-base" translate="no">{module.description}</p>
                               {isSelected && (
                                 <div className="mt-2 sm:mt-3 text-xs sm:text-sm text-red-600 flex items-center">
                                   <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-1 flex-shrink-0" /> Included in selected group
@@ -442,11 +443,11 @@ const TimelifeApplicationForm = () => {
                           key={module.id}
                           className="border-2 border-red-300 rounded-lg p-4 bg-red-100"
                         >
-                          <Badge className="bg-red-600 text-white mb-2">
+                          <Badge className="bg-red-600 text-white mb-2" translate="no">
                             {module.name}
                           </Badge>
                           <h3 className="font-semibold text-red-900 mb-1 text-lg" translate="no">{module.title}</h3>
-                          <p className="text-red-700">{module.description}</p>
+                          <p className="text-red-700" translate="no">{module.description}</p>
                           <div className="flex items-center mt-3 text-red-600">
                             <Check className="w-5 h-5 mr-1" /> Included
                           </div>
