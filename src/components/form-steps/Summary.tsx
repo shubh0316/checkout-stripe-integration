@@ -12,9 +12,6 @@ export function Summary({ formData }: SummaryProps) {
     <Card className="bg-white">
       <CardHeader className="px-3 sm:px-6 py-3 sm:py-6">
         <CardTitle className="text-red-900 text-xl sm:text-2xl">Summary</CardTitle>
-        <CardDescription className="text-red-700 text-base sm:text-lg">
-          Überprüfe deinen Angaben vor der Buchen
-        </CardDescription>
       </CardHeader>
       <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 text-sm sm:text-base md:text-lg text-red-700">

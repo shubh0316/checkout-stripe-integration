@@ -44,7 +44,7 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-red-800 mb-2 sm:mb-3 flex items-center justify-center gap-2">
           <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8" /> Überprüfung deiner Angaben
         </h2>
-        <p className="text-red-600 text-base sm:text-lg md:text-xl">Überprüfe deineN Angaben und Buche den Trip</p>
+        <p className="text-red-600 text-base sm:text-lg md:text-xl" translate="no">Überprüfe deine Angaben und buche den Trip</p>
       </div>
 
       {/* Application Summary */}
@@ -86,10 +86,8 @@ export function Step5Summary({ formData, onPrev, onSubmit, isSubmitting, submitE
                   <Label htmlFor="terms" className="text-red-800 text-sm sm:text-base md:text-lg cursor-pointer">
                    ich akzeptiere die allgemeinen <a href="https://timelifeclub.com/agb" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-600">Geschäftsbedingungen</a> *
                   </Label>
-                  <p className="text-red-700 text-xs sm:text-sm">
-                  Durch Ankreuzen dieses Kästchens bestätige ich, dass ich die AGBs, Stornierungsbedingungen und Datenschutzbestimmungen gelesen, verstanden und akzeptiert habe.
-Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung verarbeitet werden, dass die Programmgebühren den angegebenen Stornierungsbedingungen unterliegen und dass die Reise nur stattfindet, wenn die Mindestteilnehmerzahl erreicht wird.
-
+                  <p className="text-red-700 text-xs sm:text-sm" translate="no">
+                  Durch das Ankreuzen dieses Kästchens bestätige ich, dass ich die AGB, Stornierungsbedingungen und Datenschutzbestimmungen gelesen, verstanden und akzeptiert habe. Ich bin darüber informiert, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung verarbeitet werden, dass die Programmbedingungen den genannten Stornierungsbedingungen unterliegen und dass die Reise nur stattfindet, wenn die Mindestteilnehmerzahl erreicht wird.
                   </p>
                 </div>
               </div>
@@ -103,7 +101,7 @@ Ich weiß, dass meine personenbezogenen Daten gemäß der Datenschutzerklärung 
                 disabled={isSubmitting || !canSubmit}
                 className="w-full bg-red-700 hover:bg-red-800 text-white py-2 sm:py-3 text-base sm:text-lg font-medium h-11 sm:h-12 transition-all shadow-lg hover:shadow-xl disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Processing...' : `Submit & Pay ${formatPrice(getPrice())}`}
+                {isSubmitting ? 'Processing...' : 'Einreichen & verbindlich buchen – starte deine Reise des Lebens'}
               </Button>
             </div>
           </div>

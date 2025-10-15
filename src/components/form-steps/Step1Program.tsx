@@ -39,7 +39,7 @@ interface Step1ProgramProps {
     { 
       id: "module4", 
       name: "Modul 4", 
-      title: "Wie baue ich ein Unternehmen auf?", 
+      title: "Wie starte ich mein eigenes Projekt?", 
       description: "Grundlagen für erfolgreiche Projekte"
     },
     { 
@@ -51,7 +51,7 @@ interface Step1ProgramProps {
     { 
       id: "module6", 
       name: "Modul 6", 
-      title: "Coaching: Was ist der weg der zu mir passt?", 
+      title: "Coaching: Was ist dein Weg, der zu dir passt?", 
       description: "Persönlichkeitsentwicklung und Coaching" 
     }
   ];
@@ -64,7 +64,7 @@ interface Step1ProgramProps {
       features: [
   "15 Teaching-Tage (3 Module)",
   "Täglicher Brunch & Abendessen",
-  "Zimmer im 2–3er Bungalow",
+  "Zimmer im 2-3 Bett-Bungalow",
   "Eigenes Bett",
   "Transfer vom Flughafen zum Resort",
   "Abendprogramm"
@@ -78,7 +78,7 @@ interface Step1ProgramProps {
       features: [
   "30 Teaching-Tage (6 Module)",
   "Täglicher Brunch & Abendessen",
-  "Zimmer im 2–3er Bungalow",
+  "Zimmer im 2-3 Bett-Bungalow",
   "Eigenes Bett",
   "Transfer vom Flughafen zum Resort",
   "Abendprogramm"
@@ -151,7 +151,7 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
         <h2 className="text-4xl font-bold text-red-800 mb-3 flex items-center justify-center gap-2">
           <Crown className="w-8 h-8" /> Wähle hier dein Programm
         </h2>
-        <p className="text-red-600 text-xl" translate="no">Wähle hier dein bevorzugtes Programm wie auch die Dauer</p>
+        <p className="text-red-600 text-xl" translate="no">Wähle hier dein bevorzugtes Programm sowie die gewünschte Dauer</p>
       </div>
 
 
@@ -195,11 +195,11 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
                 </CardDescription>
               </CardHeader>
               <CardContent className="pb-4">
-                <ul className="text-red-800 text-lg space-y-2">
+                <ul className="text-red-800 text-lg space-y-2" translate="no">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-center">
                       <Check className="w-4 h-4 text-red-600 mr-2" />
-                      {feature}
+                      <span translate="no">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -229,8 +229,9 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
             <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
               <Zap className="w-6 h-6" /> Modulauswahl
             </CardTitle>
-            <CardDescription className="text-red-700 text-lg">
-              Wähle deine Module und Reisezeit für dein 15-Tage-Programm
+            <CardDescription className="text-red-700 text-lg" translate="no">
+            Wähle deine Module und deine Reisezeit für dein 15-Tage-Programm
+              
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -313,9 +314,9 @@ export function Step1Program({ formData, updateFormData, onNext }: Step1ProgramP
       {/* Module Display for 30-day plan */}
       {formData.duration === 30 && (
         <Card className="bg-white">
-          <CardHeader>
-            <CardTitle className="text-red-900 text-2xl flex items-center gap-2">
-              <Zap className="w-6 h-6" /> Program Modules
+          <CardHeader> 
+            <CardTitle className="text-red-900 text-2xl flex items-center gap-2" translate="no">
+              <Zap className="w-6 h-6"  /> Programmodule
             </CardTitle>
             <CardDescription className="text-red-700 text-lg">
               All 6 modules are included in the 30-day program

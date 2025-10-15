@@ -104,8 +104,8 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
           <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
             <CheckCircle className="w-5 h-5 sm:w-4 sm:h-4" /> Insurance Information
           </CardTitle>
-          <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
-           Bitte treffe hier deine Auswahl
+          <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg" translate="no">
+          Bitte triff hier deine Auswahl
           </CardDescription>
         </CardHeader>
         <CardContent className="px-4 sm:px-6">
@@ -115,20 +115,20 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
               value={formData.insurance || ""}
               onValueChange={(value) => updateFormData({ insurance: value })}
             >
-              <SelectTrigger id="insurance" className="border-red-300 focus:ring-red-500 bg-white min-h-[2.5rem] sm:min-h-[2.75rem] md:min-h-[3rem] h-auto py-2 text-sm sm:text-base md:text-lg placeholder:text-gray-500 font-faculty w-full">
-                <SelectValue placeholder="Select status" className="font-faculty text-left whitespace-normal leading-tight">
-                  <span className="line-clamp-2">{formData.insurance || ""}</span>
+              <SelectTrigger id="insurance" className="border-red-300 focus:ring-red-500 bg-white h-10 sm:h-11 md:h-12 text-sm sm:text-base md:text-lg font-faculty w-full">
+                <SelectValue placeholder="Select status">
+                  {formData.insurance || "Select status"}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent className="">
                 <SelectItem value="I have travel insurance" className="focus:bg-red-50 text-sm sm:text-base md:text-lg font-faculty whitespace-normal h-auto py-3 leading-relaxed">
                   I have travel insurance
                 </SelectItem>
-                <SelectItem value="I need help finding insurance" className="focus:bg-red-50 text-sm sm:text-base md:text-lg font-faculty whitespace-normal h-auto py-3 leading-relaxed">
-                  I need help finding insurance
+                <SelectItem value="I need help finding insurance" translate="no" className="focus:bg-red-50 text-sm sm:text-base md:text-lg font-faculty whitespace-normal h-auto py-3 leading-relaxed">
+                Ich benötige Unterstützung bei der Suche nach einer Versicherung
                 </SelectItem>
-                <SelectItem value="I will purchase insurance later" className="focus:bg-red-50 text-sm sm:text-base md:text-lg font-faculty whitespace-normal h-auto py-3 leading-relaxed">
-                  I will purchase insurance later
+                <SelectItem value="I will purchase insurance later" translate="no" className="focus:bg-red-50 text-sm sm:text-base md:text-lg font-faculty whitespace-normal h-auto py-3 leading-relaxed">
+                Ich schließe die Versicherung zu einem späteren Zeitpunkt ab
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -137,7 +137,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
       </Card>
 
       {/* Dietary Preferences */}
-      <Card className="bg-white">
+    <Card className="bg-white">
         <CardHeader className="px-4 sm:px-6">
           <CardTitle className="text-red-900 flex items-center gap-2 text-lg sm:text-xl md:text-2xl">
             <Utensils className="w-5 h-5 sm:w-6 sm:h-6" /> Emährung
@@ -148,14 +148,14 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
         </CardHeader>
         <CardContent className="px-4 sm:px-6">
           <div className="space-y-2">
-            <Label htmlFor="diet" className="text-red-800 text-sm sm:text-base md:text-lg">Ernährungsaneorderung *</Label>
+            <Label htmlFor="diet" className="text-red-800 text-sm sm:text-base md:text-lg" translate="no"> Ernährungspräferenz *</Label>
             <Select
               value={formData.diet || ""}
               onValueChange={(value) => updateFormData({ diet: value })}
             >
-              <SelectTrigger id="diet" className="border-red-300 focus:ring-red-500 bg-white min-h-[2.5rem] sm:min-h-[2.75rem] md:min-h-[3rem] h-auto py-2 text-sm sm:text-base md:text-lg placeholder:text-gray-500 font-faculty w-full">
-                <SelectValue placeholder="Select preference" className="font-faculty text-left whitespace-normal leading-tight">
-                  <span className="line-clamp-2">{formData.diet || ""}</span>
+              <SelectTrigger id="diet" className="border-red-300 focus:ring-red-500 bg-white h-10 sm:h-11 md:h-12 text-sm sm:text-base md:text-lg font-faculty w-full">
+                <SelectValue placeholder="Select preference">
+                  {formData.diet || "Select preference"}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent className="max-w-[calc(100vw-2rem)] sm:max-w-md">
@@ -168,7 +168,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
             </Select>
           </div>
         </CardContent>
-      </Card>
+      </Card> 
 
       {/* Allergies & Medical Conditions */}
       <Card className="bg-white">
@@ -177,7 +177,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
             <Heart className="w-5 h-5 sm:w-6 sm:h-6" /> Health Information
           </CardTitle>
           <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
-          Wichtige Informationen für deine Sicherheit und deinen Komfort
+          Wichtige Informationen für deine Sicherheit und deinen Komfort sadfasfd
           </CardDescription>
         </CardHeader>
         <CardContent className="px-4 sm:px-6">
@@ -227,7 +227,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
                 value={formData.emergencyContact.relation}
                 onChange={(e) => updateEmergencyContact('relation', e.target.value)}
                 className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-10 sm:h-11 md:h-12 text-sm sm:text-base md:text-lg placeholder:text-sm sm:placeholder:text-base md:placeholder:text-lg placeholder:text-gray-500 font-faculty w-full"
-                placeholder="z.B. Eltern, Freund"
+                placeholder="z. B. Familie oder Vertrauensperson" translate="no"
               />
             </div>
 
@@ -255,7 +255,7 @@ export function Step4Preferences({ formData, updateFormData, onPrev, onNext }: S
                 value={formData.emergencyContact.email}
                 onChange={(e) => updateEmergencyContact('email', e.target.value)}
                 className="border-red-300 focus:ring-red-500 focus:border-red-500 bg-white h-10 sm:h-11 md:h-12 text-sm sm:text-base md:text-lg placeholder:text-sm sm:placeholder:text-base md:placeholder:text-lg placeholder:text-gray-500 font-faculty w-full"
-                placeholder="E-Mail Adresse"
+                placeholder="E-Mail-Adresse" translate="no"
               />
             </div>
           </div>
