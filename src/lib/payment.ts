@@ -1,7 +1,14 @@
 //@ts-nocheck
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+// Trim and validate Stripe key to avoid deployment issues
+const stripeSecretKey = (process.env.STRIPE_SECRET_KEY || '').trim();
+
+if (!stripeSecretKey) {
+  throw new Error('STRIPE_SECRET_KEY is not configured');
+}
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2024-06-20",
 });
 
