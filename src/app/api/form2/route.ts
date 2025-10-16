@@ -255,7 +255,7 @@ const userMailOptions = {
         </div>
 
         <p>Wenn Sie Fragen haben oder einen Beratungstermin buchen möchten, klicken Sie auf den folgenden Link:</p>
-        <a href="http://localhost:3000/meeting" class="btn">1:1 Beratungstermin buchen</a>
+        <a href="app.timelifeclub.com/meeting" class="btn">1:1 Beratungstermin buchen</a>
         
         <p>Wir freuen uns darauf, Sie vielleicht bald in unserem Programm begrüßen zu dürfen!</p>
         
