@@ -52,55 +52,10 @@ export async function POST(req: NextRequest) {
     
     const session = await stripe.checkout.sessions.create({
       payment_method_types: [
-        // Cards & Digital Wallets
         "card",
         "paypal",
         "link",
-        "revolut_pay",
         "amazon_pay",
-        
-        // Buy Now Pay Later (BNPL)
-        "klarna",
-        "affirm",
-        "afterpay_clearpay",
-        
-        // European Banking
-        "sepa_debit",
-        "giropay",          // Germany
-        "sofort",           // Germany & Austria
-        "bancontact",       // Belgium
-        "eps",              // Austria
-        "ideal",            // Netherlands
-        "p24",              // Poland (Przelewy24)
-        "blik",             // Poland
-        "multibanco",       // Portugal
-        "bacs_debit",       // UK Direct Debit
-        
-        // Nordic Banking
-        "mobilepay",        // Denmark
-        "swish",            // Sweden
-        "twint",            // Switzerland
-        
-        // Asian Payment Methods
-        "alipay",           // China
-        "wechat_pay",       // China
-        "grabpay",          // Southeast Asia
-        "paynow",           // Singapore
-        "promptpay",        // Thailand
-        "fpx",              // Malaysia
-        "konbini",          // Japan
-        
-        // Americas
-        "cashapp",          // US
-        "boleto",           // Brazil
-        "oxxo",             // Mexico
-        
-        // Oceania
-        "zip",              // Australia/NZ
-        
-        // US Bank Payments
-        "us_bank_account",
-        "acss_debit",       // Canada
       ],
       line_items: [
         {

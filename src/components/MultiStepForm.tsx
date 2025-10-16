@@ -114,8 +114,6 @@ export function MultiStepForm() {
       console.log("Email API response:", emailResponseData);
   
       // Finally create checkout session
-      const checkoutToast = toast.loading('Creating checkout session...');
-      
       const checkoutResponse = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -132,7 +130,7 @@ export function MultiStepForm() {
   
       const result = await checkoutResponse.json();
       
-      toast.success('Zahlungslink wurde an deine E-Mail gesendet!', { id: checkoutToast });
+      toast.success('Zahlungslink wurde an deine E-Mail gesendet!');
       
     } catch (error) {
       console.error('Error:', error);
