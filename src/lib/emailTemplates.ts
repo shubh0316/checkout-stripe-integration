@@ -370,161 +370,391 @@ export function generateBookingConfirmationEmail(data: BookingConfirmationData):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Buchungsbestätigung - Time Life Club</title>
   <style>
+    :root {
+      color-scheme: light dark;
+      supported-color-schemes: light dark;
+    }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       line-height: 1.6;
-      color: #333;
+      color: #1f2937;
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #f9f9f9;
+      background-color: #f3f4f6;
     }
+    
     .email-container {
       background-color: #ffffff;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 40px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
+    
     .header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, #fef2f2 0%, #fff7ed 100%);
+      border-radius: 12px;
     }
+    
+    .header-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    
     .header h1 {
       color: #dc2626;
-      font-size: 24px;
-      margin-bottom: 10px;
+      font-size: 26px;
+      margin: 0;
+      line-height: 1.3;
+      font-weight: 700;
     }
+    
     .greeting {
       font-size: 18px;
       margin-bottom: 20px;
+      font-weight: 500;
+      color: #374151;
     }
+    
     .intro {
-      margin-bottom: 30px;
+      margin-bottom: 32px;
       font-size: 16px;
+      color: #4b5563;
     }
+    
+    .intro p {
+      margin: 12px 0;
+    }
+    
     .section {
-      margin-bottom: 30px;
+      margin-bottom: 32px;
     }
+    
     .section-title {
       font-size: 20px;
       color: #dc2626;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 8px;
     }
+    
     .info-box {
-      background-color: #fef2f2;
-      border-left: 4px solid #dc2626;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 4px;
+      background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%);
+      border-left: 5px solid #dc2626;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     }
+    
+    .info-box p {
+      margin: 10px 0;
+      color: #374151;
+    }
+    
     .info-box strong {
       color: #991b1b;
+      font-weight: 600;
     }
+    
     .modules-list {
       list-style: none;
       padding-left: 0;
+      margin: 16px 0;
     }
+    
     .modules-list li {
-      padding: 8px 0;
-      padding-left: 25px;
+      padding: 12px 16px;
+      padding-left: 40px;
       position: relative;
+      background-color: #fef2f2;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      color: #374151;
     }
+    
     .modules-list li:before {
       content: "📚";
       position: absolute;
-      left: 0;
+      left: 12px;
+      font-size: 20px;
     }
+    
     .steps-list {
       counter-reset: step-counter;
       list-style: none;
       padding-left: 0;
+      margin: 20px 0;
     }
+    
     .steps-list li {
       counter-increment: step-counter;
-      margin-bottom: 25px;
-      padding-left: 40px;
+      margin-bottom: 28px;
+      padding: 20px;
+      padding-left: 60px;
       position: relative;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
     }
+    
     .steps-list li:before {
       content: counter(step-counter);
       position: absolute;
-      left: 0;
-      top: 0;
-      background-color: #dc2626;
+      left: 16px;
+      top: 20px;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
       color: white;
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 16px;
+      box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
     }
+    
     .steps-list h3 {
-      margin: 0 0 10px 0;
+      margin: 0 0 12px 0;
       font-size: 18px;
       color: #991b1b;
+      font-weight: 700;
     }
+    
+    .steps-list p {
+      margin: 8px 0;
+      color: #4b5563;
+    }
+    
+    .steps-list ul {
+      margin: 12px 0;
+      padding-left: 20px;
+    }
+    
+    .steps-list ul li {
+      padding: 4px 0;
+      margin: 0;
+      background: none;
+      border: none;
+    }
+    
+    .steps-list ul li:before {
+      content: "•";
+      position: static;
+      background: none;
+      color: #dc2626;
+      width: auto;
+      height: auto;
+      box-shadow: none;
+      margin-right: 8px;
+    }
+    
     .cta-button {
       display: inline-block;
-      background-color: #dc2626;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
       color: white !important;
-      padding: 14px 28px;
+      padding: 16px 32px;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      margin: 15px 0;
-      transition: background-color 0.3s;
+      border-radius: 10px;
+      font-weight: 700;
+      margin: 16px 0;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);
+      font-size: 16px;
     }
+    
     .cta-button:hover {
-      background-color: #991b1b;
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+      box-shadow: 0 6px 8px -1px rgba(220, 38, 38, 0.4);
+      transform: translateY(-1px);
     }
+    
     .warning-box {
-      background-color: #fef3c7;
-      border-left: 4px solid #f59e0b;
-      padding: 12px;
-      margin: 15px 0;
-      border-radius: 4px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 5px solid #f59e0b;
+      padding: 16px;
+      margin: 16px 0;
+      border-radius: 8px;
       font-weight: 500;
+      color: #78350f;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     }
+    
     .footer {
       margin-top: 40px;
-      padding-top: 20px;
+      padding-top: 24px;
       border-top: 2px solid #fee2e2;
       text-align: center;
     }
+    
+    .footer p {
+      color: #6b7280;
+    }
+    
     .whatsapp-link {
       display: inline-block;
-      background-color: #25D366;
+      background: linear-gradient(135deg, #25D366 0%, #1fa855 100%);
       color: white !important;
-      padding: 12px 24px;
+      padding: 14px 28px;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      margin: 10px 0;
+      border-radius: 10px;
+      font-weight: 700;
+      margin: 12px 0;
+      box-shadow: 0 4px 6px -1px rgba(37, 211, 102, 0.3);
+      transition: all 0.3s;
     }
+    
+    .whatsapp-link:hover {
+      background: linear-gradient(135deg, #1fa855 0%, #128c3f 100%);
+      box-shadow: 0 6px 8px -1px rgba(37, 211, 102, 0.4);
+      transform: translateY(-1px);
+    }
+    
     .address {
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
+      color: #4b5563;
     }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #111827;
+        color: #e5e7eb;
+      }
+      
+      .email-container {
+        background-color: #1f2937;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      }
+      
+      .header {
+        background: linear-gradient(135deg, #450a0a 0%, #451a03 100%);
+      }
+      
+      .header h1 {
+        color: #fca5a5;
+      }
+      
+      .greeting {
+        color: #d1d5db;
+      }
+      
+      .intro {
+        color: #d1d5db;
+      }
+      
+      .section-title {
+        color: #fca5a5;
+      }
+      
+      .info-box {
+        background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+        border-left-color: #fca5a5;
+      }
+      
+      .info-box p {
+        color: #e5e7eb;
+      }
+      
+      .info-box strong {
+        color: #fecaca;
+      }
+      
+      .modules-list li {
+        background-color: #450a0a;
+        color: #e5e7eb;
+      }
+      
+      .steps-list li {
+        background-color: #374151;
+        border-color: #4b5563;
+      }
+      
+      .steps-list h3 {
+        color: #fca5a5;
+      }
+      
+      .steps-list p {
+        color: #d1d5db;
+      }
+      
+      .steps-list ul li {
+        color: #d1d5db;
+      }
+      
+      .warning-box {
+        background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+        border-left-color: #fbbf24;
+        color: #fef3c7;
+      }
+      
+      .address {
+        color: #d1d5db;
+      }
+      
+      .footer {
+        border-top-color: #450a0a;
+      }
+      
+      .footer p {
+        color: #9ca3af;
+      }
+    }
+    
     @media only screen and (max-width: 600px) {
       body {
         padding: 10px;
       }
+      
       .email-container {
-        padding: 20px;
+        padding: 24px;
       }
+      
+      .header {
+        padding: 16px;
+      }
+      
       .header h1 {
         font-size: 20px;
       }
+      
+      .header-emoji {
+        font-size: 36px;
+      }
+      
       .section-title {
         font-size: 18px;
+      }
+      
+      .steps-list li {
+        padding: 16px;
+        padding-left: 52px;
+      }
+      
+      .steps-list h3 {
+        font-size: 16px;
+      }
+      
+      .cta-button {
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+      
+      .whatsapp-link {
+        padding: 12px 20px;
       }
     }
   </style>
@@ -532,7 +762,8 @@ export function generateBookingConfirmationEmail(data: BookingConfirmationData):
 <body>
   <div class="email-container">
     <div class="header">
-      <h1>🎉 Deine verbindliche Buchung für den Time Life Club ist bestätigt!</h1>
+      <span class="header-emoji">🎉</span>
+      <h1>Deine verbindliche Buchung für den Time Life Club ist bestätigt!</h1>
     </div>
 
     <div class="greeting">
