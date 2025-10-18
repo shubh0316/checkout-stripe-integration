@@ -20,6 +20,7 @@ export async function POST(request) {
         duration: formData.duration,
         firstName: formData.firstName,
         lastName: formData.lastName,
+        modules: formData.modules,
       });
       console.log('Payment link generated successfully');
     } catch (paymentError: any) {
@@ -208,64 +209,99 @@ if (formData.duration == 15) {
 const userMailOptions = {
   from: `"Timelife Club" <${transporterToUse === transporter ? process.env.IONOS_EMAIL_USER : process.env.EMAIL_USER}>`,
   to: formData.email || email,
-  subject: `Vielen Dank für Ihre Bewerbung beim Timelife Club - ${formData.firstName}`,
+  subject: `Dein nächstes Abenteuer beginnt jetzt! Time Life Club 🚀`,
   html: `
     <!DOCTYPE html>
     <html>
     <head>
       <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 650px; margin: 0 auto; padding: 20px; background: #f9fafb; }
+        body { font-family: Arial, sans-serif; line-height: 1.8; color: #333; max-width: 650px; margin: 0 auto; padding: 20px; background: #f9fafb; }
         .header { background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 30px; }
         .header h1 { margin: 0; font-size: 28px; }
-        .content { background: #fff5f5; border: 2px solid #dc2626; border-radius: 10px; padding: 25px; }
-        .highlight { background: white; padding: 15px; border-radius: 5px; border-left: 5px solid #dc2626; margin: 20px 0; }
-        .btn { display: inline-block; margin-top: 15px; padding: 12px 20px; background-color: #dc2626; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        .content { background: #fff5f5; border: 2px solid #dc2626; border-radius: 10px; padding: 30px; }
+        .highlight { background: white; padding: 20px; border-radius: 8px; border-left: 5px solid #dc2626; margin: 25px 0; }
+        .modules-list { background: #fef2f2; padding: 15px; border-radius: 5px; margin: 15px 0; }
+        .modules-list ul { margin: 10px 0; padding-left: 20px; }
+        .modules-list li { margin: 8px 0; }
+        .btn { display: inline-block; margin: 15px 10px; padding: 14px 25px; background-color: #dc2626; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; }
+        .divider { border-top: 2px dashed #dc2626; margin: 30px 0; opacity: 0.3; }
         .footer { margin-top: 30px; padding: 20px; background: #f3f4f6; border-radius: 5px; text-align: center; color: #666; font-size: 0.9em; }
         p { margin-bottom: 15px; }
         h3 { margin-top: 0; color: #b91c1c; }
+        strong { color: #dc2626; }
       </style>
     </head>
     <body>
       <div class="header">
-        <h1>🎉 Vielen Dank für Ihre Bewerbung!</h1>
+        <h1>🚀 Dein nächstes Abenteuer beginnt jetzt!</h1>
+        <p style="margin: 0; font-size: 18px;">Time Life Club</p>
       </div>
       
       <div class="content">
         <p>Hallo ${formData.firstName},</p>
         
-        <p>Vielen Dank, dass Sie sich für das <strong>Timelife Club ${formData.duration}-Tage-Programm</strong> beworben haben.</p>
+        <p>mega, dass du dich für das <strong>Time Life Club ${formData.duration}-Tage-Programm</strong> beworben hast!<br>
+        Du hast damit den ersten Schritt in Richtung einer Erfahrung gemacht, die dein Leben verändern kann.</p>
         
+        <div class="divider"></div>
+
         <div class="highlight">
-          <p><strong>Programm:</strong> ${formData.duration} Days</p>
-          <p><strong>Modules:</strong> ${(formData.moduleTitles || []).join(', ') || 'Not specified'}</p>
+          <h3>📅 Deine Reisedaten</h3>
+          <p><strong>Programmdauer:</strong> ${formData.duration} Tage voller Lernen, Abenteuer, Gemeinschaft und Wachstum</p>
+          
+          <div class="modules-list">
+            <p><strong>Deine ausgewählten Module:</strong></p>
+            <ul>
+              ${(formData.moduleTitles || []).map(module => `<li>${module}</li>`).join('')}
+            </ul>
+          </div>
+          
           <p><strong>Start:</strong> ${programStartDate}</p>
           <p><strong>Ende:</strong> ${programEndDate}</p>
+          <p><strong>Location:</strong> 🌍 Marrakech, Marokko</p>
         </div>
 
-        <p>Wir haben Ihre Bewerbung erhalten und unser Team wird alle Angaben sorgfältig prüfen. Sie können innerhalb von <strong>2–3 Werktagen</strong> eine Rückmeldung von uns erwarten.</p>
+        <div class="divider"></div>
 
         <div class="highlight">
-          <h3>💳 Zahlung abschließen</h3>
-          <p><strong>Programmgebühr:</strong> ${formatPrice(getProgramPrice(formData.duration))}</p>
-          <p>Um Ihren Platz im Programm zu sichern, können Sie jetzt Ihre Zahlung abschließen:</p>
-          <div style="text-align: center; margin: 20px 0;">
-            <a href="${paymentLink}" class="btn" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); padding: 15px 30px; font-size: 16px; box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);">Jetzt bezahlen</a>
+          <h3>💬 Deine Fragen persönlich klären</h3>
+          <p>Du kannst dir schon jetzt einen 30-Minuten-Call mit Florian, dem Gründer des Time Life Club, sichern – um deine Bewerbung und alle Fragen direkt zu besprechen:</p>
+          <div style="text-align: center;">
+            <a href="https://calendly.com/timelifeclub/beratungscall" class="btn" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3); color: white !important;">👉 30 Min 1:1 Beratungstermin buchen</a>
           </div>
-          <p style="font-size: 14px; color: #6b7280; text-align: center;">Sicherer Zahlungslink läuft in 24 Stunden ab</p>
         </div>
 
-        <p>Wenn Sie Fragen haben oder einen Beratungstermin buchen möchten, klicken Sie auf den folgenden Link:</p>
-        <a href="app.timelifeclub.com/meeting" class="btn">1:1 Beratungstermin buchen</a>
+        <div class="divider"></div>
+
+        <div class="highlight">
+          <h3>📱 Direkter Kontakt über WhatsApp</h3>
+          <p>Oder melde dich direkt über WhatsApp – wir sind da, um dir sofort weiterzuhelfen:</p>
+          <div style="text-align: center;">
+            <a href="https://wa.me/message/OHPC4XVQP537F1" class="btn" style="background: #25D366; color: white !important;">👉 Schreibe uns auf WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="highlight">
+          <h3>🔄 Wie es jetzt weitergeht</h3>
+          <p>Wir prüfen deine Bewerbung sorgfältig. In <strong>2–3 Werktagen</strong> erhältst du deinen persönlichen Buchungslink, über den du dich verbindlich anmelden kannst.</p>
+          <p style="font-style: italic; color: #6b7280;">(Davor ist keine verbindliche Anmeldung möglich – wir achten bewusst darauf, dass die Gruppe perfekt zusammenpasst.)</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <p style="font-size: 18px; text-align: center; margin: 30px 0;">
+          ✨ <strong>Dein Abenteuer startet nicht in Marokko – es startet hier und jetzt, mit deiner Entscheidung, etwas Neues zu wagen.</strong>
+        </p>
         
-        <p>Wir freuen uns darauf, Sie vielleicht bald in unserem Programm begrüßen zu dürfen!</p>
-        
-        <p>Mit freundlichen Grüßen,<br>
-        <strong>Ihr Timelife Club Team</strong></p>
+        <p style="margin-top: 30px;">Herzliche Grüße,<br>
+        <strong>Dein Time Life Club Team</strong></p>
       </div>
       
       <div class="footer">
-        <p>Dies ist eine automatisch generierte Bestätigungs-E-Mail. Bitte antworten Sie nicht direkt darauf.</p>
-        <p>Bei Fragen kontaktieren Sie uns unter info@timelifeclub.com</p>
+        <p>Dies ist eine automatisch generierte Bestätigungs-E-Mail.</p>
+        <p>Bei Fragen kontaktieren Sie uns unter <a href="mailto:info@timelifeclub.com" style="color: #dc2626;">info@timelifeclub.com</a></p>
       </div>
     </body>
     </html>

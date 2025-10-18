@@ -18,9 +18,14 @@ export async function POST(req: NextRequest) {
   try {
     const { email, duration, modules } = await req.json();
     
+    console.log('Checkout request:', { email, duration, modules });
+    
     let priceId: string;
     
-    if (duration === 15) {
+    // Ensure duration is a number
+    const durationNum = Number(duration);
+    
+    if (durationNum === 15) {
       // Extract module numbers from comma-separated string like "module1,module2,module3"
       const moduleNumbers: number[] = [];
       if (modules) {
@@ -39,22 +44,35 @@ export async function POST(req: NextRequest) {
         }
       }
       
+      console.log('15-day plan module numbers:', moduleNumbers);
+      
       const hasModules1to3 = moduleNumbers.some((m: number) => m >= 1 && m <= 3);
       const hasModules4to6 = moduleNumbers.some((m: number) => m >= 4 && m <= 6);
       
       if (hasModules1to3 && !hasModules4to6) {
-        // Only modules 1-3
+        // Only modules 1-3 (First half)
         priceId = "price_1SGze3KelalxvISGIsHmWIP1";
       } else if (hasModules4to6 && !hasModules1to3) {
-        // Only modules 4-6
+        // Only modules 4-6 (Second half)
         priceId = "price_1SGzyJKelalxvISGf3VXiZj5";
+      } else if (moduleNumbers.length === 0) {
+        // No modules selected, default to first half
+        console.warn('No modules selected for 15-day plan, defaulting to first half');
+        priceId = "price_1SGze3KelalxvISGIsHmWIP1";
       } else {
-        return NextResponse.json({ error: "Invalid modules for 15-day plan. Must select either modules 1-3 OR modules 4-6, not both." }, { status: 400 });
+        console.error('Invalid module combination for 15-day plan:', { hasModules1to3, hasModules4to6, moduleNumbers });
+        return NextResponse.json({ 
+          error: "For the 15-day plan, please select either modules 1-3 (first half) OR modules 4-6 (second half), not both." 
+        }, { status: 400 });
       }
-    } else if (duration === 30) {
+    } else if (durationNum === 30) {
+      // 30-day plan includes all 6 modules
       priceId = "price_1SH006KelalxvISGOY7UksrC";
     } else {
-      return NextResponse.json({ error: "Invalid plan duration" }, { status: 400 });
+      console.error('Invalid duration:', durationNum);
+      return NextResponse.json({ 
+        error: `Invalid plan duration: ${durationNum}. Please select either 15 or 30 days.` 
+      }, { status: 400 });
     }
     
     const session = await stripe.checkout.sessions.create({

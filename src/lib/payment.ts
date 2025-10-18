@@ -22,31 +22,45 @@ export interface PaymentLinkData {
 
 export async function generatePaymentLink(data: PaymentLinkData): Promise<string> {
   try {
+    console.log('Payment link data:', { duration: data.duration, modules: data.modules });
+    
     let priceId: string;
     
-    if (data.duration === 15) {
+    // Ensure duration is a number
+    const duration = Number(data.duration);
+    
+    if (duration === 15) {
       // Extract module numbers from module strings like "module1", "module2"
       const moduleNumbers = (data.modules || []).map(m => {
         const match = m.match(/module(\d+)/);
         return match ? parseInt(match[1]) : 0;
       }).filter(n => n > 0);
       
+      console.log('15-day plan module numbers:', moduleNumbers);
+      
       const hasModules1to3 = moduleNumbers.some(m => m >= 1 && m <= 3);
       const hasModules4to6 = moduleNumbers.some(m => m >= 4 && m <= 6);
       
       if (hasModules1to3 && !hasModules4to6) {
-        // Only modules 1-3
+        // Only modules 1-3 (First half)
         priceId = "price_1SGze3KelalxvISGIsHmWIP1";
       } else if (hasModules4to6 && !hasModules1to3) {
-        // Only modules 4-6
+        // Only modules 4-6 (Second half)
         priceId = "price_1SGzyJKelalxvISGf3VXiZj5";
+      } else if (moduleNumbers.length === 0) {
+        // No modules selected, default to first half
+        console.warn('No modules selected for 15-day plan, defaulting to first half');
+        priceId = "price_1SGze3KelalxvISGIsHmWIP1";
       } else {
-        throw new Error("Invalid modules for 15-day plan. Must select either modules 1-3 OR modules 4-6, not both.");
+        console.error('Invalid module combination for 15-day plan:', { hasModules1to3, hasModules4to6, moduleNumbers });
+        throw new Error("For the 15-day plan, please select either modules 1-3 (first half) OR modules 4-6 (second half), not both.");
       }
-    } else if (data.duration === 30) {
+    } else if (duration === 30) {
+      // 30-day plan includes all 6 modules
       priceId = "price_1SH006KelalxvISGOY7UksrC";
     } else {
-      throw new Error("Invalid plan duration");
+      console.error('Invalid duration:', duration);
+      throw new Error(`Invalid plan duration: ${duration}. Please select either 15 or 30 days.`);
     }
 
     const session = await stripe.checkout.sessions.create({
