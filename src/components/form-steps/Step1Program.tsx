@@ -21,7 +21,7 @@ interface Step1ProgramProps {
     { 
       id: "module1", 
       name: "Modul 1", 
-      title: "SSport und Ernährung", 
+      title: "Sport und Ernährung", 
       description: "Fokus auf körperliche Gesundheit und Wohlbefinden" 
     },
     { 
