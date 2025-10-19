@@ -97,15 +97,16 @@ const TimelifeApplicationForm = () => {
         },
         body: JSON.stringify({
           formData: formData,
-          email: formData.email || "shubhankersaxena5@gmail.com"
+          email: formData.email,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        router.push("/meeting");
+        window.open("/meeting", "_blank");
       } else {
+        toast.error('Fehler beim Absenden der Bewerbung');
         // Handle error silently or with inline error display
       }
     } catch (error) {
@@ -655,7 +656,7 @@ const TimelifeApplicationForm = () => {
                 </div>
 
                 <div className="md:col-span-2 space-y-2">
-                  <Label htmlFor="address" className="text-red-800 text-base sm:text-lg">Street Address *</Label>
+                  <Label htmlFor="address" className="text-red-800 text-base sm:text-lg">Straße *</Label>
                   <Input
                     id="address"
                     type="text"
