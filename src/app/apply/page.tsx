@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 const TimelifeApplicationForm = () => {
 
@@ -79,12 +80,14 @@ const TimelifeApplicationForm = () => {
     const emptyFields = requiredFields.filter(field => !formData[field]);
     
     if (emptyFields.length > 0) {
+      toast.error('Bitte fülle alle erforderlichen Felder aus');
       setIsSubmitting(false);
       return;
     }
     
     // Validate modules for 15-day program
-    if (formData.duration === 15 && formData.modules.length !== 3) {
+    if (formData.duration === 15 && (!formData.modules || formData.modules.length !== 3)) {
+      toast.error('Bitte wähle eine Modulgruppe für das 15-Tage-Programm aus');
       setIsSubmitting(false);
       return;
     }
@@ -107,11 +110,10 @@ const TimelifeApplicationForm = () => {
         window.open("/meeting", "_blank");
       } else {
         toast.error('Fehler beim Absenden der Bewerbung');
-        // Handle error silently or with inline error display
       }
     } catch (error) {
       console.error('Error:', error);
-      // Handle error silently or with inline error display
+      toast.error('Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
     }
     setIsSubmitting(false);
   };
@@ -337,10 +339,10 @@ const TimelifeApplicationForm = () => {
                 <Card className="border-red-200 bg-red-50">
                   <CardHeader className="px-4 sm:px-6">
                     <CardTitle className="text-red-900 text-lg sm:text-xl md:text-2xl flex items-center gap-2">
-                      <Zap className="w-5 h-5 sm:w-6 sm:h-6" /> Modulauswahl
+                      <Zap className="w-5 h-5 sm:w-6 sm:h-6" /> Modulauswahl *
                     </CardTitle>
                     <CardDescription className="text-red-700 text-sm sm:text-base md:text-lg">
-                      Wähle deine Module und Reisezeit für dein 15-Tage-Programm
+                      Wähle deine Module und Reisezeit für dein 15-Tage-Programm (erforderlich)
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="px-4 sm:px-6">
