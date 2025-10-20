@@ -37,8 +37,8 @@ const arial = {
 };
 
 export const metadata: Metadata = {
-  title: "My Next.js App",
-  description: "Using custom TTF fonts and Arial",
+  title: "Timelife Club",
+  description: "Your journey to a better life starts here",
 };
 
 export default function RootLayout({
