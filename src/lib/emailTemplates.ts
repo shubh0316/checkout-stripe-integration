@@ -40,8 +40,14 @@ export function generateApplicationConfirmationEmail(data: ApplicationConfirmati
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
   <title>Your next adventure starts now! - Time Life Club</title>
   <style>
+    :root {
+      color-scheme: light dark;
+      supported-color-schemes: light dark;
+    }
+    
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       line-height: 1.6;
@@ -51,6 +57,11 @@ export function generateApplicationConfirmationEmail(data: ApplicationConfirmati
       padding: 20px;
       background-color: #f9f9f9;
     }
+    
+    div, p, span, a, h1, h2, h3, h4, h5, h6 {
+      background-color: transparent !important;
+    }
+    
     .email-container {
       background-color: #ffffff;
       border-radius: 12px;
@@ -192,6 +203,104 @@ export function generateApplicationConfirmationEmail(data: ApplicationConfirmati
       font-size: 32px;
       margin-bottom: 10px;
     }
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #111827;
+        color: #e5e7eb;
+      }
+      
+      .email-container {
+        background-color: #1f2937;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      }
+      
+      .header h1 {
+        color: #fca5a5;
+      }
+      
+      .greeting {
+        color: #d1d5db;
+      }
+      
+      .intro {
+        color: #d1d5db;
+      }
+      
+      .intro strong {
+        color: #fca5a5;
+      }
+      
+      .section {
+        background-color: #450a0a;
+        border-left-color: #fca5a5;
+      }
+      
+      .section-title {
+        color: #fca5a5;
+      }
+      
+      .info-box {
+        background-color: #450a0a;
+        border-color: #7f1d1d;
+      }
+      
+      .info-box p {
+        color: #e5e7eb;
+      }
+      
+      .info-box strong {
+        color: #fecaca;
+      }
+      
+      .modules-list li {
+        color: #e5e7eb;
+      }
+      
+      .cta-section {
+        background-color: #451a03;
+        border-color: #fbbf24;
+      }
+      
+      .cta-section h3 {
+        color: #fca5a5;
+      }
+      
+      .cta-section p {
+        color: #d1d5db;
+      }
+      
+      .next-steps {
+        background-color: #064e3b;
+        border-left-color: #34d399;
+      }
+      
+      .next-steps h3 {
+        color: #34d399;
+      }
+      
+      .next-steps p {
+        color: #d1d5db;
+      }
+      
+      .highlight {
+        background-color: #78350f;
+        color: #fef3c7;
+      }
+      
+      .divider {
+        border-top-color: #7f1d1d;
+      }
+      
+      .footer {
+        border-top-color: #7f1d1d;
+      }
+      
+      .footer p {
+        color: #9ca3af;
+      }
+    }
+    
     @media only screen and (max-width: 600px) {
       body {
         padding: 10px;
@@ -386,6 +495,10 @@ export function generateBookingConfirmationEmail(data: BookingConfirmationData):
       margin: 0 auto;
       padding: 20px;
       background-color: #f3f4f6;
+    }
+    
+    div, p, span, a, h1, h2, h3, h4, h5, h6 {
+      background-color: transparent !important;
     }
     
     .email-container {

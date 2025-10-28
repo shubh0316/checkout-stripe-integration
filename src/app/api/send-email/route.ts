@@ -161,14 +161,99 @@ export async function POST(request: NextRequest) {
         <!DOCTYPE html>
         <html>
         <head>
+          <meta name="color-scheme" content="light dark">
           <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            h2 { color: #7f1d1d; border-bottom: 2px solid #7f1d1d; padding-bottom: 5px; }
-            h3 { color: #991b1b; margin-top: 20px; }
-            h4 { color: #b91c1c; margin-top: 15px; }
-            p { margin: 8px 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e5e5e5; border-radius: 5px; }
-            .header { background-color: #7f1d1d; color: white; padding: 15px; text-align: center; border-radius: 5px 5px 0 0; }
+            :root {
+              color-scheme: light dark;
+              supported-color-schemes: light dark;
+            }
+            
+            body { 
+              font-family: Arial, sans-serif; 
+              line-height: 1.6; 
+              color: #333; 
+              background-color: #f3f4f6;
+              margin: 0;
+              padding: 20px;
+            }
+            
+            h2 { 
+              color: #7f1d1d; 
+              border-bottom: 2px solid #7f1d1d; 
+              padding-bottom: 5px; 
+            }
+            
+            h3 { 
+              color: #991b1b; 
+              margin-top: 20px; 
+            }
+            
+            h4 { 
+              color: #b91c1c; 
+              margin-top: 15px; 
+            }
+            
+            p { 
+              margin: 8px 0; 
+              color: #374151;
+            }
+            
+            .container { 
+              max-width: 600px; 
+              margin: 0 auto; 
+              padding: 20px; 
+              border: 1px solid #e5e5e5; 
+              border-radius: 5px;
+              background-color: #ffffff;
+              box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+            
+            .header { 
+              background-color: #7f1d1d; 
+              color: white; 
+              padding: 15px; 
+              text-align: center; 
+              border-radius: 5px 5px 0 0; 
+            }
+            
+            a {
+              color: #dc2626;
+            }
+            
+            /* Dark mode support */
+            @media (prefers-color-scheme: dark) {
+              body {
+                background-color: #111827;
+                color: #e5e7eb;
+              }
+              
+              .container {
+                background-color: #1f2937;
+                border-color: #374151;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+              }
+              
+              h2 {
+                color: #fca5a5;
+                border-bottom-color: #fca5a5;
+              }
+              
+              h3 {
+                color: #fca5a5;
+              }
+              
+              h4 {
+                color: #fca5a5;
+              }
+              
+              p {
+                color: #d1d5db;
+              }
+              
+              a {
+                color: #fca5a5;
+              }
+            }
           </style>
         </head>
         <body>
